@@ -5,22 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormProject"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1500">
-    <Grid Background="#252634">
-        <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20" Padding="100" Height="800" Width="1020">
-            <StackPanel Margin="20 100 20 100">
-                <TextBlock Text="Заполните форму для регистрации" FontWeight="SemiBold" Margin="0 0 0 40" 
-                    FontFamily="Trebuchet MS" FontSize="30" Background="#282b4f" Foreground="#dedee8"
-                        HorizontalAlignment="Center" x:Name="message"/>
-                <TextBlock Text="Введите логин" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
-                        Background="#3c3e54" Foreground="#dedee8" x:Name="loginError"/>
-                <TextBox FontSize="30" Foreground="#252634" x:Name="login" FontFamily="Trebuchet MS"/>
-                <TextBlock Text="Введите пароль" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
-                            Background="#3c3e54" Foreground="#dedee8" x:Name="passwordError"/>
-                <PasswordBox FontSize="30" Foreground="#252634" x:Name="password" FontFamily="Trebuchet MS"/>
-                <Button Content="Отправить форму" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
-                        Background="#282b4f" Foreground="#dedee8" Click="SendForm"/>
-            </StackPanel>
-        </Border>
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBlock Text="Вход выполнен" FontWeight="SemiBold" TextAlignment="Center"
+                FontFamily="Trebuchet MS" FontSize="30" Background="#282b4f" Foreground="#dedee8"
+                HorizontalAlignment="Center" x:Name="message" Width ="300" Height="40" VerticalAlignment="Center"/>
     </Grid>
 </Window>
