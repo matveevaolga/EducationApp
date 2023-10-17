@@ -9,7 +9,12 @@ namespace FormProject
 {
     internal class DBConnection
     {
-        MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=t-tAq$C45qw45;database=sign_up_info");
+        MySqlConnection connection;
+
+        public DBConnection()
+        {
+            connection = new MySqlConnection("server=localhost;port=3306;username=root;password=t-tAq$C45qw45;database=educationappdb");
+        }
 
         public void OpenConnection()
         {
