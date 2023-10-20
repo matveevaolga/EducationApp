@@ -24,15 +24,33 @@ namespace FormProject
             InitializeComponent();
         }
 
+        public AuthorizatoinWindow(string message)
+        {
+            InitializeComponent();
+            success.Content = message;
+
+        }
+
+        private bool LengthCheck()
+        {
+            if (login.Text.Length == 0)
+            {
+                message.Text = "Вы не ввели логин.";
+                return false;
+            }
+            if (password.Password.Length == 0)
+            {
+                message.Text = "Вы не ввели пароль.";
+                return false;
+            }
+            return true;
+        }
         private bool CheckLog()
         {
             DBFunctions dBFunctions = new DBFunctions();
             if (!dBFunctions.IsRegistered(login.Text))
             {
-                login.Text = "Вы еще не зарегистрировались. Заполните форму для входа.";
-                RegisterWindow regWindow = new RegisterWindow();
-                regWindow.Show();
-                this.Close();
+                message.Text = "Под таким логином нет пользователя.";
                 return false;
             }
             return true;
@@ -43,25 +61,30 @@ namespace FormProject
             DBFunctions dBFunctions = new DBFunctions();
             if (!dBFunctions.IsPassCorrect(login.Text, password.Password))
             {
-                passwordMessage.Text = "Вы ввели не верный пароль.";
+                message.Text = "Вы ввели не верный пароль.";
                 return false;
             }
             return true;
+        }
+
+        private void SignUp(object sender, EventArgs e)
+        {
+            RegisterWindow regWindow = new RegisterWindow();
+            regWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            regWindow.Show();
+            this.Close();
         }
 
         private void LogIn(object sender, EventArgs e)
         {
             login.Text = login.Text.Trim();
             password.Password = password.Password.Trim();
-            if ( CheckLog() & CheckPass())
+            if (LengthCheck() && CheckLog() && CheckPass() )
             {
                 MainWindow mainWindow = new MainWindow();
+                mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 mainWindow.Show();
                 this.Close();
-            }
-            else
-            {
-                message.Text = "Повторите вход.";
             }
         }
     }

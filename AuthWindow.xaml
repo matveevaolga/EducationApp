@@ -5,10 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormProject"
         mc:Ignorable="d"
-        Title="AuthorizatoinWindow" Height="1000" Width="1500">
+        Title="AuthorizatoinWindow" Height="1000" Width="1500" WindowStartupLocation="CenterScreen">
         <Grid Background="#252634">
             <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20" Padding="100" Height="800" Width="1020">
                 <StackPanel Margin="20 100 20 100">
+                <Label x:Name="success" Margin="0 0 0 40" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8"></Label>
                     <TextBlock Text="Введите логин и пароль для входа" FontWeight="SemiBold" Margin="0 0 0 40" 
                         FontFamily="Trebuchet MS" FontSize="30" Background="#282b4f" Foreground="#dedee8"
                             HorizontalAlignment="Center" x:Name="message"/>
@@ -20,7 +22,9 @@
                     <PasswordBox FontSize="30" Foreground="#252634" x:Name="password" FontFamily="Trebuchet MS"/>
                     <Button Content="Войти" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
                             Background="#282b4f" Foreground="#dedee8" Click="LogIn"/>
-                </StackPanel>
+                    <Button Content="Зарегистрироваться" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
+                            Background="#282b4f" Foreground="#dedee8" Click="SignUp"/>
+            </StackPanel>
             </Border>
         </Grid>
 </Window>

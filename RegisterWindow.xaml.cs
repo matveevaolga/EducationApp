@@ -25,29 +25,43 @@ namespace FormProject
             InitializeComponent();
         }
 
-        private void LogAndPassMessages(bool isRegistered)
+        private bool LogAndPassMessages(bool isRegistered)
         {
-            if (isRegistered) { loginMessage.Text = "Пользователь с таким логином уже зарегестрирован"; }
-            if (password.Password.Length < 5) { passwordMessage.Text = "Введенный пароль слишком ненадежен"; }
+            if (isRegistered) { 
+                loginMessage.Text = "Пользователь с таким логином уже зарегестрирован";
+                return false;
+            }
+            if (password.Password.Length < 5) { 
+                passwordMessage.Text = "Введенный пароль слишком ненадежен";
+                return false;
+            }
+            return true;
         }
+
         private void SendForm(object sender, EventArgs e)
         {
             login.Text = login.Text.Trim();
             password.Password = password.Password.Trim();
             DBFunctions dBFunctions = new DBFunctions();
             bool isRegistered = dBFunctions.IsRegistered(login.Text);
-            LogAndPassMessages(isRegistered);
-            if (!(isRegistered | password.Password.Length < 5) & 
-                dBFunctions.Register(login.Text, password.Password)) 
+            if (LogAndPassMessages(isRegistered))
             {
-                message.Text = "Вы успешно зарегестрировались";
-                AuthorizatoinWindow authWindow = new AuthorizatoinWindow();
+                AuthorizatoinWindow authWindow = new AuthorizatoinWindow("Вы успешно зарегестрировались");
+                authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 authWindow.Show();
                 this.Close();
             }
             message.Text = "Произошла ошибка во время регистрации";
             login.Text = "";
             password.Password = "";
+        }
+
+        private void GoBack(object sender, EventArgs e)
+        {
+            AuthorizatoinWindow authWindow = new AuthorizatoinWindow();
+            authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            authWindow.Show();
+            this.Close();
         }
 
     }

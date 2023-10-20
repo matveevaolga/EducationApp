@@ -20,6 +20,8 @@
                 <PasswordBox FontSize="30" Foreground="#252634" x:Name="password" FontFamily="Trebuchet MS"/>
                 <Button Content="Отправить форму" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
                         Background="#282b4f" Foreground="#dedee8" Click="SendForm"/>
+                <Button Content="Вернуться назад" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
+                        Background="#282b4f" Foreground="#dedee8" Click="GoBack"/>
             </StackPanel>
         </Border>
     </Grid>

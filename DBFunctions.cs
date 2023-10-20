@@ -30,7 +30,11 @@ namespace FormProject
                 "where login = @uLogin limit 1;", connectorToDb.GetConnection());
             registered.Parameters.AddWithValue("@uLogin", login);
             object storedPass = registered.ExecuteScalar();
-            return storedPass != null & storedPass.ToString() == password;
+            try
+            {
+                return storedPass.ToString() == password;
+            }
+            catch (NullReferenceException) { return false; }
         }
 
         public bool IsRegistered(string login)
@@ -70,16 +74,6 @@ namespace FormProject
                 Console.WriteLine(ex.ToString());
                 return false;
             }
-        }
-
-        private int IDByLog(string login)
-        {
-            string getUserId = "select idUser from users where login = @uLogin;";
-            MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
-            commandID.Parameters.AddWithValue("@uLogin", login);
-            object userID = commandID.ExecuteScalar();
-            if (userID == null) { return 0; }
-            return (int)userID;
         }
 
         private void DeleteStats(int statsID)
@@ -161,6 +155,16 @@ namespace FormProject
                 Console.WriteLine(ex.ToString());
                 return 0;
             }
+        }
+
+        private int IDByLog(string login)
+        {
+            string getUserId = "select idUser from users where login = @uLogin;";
+            MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
+            commandID.Parameters.AddWithValue("@uLogin", login);
+            object userID = commandID.ExecuteScalar();
+            if (userID == null) { return 0; }
+            return (int)userID;
         }
     }
 }
