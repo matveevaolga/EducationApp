@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,20 +39,42 @@ namespace FormProject
             return true;
         }
 
+        private void GetDBFunctions(out DBFunctions dBFunctions)
+        {
+            dBFunctions = null;
+            try
+            {
+                dBFunctions = new DBFunctions();
+            }
+            catch (MySqlException)
+            {
+                message.Text = "Произошла ошибка при подключении к серверу";
+                login.Text = "";
+                password.Password = "";
+            }
+        }
+
         private void SendForm(object sender, EventArgs e)
         {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions);
+            if (dBFunctions == null) { return; }
             login.Text = login.Text.Trim();
             password.Password = password.Password.Trim();
-            DBFunctions dBFunctions = new DBFunctions();
-            bool isRegistered = dBFunctions.IsRegistered(login.Text);
-            if (LogAndPassMessages(isRegistered))
+            string problem;
+            bool isRegistered = dBFunctions.IsRegistered(login.Text, out problem);
+            if (problem == "" && LogAndPassMessages(isRegistered))
             {
-                AuthorizatoinWindow authWindow = new AuthorizatoinWindow("Вы успешно зарегестрировались");
-                authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                authWindow.Show();
-                this.Close();
+                if (dBFunctions.Register(login.Text, password.Password))
+                {
+                    AuthorizatoinWindow authWindow = new AuthorizatoinWindow("Вы успешно зарегестрировались");
+                    authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    authWindow.Show();
+                    this.Close();
+                }
+                else { message.Text = "При регистрации произошла ошибка. Повторите попытку позже."; }
             }
-            message.Text = "Произошла ошибка во время регистрации";
+            if (problem != "") { message.Text =  problem; }
             login.Text = "";
             password.Password = "";
         }
