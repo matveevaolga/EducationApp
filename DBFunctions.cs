@@ -22,23 +22,36 @@ namespace FormProject
             cursor = new MySqlDataAdapter();
         }
 
-        public bool IsPassCorrect(string login, string password)
+        public bool IsPassCorrect(string login, string password, out string problem)
         {
-            table = new DataTable();
-            connectorToDb.OpenConnection();
-            MySqlCommand registered = new MySqlCommand("select pass from users " +
-                "where login = @uLogin limit 1;", connectorToDb.GetConnection());
-            registered.Parameters.AddWithValue("@uLogin", login);
-            object storedPass = registered.ExecuteScalar();
+            problem = "";
             try
             {
+                table = new DataTable();
+                connectorToDb.OpenConnection();
+                MySqlCommand registered = new MySqlCommand("select pass from users " +
+                    "where login = @uLogin limit 1;", connectorToDb.GetConnection());
+                registered.Parameters.AddWithValue("@uLogin", login);
+                object storedPass = registered.ExecuteScalar();
                 return storedPass.ToString() == password;
             }
-            catch (NullReferenceException) { return false; }
+            catch (NullReferenceException)
+            {
+                problem = "Не удалось подключиться к базе данных.";
+                Console.WriteLine("IsPassCorrect");
+                return false;
+            }
+            catch (MySqlException)
+            {
+                problem = "Не удалось совершить запрос к базе данных.";
+                Console.WriteLine("IsPassCorrect");
+                return false;
+            }
         }
 
-        public bool IsRegistered(string login)
+        public bool IsRegistered(string login, out string problem)
         {
+            problem = "";
             try
             {
                 table = new DataTable();
@@ -51,10 +64,16 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return table.Rows.Count > 0;
             }
-            catch (Exception ex)
+            catch (NullReferenceException)
+            {
+                problem = "Не удалось подключиться к базе данных.";
+                return true;
+            }
+            catch (MySqlException)
             {
                 Console.WriteLine("IsRegisered");
-                Console.WriteLine(ex.ToString());
+                problem = "Возникла ошибка во время исполнения запроса к базе данных";
+                connectorToDb.CloseConnection();
                 return true;
             }
         }
@@ -68,33 +87,53 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return users;
             }
-            catch (Exception ex)
+            catch (NullReferenceException)
             {
                 Console.WriteLine("Register");
-                Console.WriteLine(ex.ToString());
+                return false;
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("Register");
+                connectorToDb.CloseConnection();
                 return false;
             }
         }
 
         private void DeleteStats(int statsID)
         {
-            MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @sID", connectorToDb.GetConnection());
-            delete.Parameters.AddWithValue("@sID", statsID);
-            delete.ExecuteNonQuery();
+            try
+            {
+                MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @sID", connectorToDb.GetConnection());
+                delete.Parameters.AddWithValue("@sID", statsID);
+                delete.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                return;
+            }
         }
 
         private void DeleteProfile(int profileID)
         {
-            MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @pID", connectorToDb.GetConnection());
-            delete.Parameters.AddWithValue("@pID", profileID);
-            delete.ExecuteNonQuery();
+            try
+            {
+                MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @pID", connectorToDb.GetConnection());
+                delete.Parameters.AddWithValue("@pID", profileID);
+                delete.ExecuteNonQuery();
+            }
+            catch (MySqlException)
+            {
+                return;
+            }
         }
 
         private bool AddToUsersTable(string login, string password)
         {
             int statsID = AddToStatsTable();
             int profileID = AddToProfilesTable();
-            if (statsID == 0 | profileID == 0) { 
+            if (statsID == 0 | profileID == 0) 
+            { 
                 if (statsID != 0) { DeleteStats(statsID); }
                 if (profileID != 0) { DeleteProfile(profileID); }
                 return false; 
@@ -111,10 +150,9 @@ namespace FormProject
                 register.ExecuteNonQuery();
                 return true;
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-                Console.WriteLine("Users");
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("AddToUsersTable");
                 return false;
             }
         }
@@ -130,10 +168,9 @@ namespace FormProject
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-                Console.WriteLine("Profiles");
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("AddToProfilesTable");
                 return 0;
             }
         }
@@ -149,22 +186,21 @@ namespace FormProject
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (Exception ex)
+            catch (MySqlException)
             {
-                Console.WriteLine("Stats");
-                Console.WriteLine(ex.ToString());
+                Console.WriteLine("AddToStatsTable");
                 return 0;
             }
         }
 
-        private int IDByLog(string login)
-        {
-            string getUserId = "select idUser from users where login = @uLogin;";
-            MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
-            commandID.Parameters.AddWithValue("@uLogin", login);
-            object userID = commandID.ExecuteScalar();
-            if (userID == null) { return 0; }
-            return (int)userID;
-        }
+        //private int IDByLog(string login)
+        //{
+        //    string getUserId = "select idUser from users where login = @uLogin;";
+        //    MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
+        //    commandID.Parameters.AddWithValue("@uLogin", login);
+        //    object userID = commandID.ExecuteScalar();
+        //    if (userID == null) { return 0; }
+        //    return (int)userID;
+        //}
     }
 }
