@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,10 +46,34 @@ namespace FormProject
             }
             return true;
         }
+
+        private void GetDBFunctions(out DBFunctions dBFunctions)
+        {
+            dBFunctions = null;
+            try
+            {
+                dBFunctions = new DBFunctions();
+            }
+            catch (MySqlException)
+            {
+                message.Text = "Произошла ошибка при подключении к серверу";
+                login.Text = "";
+                password.Password = "";
+            }
+        }
+
         private bool CheckLog()
         {
-            DBFunctions dBFunctions = new DBFunctions();
-            if (!dBFunctions.IsRegistered(login.Text))
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions);
+            if (dBFunctions == null) { return false; }
+            bool isReg = dBFunctions.IsRegistered(login.Text, out string problem);
+            if (problem != "")
+            {
+                message.Text = problem;
+                return false;
+            }
+            else if (!isReg)
             {
                 message.Text = "Под таким логином нет пользователя.";
                 return false;
@@ -58,10 +83,18 @@ namespace FormProject
 
         private bool CheckPass()
         {
-            DBFunctions dBFunctions = new DBFunctions();
-            if (!dBFunctions.IsPassCorrect(login.Text, password.Password))
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions);
+            if (dBFunctions == null) { return false; }
+            bool isPassOk = dBFunctions.IsPassCorrect(login.Text, password.Password, out string problem);
+            if (problem != "")
             {
-                message.Text = "Вы ввели не верный пароль.";
+                message.Text = problem;
+                return false;
+            }
+            else if (!isPassOk)
+            {
+                message.Text = "Вы ввели неверный пароль";
                 return false;
             }
             return true;
