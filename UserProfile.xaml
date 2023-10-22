@@ -1,0 +1,150 @@
+﻿<Window x:Class="FormProject.UserProfile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FormProject"
+        mc:Ignorable="d"
+        Title="UserProfile" Height="1000" Width="1500">
+    <Grid Background="#3c3e54">
+        <Border x:Name="generalInfo" Background="#282b4f" Height="350" Width="1500" VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="stats" Click="ShowStats" Content="Статистика" Grid.Row="0" Grid.Column="4" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+                <Button x:Name="edit" Click="ShowEdit" Content="Редактирование" Grid.Row="1" Grid.Column="4" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+                <Button x:Name="settings" Click="ShowSettings" Content="Настройки" Grid.Row="2" Grid.Column="4" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+                <Label Content="Фото профиля" FontSize="30" FontWeight="SemiBold" Grid.Column="0" Grid.RowSpan="3"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Имя" Grid.Row="0" Grid.Column="1" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Уровень" Grid.Row="1" Grid.Column="1" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Информация о пользователе" Grid.Row="0" Grid.Column="2" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="3" Grid.ColumnSpan="2"></Label>
+                <Label Content="exp до след уровня" Grid.Column="1" Grid.Row="2" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+            </Grid>
+        </Border>
+        <Border x:Name="statsBorder" Margin="0,350,0,100" Visibility="Collapsed">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Активных дней" Grid.Row="0" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Максимальная серия" Grid.Row="1" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Решенных задач" Grid.Row="2" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Пройденных тем" Grid.Row="0" Grid.Column="2" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Button Content="Решенные задачи" Grid.Row="1" Grid.Column="2" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8"></Button>
+                <Button Content="Пройденные темы" Grid.Row="2" Grid.Column="2" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8"></Button>
+                <Label x:Name = "activeDaysUI" Content="{Binding activeDays}" Grid.Row="0" Grid.Column="1" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label x:Name = "maxSessionUI" Content="{Binding maxSession}" Grid.Row="1" Grid.Column="1" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label x:Name = "solvedAmountUI" Content="{Binding solvedAmount}" Grid.Row="2" Grid.Column="1" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label x:Name = "coveredTopicsAmountUI" Content="{Binding coveredTopicsAmount}" Grid.Row="0" Grid.Column="3" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+            </Grid>
+        </Border>
+        <Border x:Name="editBorder" Margin="0,350,0,100" Visibility="Collapsed" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="178.013"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Изменить имя" Grid.Row="0" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Изменить инф о польз-е" Grid.Row="1" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Изменить фото" Grid.Row="2" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Button Content="Применить" Grid.Row="2" Grid.Column="3" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+                            Background="#3c3e54" Foreground="#dedee8"></Button>
+                <TextBox x:Name="nameChange" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Height="50" Width="750"
+                         VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Text=""></TextBox>
+                <TextBox x:Name="infoChange" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Height="100" Width="750"
+                         VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS"></TextBox>
+            </Grid>
+        </Border>
+        <Border x:Name="settingsBorder" Margin="0,350,0,100" Visibility="Visible" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="178.013"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Content="Изменить логин" Grid.Row="0" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Изменить пароль" Grid.Row="1" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Подтвердить профиль" Grid.Row="2" Grid.Column="0" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+                <Label Content="Удалить профиль" Grid.Row="2" Grid.Column="3" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
+            Background="#3c3e54" Foreground="#dedee8" HorizontalAlignment="Center" VerticalAlignment="Center"></Label>
+            </Grid>
+        </Border>
+        <Border x:Name="mainMenu" Background="#282b4f" Height="100" Width="1500" VerticalAlignment="Bottom">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Каталог" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+                <Button Grid.Column="1" Content="Избранное" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+                <Button Grid.Column="2" Content="Профиль" FontSize="30" FontWeight="SemiBold"
+                        FontFamily="Trebuchet MS" Background="#282b4f" Foreground="#dedee8"></Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
