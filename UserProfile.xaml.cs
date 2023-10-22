@@ -18,7 +18,8 @@ namespace FormProject
     /// Логика взаимодействия для UserProfile.xaml
     /// </summary>
     public partial class UserProfile : Window
-    {
+    {   
+
         public UserProfile()
         {
             InitializeComponent();
