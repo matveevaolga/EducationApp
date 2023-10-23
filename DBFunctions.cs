@@ -161,7 +161,7 @@ namespace FormProject
         {
             try
             {
-                MySqlCommand idProfileInsert = new MySqlCommand("insert into profiles (about) values ('');", connectorToDb.GetConnection());
+                MySqlCommand idProfileInsert = new MySqlCommand("insert into profiles (about) values ('unfilled');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from profiles;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
@@ -179,7 +179,7 @@ namespace FormProject
         {
             try
             {
-                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, level) values ('', '', 0);", connectorToDb.GetConnection());
+                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, coveredTopics) values ('', '', '');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from stats;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
@@ -193,14 +193,137 @@ namespace FormProject
             }
         }
 
-        //private int IDByLog(string login)
-        //{
-        //    string getUserId = "select idUser from users where login = @uLogin;";
-        //    MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
-        //    commandID.Parameters.AddWithValue("@uLogin", login);
-        //    object userID = commandID.ExecuteScalar();
-        //    if (userID == null) { return 0; }
-        //    return (int)userID;
-        //}
+        private int ProfileIDByLog(string login)
+        {
+            try
+            {
+                connectorToDb.OpenConnection();
+                string getUserId = "select idProfile from users where login = @uLogin;";
+                MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
+                commandID.Parameters.AddWithValue("@uLogin", login);
+                object userID = commandID.ExecuteScalar();
+                connectorToDb.CloseConnection();
+                if (userID == null) { return 0; }
+                return (int)userID;
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("ProfileIDByLog");
+                return 0;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("ProfileIDByLog");
+                return 0;
+            }
+        }
+
+        private int StatsIDByLog(string login)
+        {
+            try
+            {
+                connectorToDb.OpenConnection();
+                string getUserId = "select idStats from users where login = @uLogin;";
+                MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
+                commandID.Parameters.AddWithValue("@uLogin", login);
+                object userID = commandID.ExecuteScalar();
+                connectorToDb.CloseConnection();
+                if (userID == null) { return 0; }
+                return (int)userID;
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return 0;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return 0;
+            }
+        }
+
+        public string GetProfileField(string login, string column)
+        {
+            int profileId = ProfileIDByLog(login);
+            if (profileId == 0) { return "ошибка"; };
+            try
+            {
+                connectorToDb.OpenConnection();
+                string commandText = $"select {column} from profiles where idProfile = @uId;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.Parameters.AddWithValue("@uID", profileId);
+                object field = command.ExecuteScalar();
+                connectorToDb.CloseConnection();
+                if (field == null) { return null; }
+                return field.ToString();
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return "ошибка, не удалось изменить поле";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return "ошибка, не удалось изменить поле";
+            }
+        }
+
+        public string GetStatsField(string login, string column)
+        {
+            int statsId = StatsIDByLog(login);
+            if (statsId == 0) { return "ошибка"; }
+            try
+            {
+                connectorToDb.OpenConnection();
+                string commandText = $"select {column} from stats where idStats = @uId;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.Parameters.AddWithValue("@uID", statsId);
+                object field = command.ExecuteScalar();
+                connectorToDb.CloseConnection();
+                if (field == null) { return null; }
+                return field.ToString();
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return "ошибка, не удалось изменить поле";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("StatsIDByLog");
+                return "ошибка, не удалось изменить поле";
+            }
+        }
+
+        public bool ChangeField(string login, string table, string column, string value)
+        {
+            int profileID = ProfileIDByLog(login);
+            if (profileID == 0) 
+            {
+                Console.WriteLine("ChangeField");
+                return false;
+            }
+            try
+            {
+                connectorToDb.OpenConnection();
+                MySqlCommand insert = new MySqlCommand($"update {table} set {column} = '{value}'" +
+                    $" where idProfile = {profileID};", connectorToDb.GetConnection());
+                insert.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+                return true;
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("ChangeField");
+                return false;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("ChangeField");
+                return false;
+            }
+        }
     }
 }

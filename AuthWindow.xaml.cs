@@ -114,9 +114,13 @@ namespace FormProject
             password.Password = password.Password.Trim();
             if (LengthCheck() && CheckLog() && CheckPass() )
             {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                mainWindow.Show();
+                //MainWindow mainWindow = new MainWindow();
+                //mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                //mainWindow.Show();
+                //this.Close();
+                UserProfile userProfile = new UserProfile(login.Text);
+                userProfile.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                userProfile.Show();
                 this.Close();
             }
         }
