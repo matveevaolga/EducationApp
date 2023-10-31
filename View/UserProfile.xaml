@@ -1,0 +1,67 @@
+﻿<Window x:Class="FormProject.UserProfile"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FormProject"
+        mc:Ignorable="d"
+        Title="UserProfile" Height="1000" Width="1500">
+    <Grid Background="#3c3e54">
+        <Border x:Name="generalInfo" Background="#FF4B4D60"
+                Height="350" Width="1500" VerticalAlignment="Top">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="stats" Click="ShowStats"
+                        Content="Статистика" Grid.Row="0"
+                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="edit" Click="ShowEdit"
+                        Content="Редактирование" Grid.Row="1"
+                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                <Button x:Name="settings" Click="ShowSettings"
+                        Content="Настройки" Grid.Row="2"
+                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                <Label Content="Фото профиля" Grid.Column="0"
+                       Grid.RowSpan="3" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uName}" Grid.Row="0"
+                       Grid.Column="1" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uLevel}" Grid.Row="1"
+                       Grid.Column="1" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uInfo}" Grid.Row="0" Grid.Column="2"
+                       Grid.RowSpan="3" Grid.ColumnSpan="2"
+                       Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uExp}" Grid.Column="1"
+                       Grid.Row="2" Style="{StaticResource LabelStyle}"/>
+            </Grid>
+        </Border>
+        <Border Margin="0,350,0,100">
+            <ContentControl x:Name="switchUC"/>
+        </Border>
+        <Border x:Name="mainMenu" Background="#FFCEC9D9" Height="100"
+                Width="1500" VerticalAlignment="Bottom">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Content="Каталог"
+                        Style="{StaticResource ButtonMenuStyle}"/>
+                <Button Grid.Column="1" Content="Избранное"
+                        Style="{StaticResource ButtonMenuStyle}"/>
+                <Button Grid.Column="2" Content="Профиль"
+                        Style="{StaticResource ButtonMenuStyle}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

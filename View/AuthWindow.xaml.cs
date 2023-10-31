@@ -36,12 +36,12 @@ namespace FormProject
         {
             if (login.Text.Length == 0)
             {
-                message.Text = "Вы не ввели логин.";
+                message.Content = "Вы не ввели логин.";
                 return false;
             }
             if (password.Password.Length == 0)
             {
-                message.Text = "Вы не ввели пароль.";
+                message.Content = "Вы не ввели пароль.";
                 return false;
             }
             return true;
@@ -54,9 +54,10 @@ namespace FormProject
             {
                 dBFunctions = new DBFunctions();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                message.Text = "Произошла ошибка при подключении к серверу";
+                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
+                message.Content = "программная ошибка";
                 login.Text = "";
                 password.Password = "";
             }
@@ -70,12 +71,12 @@ namespace FormProject
             bool isReg = dBFunctions.IsRegistered(login.Text, out string problem);
             if (problem != "")
             {
-                message.Text = problem;
+                message.Content = problem;
                 return false;
             }
             else if (!isReg)
             {
-                message.Text = "Под таким логином нет пользователя.";
+                message.Content = "Под таким логином нет пользователя.";
                 return false;
             }
             return true;
@@ -89,12 +90,12 @@ namespace FormProject
             bool isPassOk = dBFunctions.IsPassCorrect(login.Text, password.Password, out string problem);
             if (problem != "")
             {
-                message.Text = problem;
+                message.Content = problem;
                 return false;
             }
             else if (!isPassOk)
             {
-                message.Text = "Вы ввели неверный пароль";
+                message.Content = "Вы ввели неверный пароль";
                 return false;
             }
             return true;
