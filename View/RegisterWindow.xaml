@@ -9,14 +9,13 @@
     <Grid Background="#252634">
         <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20" Padding="100" Height="800" Width="1020">
             <StackPanel Margin="20 100 20 100">
-                <TextBlock Text="Заполните форму для регистрации" FontWeight="SemiBold" Margin="0 0 0 40" 
-                    FontFamily="Trebuchet MS" FontSize="30" Background="#282b4f" Foreground="#dedee8"
-                        HorizontalAlignment="Center" x:Name="message"/>
-                <TextBlock Text="Введите логин" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
-                        Background="#3c3e54" Foreground="#dedee8" x:Name="loginMessage"/>
+                <Label Content="Заполните форму для регистрации" Margin="0 0 0 40"
+                       x:Name="message" Style="{StaticResource LabelStyle}"/>
+                <Label Content="Введите логин" x:Name="loginMessage"
+                       Style="{StaticResource LabelStyle}"/>
                 <TextBox FontSize="30" Foreground="#252634" x:Name="login" FontFamily="Trebuchet MS"/>
-                <TextBlock Text="Введите пароль" FontSize="30" FontWeight="SemiBold" FontFamily="Trebuchet MS"
-                            Background="#3c3e54" Foreground="#dedee8" x:Name="passwordMessage"/>
+                <Label Content="Введите пароль" x:Name="passwordMessage"
+                       Style="{StaticResource LabelStyle}"/>
                 <PasswordBox FontSize="30" Foreground="#252634" x:Name="password" FontFamily="Trebuchet MS"/>
                 <Button Content="Отправить форму" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
                         Background="#282b4f" Foreground="#dedee8" Click="SendForm"/>

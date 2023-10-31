@@ -37,14 +37,17 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                problem = "Не удалось подключиться к базе данных.";
-                Console.WriteLine("IsPassCorrect");
+                Console.WriteLine("ошибка в функции IsPassCorrect, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
+                problem = "программная ошибка";
                 return false;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                problem = "Не удалось совершить запрос к базе данных.";
-                Console.WriteLine("IsPassCorrect");
+                Console.WriteLine($"ошибка в функции IsPassCorrect при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
+                problem = "ошибка регистрации";
+                connectorToDb.CloseConnection();
                 return false;
             }
         }
@@ -66,13 +69,16 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                problem = "Не удалось подключиться к базе данных.";
+                Console.WriteLine("ошибка в функции IsRegistered, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
+                problem = "программная ошибка";
                 return true;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("IsRegisered");
-                problem = "Возникла ошибка во время исполнения запроса к базе данных";
+                Console.WriteLine($"ошибка в функции IsRegistered при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
+                problem = "ошибка регистрации";
                 connectorToDb.CloseConnection();
                 return true;
             }
@@ -87,14 +93,16 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return users;
             }
-            catch (NullReferenceException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("Register");
+                Console.WriteLine($"ошибка в функции Register при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return false;
             }
-            catch (MySqlException)
+            catch (NullReferenceException)
             {
-                Console.WriteLine("Register");
+                Console.WriteLine("ошибка в функции Register, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 connectorToDb.CloseConnection();
                 return false;
             }
@@ -108,9 +116,10 @@ namespace FormProject
                 delete.Parameters.AddWithValue("@sID", statsID);
                 delete.ExecuteNonQuery();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                return;
+                Console.WriteLine($"ошибка в функции DeleteStats при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
             }
         }
 
@@ -122,9 +131,10 @@ namespace FormProject
                 delete.Parameters.AddWithValue("@pID", profileID);
                 delete.ExecuteNonQuery();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                return;
+                Console.WriteLine($"ошибка в функции DeleteProfile при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
             }
         }
 
@@ -150,9 +160,16 @@ namespace FormProject
                 register.ExecuteNonQuery();
                 return true;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("AddToUsersTable");
+                Console.WriteLine($"ошибка в функции AddToUsersTable при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
+                return false;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("ошибка в функции AddToUsersTable, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return false;
             }
         }
@@ -168,9 +185,16 @@ namespace FormProject
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("AddToProfilesTable");
+                Console.WriteLine($"ошибка в функции AddToProfilesTable при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
+                return 0;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("ошибка в функции AddToProfilesTable, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return 0;
             }
         }
@@ -179,16 +203,23 @@ namespace FormProject
         {
             try
             {
-                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, coveredTopics) values ('', '', '');", connectorToDb.GetConnection());
+                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, сoveredTopics) values ('', '', '');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from stats;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("AddToStatsTable");
+                Console.WriteLine($"ошибка в функции AddToStatsTable при обращении к бд" +
+                    $", номер ошибки {ex.Message}");
+                return 0;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("ошибка в функции AddToStatsTable, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return 0;
             }
         }
@@ -206,14 +237,16 @@ namespace FormProject
                 if (userID == null) { return 0; }
                 return (int)userID;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("ProfileIDByLog");
+                Console.WriteLine($"ошибка в функции ProfileIDByLog при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return 0;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("ProfileIDByLog");
+                Console.WriteLine("ошибка в функции ProfileIDByLog, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return 0;
             }
         }
@@ -231,14 +264,16 @@ namespace FormProject
                 if (userID == null) { return 0; }
                 return (int)userID;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("StatsIDByLog");
+                Console.WriteLine($"ошибка в функции StatsIDByLog при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return 0;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("StatsIDByLog");
+                Console.WriteLine("ошибка в функции StatsIDByLog, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return 0;
             }
         }
@@ -258,15 +293,17 @@ namespace FormProject
                 if (field == null) { return null; }
                 return field.ToString();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("StatsIDByLog");
+                Console.WriteLine($"ошибка в функции StatsIDByLog при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return "ошибка, не удалось изменить поле";
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("StatsIDByLog");
-                return "ошибка, не удалось изменить поле";
+                Console.WriteLine("ошибка в функции StatsIDByLog, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
+                return "программная ошибка";
             }
         }
 
@@ -285,15 +322,17 @@ namespace FormProject
                 if (field == null) { return null; }
                 return field.ToString();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("StatsIDByLog");
+                Console.WriteLine($"ошибка в функции GetStatsField при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return "ошибка, не удалось изменить поле";
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("StatsIDByLog");
-                return "ошибка, не удалось изменить поле";
+                Console.WriteLine("ошибка в функции GetStatsField, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
+                return "программная ошибка";
             }
         }
 
@@ -314,14 +353,16 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return true;
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                Console.WriteLine("ChangeField");
+                Console.WriteLine($"ошибка в функции ChangeField при обращении к бд" +
+                    $", номер ошибки {ex.Number}");
                 return false;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("ChangeField");
+                Console.WriteLine("ошибка в функции ChangeField, " +
+                    "обращение к полю null, имя ошибки NullReferenceException");
                 return false;
             }
         }

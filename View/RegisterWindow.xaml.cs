@@ -29,11 +29,11 @@ namespace FormProject
         private bool LogAndPassMessages(bool isRegistered)
         {
             if (isRegistered) { 
-                loginMessage.Text = "Пользователь с таким логином уже зарегестрирован";
+                loginMessage.Content = "Пользователь с таким логином уже зарегестрирован";
                 return false;
             }
             if (password.Password.Length < 5) { 
-                passwordMessage.Text = "Введенный пароль слишком ненадежен";
+                passwordMessage.Content = "Введенный пароль слишком ненадежен";
                 return false;
             }
             return true;
@@ -46,9 +46,10 @@ namespace FormProject
             {
                 dBFunctions = new DBFunctions();
             }
-            catch (MySqlException)
+            catch (MySqlException ex)
             {
-                message.Text = "Произошла ошибка при подключении к серверу";
+                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
+                message.Content = "программная ошибка";
                 login.Text = "";
                 password.Password = "";
             }
@@ -72,9 +73,9 @@ namespace FormProject
                     authWindow.Show();
                     this.Close();
                 }
-                else { message.Text = "При регистрации произошла ошибка. Повторите попытку позже."; }
+                else { message.Content = "При регистрации произошла ошибка. Повторите попытку позже."; }
             }
-            if (problem != "") { message.Text =  problem; }
+            if (problem != "") { message.Content =  problem; }
             login.Text = "";
             password.Password = "";
         }
