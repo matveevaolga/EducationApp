@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using FormProject.View.UserControls;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,15 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FormProject
+namespace FormProject.View.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для UserProfile.xaml
     /// </summary>
-    ///
-
+    
     class GeneralInfo
     {
         public string login { get; set; }
@@ -38,15 +37,15 @@ namespace FormProject
         }
     }
 
-    public partial class UserProfile : Window
-    {   
+    public partial class UserProfile : UserControl
+    {
         public static string login;
 
         public UserProfile(string login)
         {
             UserProfile.login = login;
             InitializeComponent();
-            switchUC.Content = new StatsUC(); 
+            switchUC.Content = new StatsUC();
             DataContext = new GeneralInfo(login);
         }
 
