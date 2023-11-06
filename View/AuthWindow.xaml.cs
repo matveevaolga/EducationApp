@@ -1,4 +1,5 @@
-﻿using MySql.Data.MySqlClient;
+﻿using FormProject.View;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -119,9 +120,9 @@ namespace FormProject
                 //mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 //mainWindow.Show();
                 //this.Close();
-                UserProfile userProfile = new UserProfile(login.Text);
-                userProfile.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                userProfile.Show();
+                MainWindow mainWindow = new MainWindow(login.Text);
+                mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                mainWindow.Show();
                 this.Close();
             }
         }

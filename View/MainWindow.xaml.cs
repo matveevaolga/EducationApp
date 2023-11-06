@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.View.UserControls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace FormProject
+namespace FormProject.View
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public static string login;
+
+        public MainWindow(string login)
         {
             InitializeComponent();
+            MainWindow.login = login;
+            currentContent.Content = new UserProfile(login);
+        }
+
+        private void ToExercises(object sender, EventArgs e)
+        {
+            currentContent.Content = new Exercises(login);
+        }
+
+        private void ToFavourite(object sender, EventArgs e)
+        {
+            currentContent.Content = new Favourite(login);
+        }
+
+        private void ToUserProfile(object sender, EventArgs e)
+        {
+            currentContent.Content = new UserProfile(login);
         }
     }
 }
