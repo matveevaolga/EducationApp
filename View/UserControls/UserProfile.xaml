@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1500">
-    <Grid>
-        <Grid Background="#3c3e54">
-            <Border x:Name="generalInfo" Background="#FF4B4D60"
-                Height="350" Width="1500" VerticalAlignment="Top">
+    <Grid Background="#3c3e54">
+        <DockPanel LastChildFill="True">
+            <Border x:Name="generalInfo" Background="#FF4B4D60" DockPanel.Dock="Top"
+                    VerticalAlignment="Stretch" MinHeight="250">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -24,30 +24,30 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Button x:Name="stats" Click="ShowStats"
-                        Content="Статистика" Grid.Row="0"
-                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                Content="Статистика" Grid.Row="0"
+                Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
                     <Button x:Name="edit" Click="ShowEdit"
-                        Content="Редактирование" Grid.Row="1"
-                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                Content="Редактирование" Grid.Row="1"
+                Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
                     <Button x:Name="settings" Click="ShowSettings"
-                        Content="Настройки" Grid.Row="2"
-                        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
+                Content="Настройки" Grid.Row="2"
+                Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
                     <Label Content="Фото профиля" Grid.Column="0"
-                       Grid.RowSpan="3" Style="{StaticResource LabelStyle}"/>
+                Grid.RowSpan="3" Style="{StaticResource LabelStyle}"/>
                     <Label Content="{Binding uName}" Grid.Row="0"
-                       Grid.Column="1" Style="{StaticResource LabelStyle}"/>
+                Grid.Column="1" Style="{StaticResource LabelStyle}"/>
                     <Label Content="{Binding uLevel}" Grid.Row="1"
-                       Grid.Column="1" Style="{StaticResource LabelStyle}"/>
+                Grid.Column="1" Style="{StaticResource LabelStyle}"/>
                     <Label Content="{Binding uInfo}" Grid.Row="0" Grid.Column="2"
-                       Grid.RowSpan="3" Grid.ColumnSpan="2"
-                       Style="{StaticResource LabelStyle}"/>
+                Grid.RowSpan="3" Grid.ColumnSpan="2"
+                Style="{StaticResource LabelStyle}"/>
                     <Label Content="{Binding uExp}" Grid.Column="1"
-                       Grid.Row="2" Style="{StaticResource LabelStyle}"/>
+                Grid.Row="2" Style="{StaticResource LabelStyle}"/>
                 </Grid>
             </Border>
-            <Border Margin="0,350,0,0">
-                <ContentControl x:Name="switchUC"/>
+            <Border>
+                <ContentControl x:Name="switchUC" />
             </Border>
-        </Grid>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormProject.View"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1000" Width="1500" WindowStartupLocation="CenterScreen">
+        Title="MainWindow" WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        SizeChanged="Window_SizeChanged"
+        MinHeight="600" MinWidth="700">
     <Grid Background="#3c3e54">
-        <Border Margin="0 0 0 100">
-            <ContentControl x:Name="currentContent"/>
-        </Border>
-        <Border x:Name="mainMenu" Background="#FFCEC9D9" Height="100"
-                Width="1500" VerticalAlignment="Bottom">
+    <DockPanel LastChildFill="True">
+        <Border x:Name="mainMenu" Background="#FFCEC9D9" DockPanel.Dock="Bottom">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -26,5 +26,9 @@
                         Style="{StaticResource ButtonMenuStyle}" Click="ToUserProfile"/>
             </Grid>
         </Border>
+        <Border>
+            <ContentControl x:Name="currentContent"/>
+        </Border>
+    </DockPanel>
     </Grid>
 </Window>
