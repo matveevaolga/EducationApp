@@ -28,12 +28,12 @@
                         Grid.Column="3" Style="{StaticResource ButtonStyle}"/>
         <TextBox x:Name="loginChange" Grid.Row="0"
                          Grid.Column="1" Grid.ColumnSpan="2" 
-                         Height="50" Width="750" Style="{StaticResource TextBoxStyle}"/>
+                         HorizontalAlignment="Stretch"  Style="{StaticResource TextBoxStyle}"/>
         <TextBox x:Name="passChange" Grid.Row="1"
                          Grid.Column="1" Grid.ColumnSpan="2" 
-                         Height="50" Width="750" Style="{StaticResource TextBoxStyle}"/>
+                         HorizontalAlignment="Stretch" Style="{StaticResource TextBoxStyle}"/>
         <TextBox x:Name="profileConfirm" Grid.Row="2"
                          Grid.Column="1" Grid.ColumnSpan="2"
-                         Height="50" Width="750" Style="{StaticResource TextBoxStyle}"/>
+                         HorizontalAlignment="Stretch" Style="{StaticResource TextBoxStyle}"/>
     </Grid>
 </UserControl>

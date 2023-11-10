@@ -43,5 +43,11 @@ namespace FormProject.View
         {
             currentContent.Content = new UserProfile(login);
         }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Width < this.MinWidth) { this.Width = this.MinWidth; }
+            if (e.NewSize.Height < this.MinHeight) { this.Height = this.MinHeight; }
+        }
     }
 }
