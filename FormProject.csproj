@@ -73,6 +73,18 @@
     <Compile Include="View\UserControls\Exercises.xaml.cs">
       <DependentUpon>Exercises.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\ChooseCorrect.xaml.cs">
+      <DependentUpon>ChooseCorrect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml.cs">
+      <DependentUpon>InsertTheMissing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\WriteCode.xaml.cs">
+      <DependentUpon>WriteCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\YourAnswer.xaml.cs">
+      <DependentUpon>YourAnswer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\Favourite.xaml.cs">
       <DependentUpon>Favourite.xaml</DependentUpon>
     </Compile>
@@ -115,6 +127,22 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\UserControls\Exercises.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\ChooseCorrect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\WriteCode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\YourAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -161,5 +189,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

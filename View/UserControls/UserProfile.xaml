@@ -6,48 +6,50 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1500">
-    <Grid Background="#3c3e54">
-        <DockPanel LastChildFill="True">
-            <Border x:Name="generalInfo" Background="#FF4B4D60" DockPanel.Dock="Top"
-                    VerticalAlignment="Stretch" MinHeight="250">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="stats" Click="ShowStats"
+    <Grid Background="#252634">
+        <Border Margin="70, 60, 70, 60" CornerRadius="20" Background="#3c3e54">
+            <DockPanel LastChildFill="True">
+                <Border x:Name="generalInfo" DockPanel.Dock="Top"
+                    VerticalAlignment="Stretch" MinHeight="250" Background="#FF535572">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="stats" Click="ShowStats"
                 Content="Статистика" Grid.Row="0"
                 Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                    <Button x:Name="edit" Click="ShowEdit"
+                        <Button x:Name="edit" Click="ShowEdit"
                 Content="Редактирование" Grid.Row="1"
                 Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                    <Button x:Name="settings" Click="ShowSettings"
+                        <Button x:Name="settings" Click="ShowSettings"
                 Content="Настройки" Grid.Row="2"
                 Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                    <Label Content="Фото профиля" Grid.Column="0"
+                        <Label Content="Фото профиля" Grid.Column="0"
                 Grid.RowSpan="3" Style="{StaticResource LabelStyle}"/>
-                    <Label Content="{Binding uName}" Grid.Row="0"
+                        <Label Content="{Binding uName}" Grid.Row="0"
                 Grid.Column="1" Style="{StaticResource LabelStyle}"/>
-                    <Label Content="{Binding uLevel}" Grid.Row="1"
+                        <Label Content="{Binding uLevel}" Grid.Row="1"
                 Grid.Column="1" Style="{StaticResource LabelStyle}"/>
-                    <Label Content="{Binding uInfo}" Grid.Row="0" Grid.Column="2"
+                        <Label Content="{Binding uInfo}" Grid.Row="0" Grid.Column="2"
                 Grid.RowSpan="3" Grid.ColumnSpan="2"
                 Style="{StaticResource LabelStyle}"/>
-                    <Label Content="{Binding uExp}" Grid.Column="1"
+                        <Label Content="{Binding uExp}" Grid.Column="1"
                 Grid.Row="2" Style="{StaticResource LabelStyle}"/>
-                </Grid>
-            </Border>
-            <Border>
-                <ContentControl x:Name="switchUC" />
-            </Border>
-        </DockPanel>
+                    </Grid>
+                </Border>
+                <Border>
+                    <ContentControl x:Name="switchUC" />
+                </Border>
+            </DockPanel>
+        </Border>
     </Grid>
 </UserControl>
