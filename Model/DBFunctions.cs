@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace FormProject
 {
-    internal class DBFunctions
+    public class DBFunctions
     {
         DBConnection connectorToDb;
         DataTable table;
@@ -365,6 +365,11 @@ namespace FormProject
                     "обращение к полю null, имя ошибки NullReferenceException");
                 return false;
             }
+        }
+
+        public bool isAdmin(string login)
+        {
+            return true;
         }
     }
 }
