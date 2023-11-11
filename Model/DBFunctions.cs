@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +11,7 @@ using System.Windows.Controls;
 
 namespace FormProject
 {
-    internal class DBFunctions
+    public class DBFunctions
     {
         DBConnection connectorToDb;
         DataTable table;
@@ -363,6 +364,30 @@ namespace FormProject
             {
                 Console.WriteLine("ошибка в функции ChangeField, " +
                     "обращение к полю null, имя ошибки NullReferenceException");
+                return false;
+            }
+        }
+
+        public bool isAdmin(string login)
+        {
+            try
+            {
+                connectorToDb.OpenConnection();
+                string commandText = $"select isAdmin from users where login = @uLogin;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.Parameters.AddWithValue("@uLogin", login);
+                bool field = Convert.ToBoolean(command.ExecuteScalar());
+                connectorToDb.CloseConnection();
+                return field;
+            }
+            catch (MySqlException ex)
+            {
+                Console.WriteLine("ошибка при обращении к бд");
+                return false;
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("обращение к null");
                 return false;
             }
         }

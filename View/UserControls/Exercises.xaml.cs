@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,29 +22,23 @@ namespace FormProject.View.UserControls
     /// </summary>
     public partial class Exercises : UserControl
     {
+        public DBFunctions dBFunctions;
+
         public Exercises(string login)
         {
             InitializeComponent();
+            dBFunctions = new DBFunctions();
+            if (dBFunctions.isAdmin(login)) { createExerciseButton.Visibility = Visibility.Visible; }
+            exercisesFunctional.Content = new ShowExercisesUC();
         }
 
-        private void WriteCodeChosen(object sender, RoutedEventArgs e)
+        private void switchExercisesFunctional(object sender, EventArgs e)
         {
-            switchExerciseUC.Content = new WriteCode();
-        }
-
-        private void YourAnswerChosen(object sender, RoutedEventArgs e)
-        {
-            switchExerciseUC.Content = new YourAnswer();
-        }
-
-        private void ChooseCorrectChosen(object sender, RoutedEventArgs e)
-        {
-            switchExerciseUC.Content = new ChooseCorrect();
-        }
-
-        private void InsertTheMissingChosen(object sender, RoutedEventArgs e)
-        {
-            switchExerciseUC.Content = new InsertTheMissing();
+            CreateExerciseUC createExerciseUC = new CreateExerciseUC();
+            ShowExercisesUC showExercisesUC = new ShowExercisesUC();
+            if (exercisesFunctional.Content.GetType() != createExerciseUC.GetType()) 
+            { exercisesFunctional.Content = createExerciseUC; }
+            else { exercisesFunctional.Content = showExercisesUC; }
         }
     }
 }
