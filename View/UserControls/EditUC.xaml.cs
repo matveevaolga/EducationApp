@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,15 +41,14 @@ namespace FormProject.View.UserControls
 
         private void EditProfile(object sender, EventArgs e)
         {
-            DBFunctions dBFunctions = new DBFunctions();
             if (nameChange.Text != "")
             {
-                bool result = dBFunctions.ChangeField(this.login, "profiles", "name", nameChange.Text);
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "name", nameChange.Text);
                 nameChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
             }
             if (infoChange.Text != "")
             {
-                bool result = dBFunctions.ChangeField(this.login, "profiles", "about", infoChange.Text);
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "about", infoChange.Text);
                 infoChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
             }
         }

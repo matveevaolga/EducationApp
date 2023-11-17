@@ -19,5 +19,11 @@ namespace FormProject.Controller
             DBFunctions dBFunctions = new DBFunctions();
             return dBFunctions.GetStatsField(login, field);
         }
+
+        public static bool HelpChangeField(string login, string table, string column, string value)
+        {
+            DBFunctions dBFunctions = new DBFunctions();
+            return dBFunctions.ChangeField(login, table, column, value);
+        }
     }
 }
