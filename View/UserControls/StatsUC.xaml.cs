@@ -36,10 +36,10 @@ namespace FormProject.View.UserControls
         public string uTopicsAmount { get; set; }
         public StatsInfo(string login)
         {
-            uActive = DBHelpFunctional.HelpGetProfileField(login, "active");
-            uMaxSession = DBHelpFunctional.HelpGetProfileField(login, "maxSession");
-            uSolvedAmount = DBHelpFunctional.HelpGetProfileField(login, "solvedAmount");
-            uTopicsAmount = DBHelpFunctional.HelpGetProfileField(login, "coveredTopicsAmount");
+            uActive = DBHelpFunctional.HelpGetStatsField(login, "active");
+            uMaxSession = DBHelpFunctional.HelpGetStatsField(login, "maxSession");
+            uSolvedAmount = DBHelpFunctional.HelpGetStatsField(login, "solvedAmount");
+            uTopicsAmount = DBHelpFunctional.HelpGetStatsField(login, "coveredTopicsAmount");
         }
     }
 }

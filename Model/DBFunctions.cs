@@ -296,13 +296,13 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции StatsIDByLog при обращении к бд" +
+                Console.WriteLine($"ошибка в функции GetProfileField при обращении к бд" +
                     $", номер ошибки {ex.Number}");
-                return "ошибка, не удалось изменить поле";
+                return "ошибка, не удалось получить поле";
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("ошибка в функции StatsIDByLog, " +
+                Console.WriteLine("ошибка в функции GetProfileField, " +
                     "обращение к полю null, имя ошибки NullReferenceException");
                 return "программная ошибка";
             }
@@ -327,7 +327,7 @@ namespace FormProject
             {
                 Console.WriteLine($"ошибка в функции GetStatsField при обращении к бд" +
                     $", номер ошибки {ex.Number}");
-                return "ошибка, не удалось изменить поле";
+                return "ошибка, не удалось получить поле";
             }
             catch (NullReferenceException)
             {

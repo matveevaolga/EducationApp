@@ -43,13 +43,13 @@ namespace FormProject.View.UserControls
         {
             if (nameChange.Text != "")
             {
-                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "name", nameChange.Text);
-                nameChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "name", nameChange.Text, out string problem);
+                nameChange.Text = result == true ? "" : problem;
             }
             if (infoChange.Text != "")
             {
-                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "about", infoChange.Text);
-                infoChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "about", infoChange.Text, out string problem);
+                infoChange.Text = result == true ? "" : problem;
             }
         }
     }
