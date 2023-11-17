@@ -20,16 +20,16 @@ namespace FormProject.View.UserControls
     /// </summary>
     public partial class SettingsUC : UserControl
     {
-        public SettingsUC()
+        public SettingsUC(string login)
         {
             InitializeComponent();
-            DataContext = new SettingsInfo();
+            DataContext = new SettingsInfo(login);
         }
     }
 
     class SettingsInfo
     {
-        public SettingsInfo()
+        public SettingsInfo(string login)
         {
 
         }

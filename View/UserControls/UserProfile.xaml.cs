@@ -45,25 +45,25 @@ namespace FormProject.View.UserControls
         {
             this.login = login;
             InitializeComponent();
-            switchUC.Content = new StatsUC();
+            switchUC.Content = new StatsUC(login);
             DataContext = new GeneralInfo(login);
         }
 
         private void ShowStats(object sender, EventArgs e)
         {
-            switchUC.Content = new StatsUC();
+            switchUC.Content = new StatsUC(login);
             DataContext = new GeneralInfo(login);
         }
 
         private void ShowEdit(object sender, EventArgs e)
         {
-            switchUC.Content = new EditUC();
+            switchUC.Content = new EditUC(login);
             DataContext = new GeneralInfo(login);
         }
 
         private void ShowSettings(object sender, EventArgs e)
         {
-            switchUC.Content = new SettingsUC();
+            switchUC.Content = new SettingsUC(login);
             DataContext = new GeneralInfo(login);
         }
     }
