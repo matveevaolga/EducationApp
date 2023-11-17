@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using FormProject.Controller;
 
 namespace FormProject
 {
@@ -48,28 +49,16 @@ namespace FormProject
             return true;
         }
 
-        private void GetDBFunctions(out DBFunctions dBFunctions)
+        private void EndAuth(string problem)
         {
-            dBFunctions = null;
-            try
-            {
-                dBFunctions = new DBFunctions();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
-                message.Content = "программная ошибка";
-                login.Text = "";
-                password.Password = "";
-            }
+            if (problem != "") message.Content = problem;
+            login.Text = "";
+            password.Password = "";
         }
 
         private bool CheckLog()
         {
-            DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions);
-            if (dBFunctions == null) { return false; }
-            bool isReg = dBFunctions.IsRegistered(login.Text, out string problem);
+            bool isReg = DBHelpFunctional.HelpIsRegistered(login.Text, out string problem);
             if (problem != "")
             {
                 message.Content = problem;
@@ -85,18 +74,15 @@ namespace FormProject
 
         private bool CheckPass()
         {
-            DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions);
-            if (dBFunctions == null) { return false; }
-            bool isPassOk = dBFunctions.IsPassCorrect(login.Text, password.Password, out string problem);
+            bool isPassOk = DBHelpFunctional.HelpIsPassCorrect(login.Text, password.Password, out string problem);
             if (problem != "")
             {
-                message.Content = problem;
+                EndAuth(problem);
                 return false;
             }
             else if (!isPassOk)
             {
-                message.Content = "Вы ввели неверный пароль";
+                EndAuth("Вы ввели неверный пароль");
                 return false;
             }
             return true;
@@ -116,10 +102,6 @@ namespace FormProject
             password.Password = password.Password.Trim();
             if (LengthCheck() && CheckLog() && CheckPass() )
             {
-                //MainWindow mainWindow = new MainWindow();
-                //mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                //mainWindow.Show();
-                //this.Close();
                 MainWindow mainWindow = new MainWindow(login.Text);
                 mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 mainWindow.Show();

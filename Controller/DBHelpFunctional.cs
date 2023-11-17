@@ -79,5 +79,21 @@ namespace FormProject.Controller
             if (dBFunctions == null) { return false; }
             return dBFunctions.Register(login, password);
         }
+
+        public static bool HelpIsPassCorrect(string login, string password, out string problem)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            if (dBFunctions == null) { return false; }
+            return dBFunctions.IsPassCorrect(login, password, out problem);
+        }
+
+        public static bool HelpIsAdmin(string login, out string problem)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            if (dBFunctions == null) { return false; }
+            return dBFunctions.IsAdmin(login, out problem);
+        }
     }
 }

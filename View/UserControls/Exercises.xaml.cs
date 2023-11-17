@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FormProject.View.UserControls.ExercisesUCs;
+using FormProject.Controller;
 
 namespace FormProject.View.UserControls
 {
@@ -27,9 +28,8 @@ namespace FormProject.View.UserControls
         public Exercises(string login)
         {
             InitializeComponent();
-            dBFunctions = new DBFunctions();
-            if (dBFunctions.isAdmin(login)) { createExerciseButton.Visibility = Visibility.Visible; }
-            exercisesFunctional.Content = new ShowExercisesUC();
+            if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) { createExerciseButton.Visibility = Visibility.Visible; }
+            exercisesFunctional.Content = new ShowExercisesUC(problem);
         }
 
         private void switchExercisesFunctional(object sender, EventArgs e)

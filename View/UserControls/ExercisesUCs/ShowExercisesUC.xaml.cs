@@ -20,7 +20,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class ShowExercisesUC : UserControl
     {
-        public ShowExercisesUC()
+        public ShowExercisesUC(string problem)
         {
             InitializeComponent();
         }
