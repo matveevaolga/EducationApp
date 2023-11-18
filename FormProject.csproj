@@ -65,6 +65,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controller\DBHelpFunctional.cs" />
+    <Compile Include="Controller\LogsFileHelpFunctions.cs" />
+    <Compile Include="Model\LogsFileFuntcions.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -204,6 +206,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

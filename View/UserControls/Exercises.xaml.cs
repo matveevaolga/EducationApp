@@ -23,8 +23,6 @@ namespace FormProject.View.UserControls
     /// </summary>
     public partial class Exercises : UserControl
     {
-        public DBFunctions dBFunctions;
-
         public Exercises(string login)
         {
             InitializeComponent();
