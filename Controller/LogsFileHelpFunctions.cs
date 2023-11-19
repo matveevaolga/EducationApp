@@ -9,13 +9,23 @@ namespace FormProject.Controller
 {
     public class LogsFileHelpFunctions
     {
-        public void HelpWriteToLogsFile(string problem, string login)
+        public static void HelpWriteToLogsFile(string problem, string login, object access = null)
         {
+            string message;
             LogsFileFuntcions logsFileFuntcions = new LogsFileFuntcions("logsFile.txt");
-            bool isAdmin = DBHelpFunctional.HelpIsAdmin(login, out string dbProblem);
-            if (dbProblem != "") { Console.WriteLine($"Ошибка {dbProblem} при обращении к бд. " +
-                "Невозможно записать данные в logsFile"); return;}
-            string message = $"Пользователь: {login} | Права: {Convert.ToUInt32(isAdmin)} | Ошибка: {problem}";
+            if (access.ToString() != "error")
+            {
+                bool isAdmin = DBHelpFunctional.HelpIsAdmin(login, out string dbProblem);
+                if (dbProblem != "")
+                {
+                    Console.WriteLine(dbProblem);
+                    access = "error";
+                    message = $"Пользователь: {login} | Права: {access} | Ошибка: {dbProblem}";
+                    logsFileFuntcions.WriteToLogsFile(message);
+                }
+                else access = Convert.ToUInt32(isAdmin); 
+            }
+            message = $"Пользователь: {login} | Права: {access} | Ошибка: {problem}";
             logsFileFuntcions.WriteToLogsFile(message);
         }
     }

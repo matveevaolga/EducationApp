@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using FormProject.Controller;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using System;
@@ -16,6 +17,10 @@ namespace FormProject
         DBConnection connectorToDb;
         DataTable table;
         MySqlDataAdapter cursor;
+        static string dbException = "ошибка в функции {0} при обращении к бд" +
+                    ", номер ошибки {1}";
+        static string nullException = "ошибка в функции {0}, " +
+                    "обращение к полю null, имя ошибки NullReferenceException";
 
         public DBFunctions()
         {
@@ -38,19 +43,18 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции IsPassCorrect при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "IsPassCorrect", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsPassCorrect", ex.Number), login);
                 problem = "ошибка регистрации";
                 connectorToDb.CloseConnection();
-                return false;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("ошибка в функции IsPassCorrect, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
+                Console.WriteLine(nullException, "IsPassCorrect");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsPassCorrect"), login);
                 problem = "программная ошибка";
-                return false;
             }
+            return false;
         }
 
         public bool IsRegistered(string login, out string problem)
@@ -70,19 +74,18 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции IsRegistered при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "IsRegistered", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsRegistered", ex.Number), login);
                 problem = "ошибка регистрации";
                 connectorToDb.CloseConnection();
-                return true;
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine("ошибка в функции IsRegistered, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
+                Console.WriteLine(nullException, "IsRegistered");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsRegistered"), login);
                 problem = "программная ошибка";
-                return true;
             }
+            return true;
         }
 
         public bool Register(string login, string password) 
@@ -94,22 +97,21 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return users;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции Register, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                connectorToDb.CloseConnection();
-                return false;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции Register при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return false;
+                Console.WriteLine(dbException, "Regiser", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "Regiser", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "Regiser");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "Register"), login);
+            }
+            return false;
         }
 
-        private void DeleteStats(int statsID)
+        private void DeleteStats(int statsID, string login)
         {
             try
             {
@@ -119,12 +121,13 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции DeleteStats при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "DeleteStats", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "DeleteStats", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
         }
 
-        private void DeleteProfile(int profileID)
+        private void DeleteProfile(int profileID, string login)
         {
             try
             {
@@ -134,19 +137,20 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции DeleteProfile при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "DeleteProfile", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "DeleteProfile", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
         }
 
         private bool AddToUsersTable(string login, string password)
         {
-            int statsID = AddToStatsTable();
-            int profileID = AddToProfilesTable();
+            int statsID = AddToStatsTable(login);
+            int profileID = AddToProfilesTable(login);
             if (statsID == 0 | profileID == 0) 
             { 
-                if (statsID != 0) { DeleteStats(statsID); }
-                if (profileID != 0) { DeleteProfile(profileID); }
+                if (statsID != 0) { DeleteStats(statsID, login); }
+                if (profileID != 0) { DeleteProfile(profileID, login); }
                 return false; 
             }
             try
@@ -161,21 +165,21 @@ namespace FormProject
                 register.ExecuteNonQuery();
                 return true;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции AddToUsersTable, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return false;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции AddToUsersTable при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return false;
+                Console.WriteLine(dbException, "AddToUsersTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToUsersTable", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "AddToUsersTable");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToUsersTable"), login);
+            }
+            return false;
         }
 
-        private int AddToProfilesTable()
+        private int AddToProfilesTable(string login)
         {
             try
             {
@@ -186,21 +190,21 @@ namespace FormProject
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции AddToProfilesTable, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return 0;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции AddToProfilesTable при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return 0;
+                Console.WriteLine(dbException, "AddToProfilesTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToProfilesTable", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "AddToProfilesTable");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToProfilesTable"), login);
+            }
+            return 0;
         }
 
-        private int AddToStatsTable()
+        private int AddToStatsTable(string login)
         {
             try
             {
@@ -211,18 +215,18 @@ namespace FormProject
                 if (currentID == null) { return 0; }
                 return Convert.ToInt32(currentID.ToString());
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции AddToStatsTable, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return 0;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции AddToStatsTable при обращении к бд" +
-                    $", номер ошибки {ex.Message}");
-                return 0;
+                Console.WriteLine(dbException, "AddToStatsTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToStatsTable", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "AddToStatsTable");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToStatsTable"), login);
+            }
+            return 0;
         }
 
         private int ProfileIDByLog(string login)
@@ -238,18 +242,18 @@ namespace FormProject
                 if (userID == null) { return 0; }
                 return (int)userID;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции ProfileIDByLog, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return 0;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции ProfileIDByLog при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return 0;
+                Console.WriteLine(dbException, "ProfileIDByLog", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "ProfileIDByLog", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "ProfileIDByLog");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "ProfileIDByLog"), login);
+            }
+            return 0;
         }
 
         private int StatsIDByLog(string login)
@@ -265,18 +269,18 @@ namespace FormProject
                 if (userID == null) { return 0; }
                 return (int)userID;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции StatsIDByLog, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return 0;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции StatsIDByLog при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return 0;
+                Console.WriteLine(dbException, "StatsIDByLog", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "StatsIDByLog", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "StatsIDByLog");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "StatsIDByLog"), login);
+            }
+            return 0;
         }
 
         public string GetProfileField(string login, string column)
@@ -294,16 +298,17 @@ namespace FormProject
                 if (field == null) { return null; }
                 return field.ToString();
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции GetProfileField, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return "программная ошибка";
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции GetProfileField при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "GetStatsField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "GetStatsField", ex.Number), login);
+                connectorToDb.CloseConnection();
+                return "программная ошибка";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "GetStatsField");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -323,16 +328,17 @@ namespace FormProject
                 if (field == null) { return null; }
                 return field.ToString();
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции GetStatsField, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return "программная ошибка";
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции GetStatsField при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
+                Console.WriteLine(dbException, "GetStatsField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "GetStatsField", ex.Number), login);
+                connectorToDb.CloseConnection();
+                return "программная ошибка";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "GetStatsField");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -354,18 +360,18 @@ namespace FormProject
                 connectorToDb.CloseConnection();
                 return true;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции ChangeField, " +
-                    "обращение к полю null, имя ошибки NullReferenceException");
-                return false;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции ChangeField при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                return false;
+                Console.WriteLine(dbException, "ChangeField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "ChangeField", ex.Number), login);
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "ChangeField");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "ChangeField"), login);
+            }
+            return false;
         }
 
         public bool IsAdmin(string login, out string problem)
@@ -381,20 +387,20 @@ namespace FormProject
                 problem = "";
                 return field;
             }
-            catch (NullReferenceException)
-            {
-                Console.WriteLine("ошибка в функции isAdmin, " +
-                "обращение к полю null, имя ошибки NullReferenceException");
-                problem = "программная ошибка";
-                return false;
-            }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"ошибка в функции isAdmin при обращении к бд" +
-                    $", номер ошибки {ex.Number}");
-                problem = "программная ошибка";
-                return false;
+                Console.WriteLine(dbException, "IsAdmin", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsAdmin", ex.Number), login, "error");
+                problem = "ошибка регистрации";
+                connectorToDb.CloseConnection();
             }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IsAdmin");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsAdmin"), login, "error");
+                problem = "программная ошибка";
+            }
+            return false;
         }
     }
 }
