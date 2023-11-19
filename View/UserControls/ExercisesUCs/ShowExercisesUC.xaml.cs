@@ -24,5 +24,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             InitializeComponent();
         }
+
+        public ShowExercisesUC()
+        {
+            InitializeComponent();
+        }
     }
 }

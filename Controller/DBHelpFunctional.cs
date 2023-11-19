@@ -10,7 +10,8 @@ namespace FormProject.Controller
 {
     public class DBHelpFunctional
     {
-        private static void GetDBFunctions(out DBFunctions dBFunctions, string problemText, out string problem)
+        private static void GetDBFunctions(out DBFunctions dBFunctions,
+            string problemText, out string problem, string login)
         {
             dBFunctions = null;
             try
@@ -20,12 +21,14 @@ namespace FormProject.Controller
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
+                string message = $"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}";
+                Console.WriteLine(message);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(message, login);
                 problem = problemText;
             }
         }
 
-        private static void GetDBFunctions(out DBFunctions dBFunctions, string problemText)
+        private static void GetDBFunctions(out DBFunctions dBFunctions, string problemText, string login)
         {
             dBFunctions = null;
             try
@@ -34,15 +37,16 @@ namespace FormProject.Controller
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
-                return;
+                string message = $"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}";
+                Console.WriteLine(message);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(message, login);
             }
         }
 
         public static string HelpGetProfileField(string login, string field)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Не удалось получить поле");
+            GetDBFunctions(out dBFunctions, "Не удалось получить поле", login);
             if (dBFunctions == null) { return ""; }
             return dBFunctions.GetProfileField(login, field);
         }
@@ -50,7 +54,7 @@ namespace FormProject.Controller
         public static string HelpGetStatsField(string login, string field)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Не удалось получить поле");
+            GetDBFunctions(out dBFunctions, "Не удалось получить поле", login);
             if (dBFunctions == null) { return "Не удалось получить поле"; }
             return dBFunctions.GetStatsField(login, field);
         }
@@ -59,7 +63,7 @@ namespace FormProject.Controller
             string column, string value, out string problem)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Не удалось изменить поле", out problem);
+            GetDBFunctions(out dBFunctions, "Не удалось изменить поле", out problem, login);
             if (dBFunctions == null) { return false; }
             return dBFunctions.ChangeField(login, table, column, value);
         }
@@ -67,7 +71,7 @@ namespace FormProject.Controller
         public static bool HelpIsRegistered(string login, out string problem)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem, login);
             if (dBFunctions == null) { return false; }
             return dBFunctions.IsRegistered(login, out problem);
         }
@@ -75,7 +79,7 @@ namespace FormProject.Controller
         public static bool HelpRegister(string login, string password, out string problem)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem, login);
             if (dBFunctions == null) { return false; }
             return dBFunctions.Register(login, password);
         }
@@ -83,7 +87,7 @@ namespace FormProject.Controller
         public static bool HelpIsPassCorrect(string login, string password, out string problem)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem, login);
             if (dBFunctions == null) { return false; }
             return dBFunctions.IsPassCorrect(login, password, out problem);
         }
@@ -91,7 +95,7 @@ namespace FormProject.Controller
         public static bool HelpIsAdmin(string login, out string problem)
         {
             DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem);
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem, login);
             if (dBFunctions == null) { return false; }
             return dBFunctions.IsAdmin(login, out problem);
         }
