@@ -17,15 +17,52 @@ namespace FormProject
         DBConnection connectorToDb;
         DataTable table;
         MySqlDataAdapter cursor;
-        static string dbException = "ошибка в функции {0} при обращении к бд" +
+        const string dbException = "ошибка в функции {0} при обращении к бд" +
                     ", номер ошибки {1}";
-        static string nullException = "ошибка в функции {0}, " +
+        const string nullException = "ошибка в функции {0}, " +
                     "обращение к полю null, имя ошибки NullReferenceException";
+        const string accessException = "ошибка доступа к бд в функции {0}," +
+            " номер ошибки {1} (нверный логин/пароль)";
+        const string dbDoesntExistException = "ошибка в функции {0} при обращении к бд," +
+            " номер ошибки {1} (бд не найдена).";
+        const string tableDoesntExistException = "ошибка в функции {0} при обращении к бд," +
+            " номер ошибки {1} (таблица не найдена).";
+        const string columnDoesntExistException = "ошибка в функции {0} при обращении к бд," +
+        " номер ошибки {1} (колонка не найдена).";
+        const string cantConnectException = "ошибка в функции {0} при обращении к бд," +
+        " номер ошибки {1} (не вышло подключиться к бд).";
 
         public DBFunctions()
         {
             connectorToDb = new DBConnection();
             cursor = new MySqlDataAdapter();
+        }
+
+        string GetMysqlException(MySqlException ex)
+        {
+            string exception;
+            switch (ex.Number)
+            {
+                case 0:
+                    exception = cantConnectException;
+                    break;
+                case 1045:
+                    exception = accessException;
+                    break;
+                case 1050:
+                    exception = dbDoesntExistException;
+                    break;
+                case 1051:
+                    exception = tableDoesntExistException;
+                    break;
+                case 1055:
+                    exception = columnDoesntExistException;
+                    break;
+                default:
+                    exception = dbException;
+                    break;
+            };
+            return exception;
         }
 
         public bool IsPassCorrect(string login, string password, out string problem)
@@ -39,14 +76,15 @@ namespace FormProject
                     "where login = @uLogin limit 1;", connectorToDb.GetConnection());
                 registered.Parameters.AddWithValue("@uLogin", login);
                 object storedPass = registered.ExecuteScalar();
+                connectorToDb.CloseConnection();
                 return storedPass.ToString() == password;
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "IsPassCorrect", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsPassCorrect", ex.Number), login);
-                problem = "ошибка регистрации";
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IsPassCorrect", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "IsPassCorrect", ex.Number), login);
+                problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
@@ -74,10 +112,10 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
+                string exception = GetMysqlException(ex);
                 Console.WriteLine(dbException, "IsRegistered", ex.Number);
                 LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsRegistered", ex.Number), login);
-                problem = "ошибка регистрации";
-                connectorToDb.CloseConnection();
+                problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
@@ -99,9 +137,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "Regiser", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "Regiser", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "Regiser", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "Regiser", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -115,15 +153,18 @@ namespace FormProject
         {
             try
             {
+                connectorToDb.OpenConnection();
+                Console.WriteLine("delete");
                 MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @sID", connectorToDb.GetConnection());
                 delete.Parameters.AddWithValue("@sID", statsID);
                 delete.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "DeleteStats", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "DeleteStats", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "DeleteStats", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "DeleteStats", ex.Number), login);
             }
         }
 
@@ -131,15 +172,17 @@ namespace FormProject
         {
             try
             {
+                connectorToDb.OpenConnection();
                 MySqlCommand delete = new MySqlCommand("delete from stats where idStats = @pID", connectorToDb.GetConnection());
                 delete.Parameters.AddWithValue("@pID", profileID);
                 delete.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "DeleteProfile", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "DeleteProfile", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "DeleteProfile", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "DeleteProfile", ex.Number), login);
             }
         }
 
@@ -148,13 +191,14 @@ namespace FormProject
             int statsID = AddToStatsTable(login);
             int profileID = AddToProfilesTable(login);
             if (statsID == 0 | profileID == 0) 
-            { 
+            {
                 if (statsID != 0) { DeleteStats(statsID, login); }
                 if (profileID != 0) { DeleteProfile(profileID, login); }
                 return false; 
             }
             try
             {
+                connectorToDb.OpenConnection();
                 string insertLogPass = "insert into users (login, pass, idStats, idProfile) " +
                     "values (@uLogin, @uPass, @uStatsId, @uProfileId);";
                 MySqlCommand register = new MySqlCommand(insertLogPass, connectorToDb.GetConnection());
@@ -163,13 +207,14 @@ namespace FormProject
                 register.Parameters.AddWithValue("@uStatsId", statsID);
                 register.Parameters.AddWithValue("@uProfileId", profileID);
                 register.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
                 return true;
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "AddToUsersTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToUsersTable", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToUsersTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToUsersTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -183,18 +228,20 @@ namespace FormProject
         {
             try
             {
+                connectorToDb.OpenConnection();
                 MySqlCommand idProfileInsert = new MySqlCommand("insert into profiles (about) values ('unfilled');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from profiles;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
                 if (currentID == null) { return 0; }
+                connectorToDb.CloseConnection();
                 return Convert.ToInt32(currentID.ToString());
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "AddToProfilesTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToProfilesTable", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToProfilesTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToProfilesTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -208,18 +255,20 @@ namespace FormProject
         {
             try
             {
+                connectorToDb.OpenConnection();
                 MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, сoveredTopics) values ('', '', '');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from stats;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
                 if (currentID == null) { return 0; }
+                connectorToDb.CloseConnection();
                 return Convert.ToInt32(currentID.ToString());
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "AddToStatsTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "AddToStatsTable", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToStatsTable", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToStatsTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -234,6 +283,7 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
+                Console.WriteLine('j');
                 string getUserId = "select idProfile from users where login = @uLogin;";
                 MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
                 commandID.Parameters.AddWithValue("@uLogin", login);
@@ -244,9 +294,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "ProfileIDByLog", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "ProfileIDByLog", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "ProfileIDByLog", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "ProfileIDByLog", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -271,9 +321,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "StatsIDByLog", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "StatsIDByLog", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "StatsIDByLog", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "StatsIDByLog", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -300,9 +350,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "GetStatsField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "GetStatsField", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetStatsField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
                 return "программная ошибка";
             }
             catch (NullReferenceException)
@@ -330,9 +380,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "GetStatsField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "GetStatsField", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetStatsField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
                 return "программная ошибка";
             }
             catch (NullReferenceException)
@@ -362,9 +412,9 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "ChangeField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "ChangeField", ex.Number), login);
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "ChangeField", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "ChangeField", ex.Number), login);
             }
             catch (NullReferenceException)
             {
@@ -389,10 +439,10 @@ namespace FormProject
             }
             catch (MySqlException ex)
             {
-                Console.WriteLine(dbException, "IsAdmin", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsAdmin", ex.Number), login, "error");
-                problem = "ошибка регистрации";
-                connectorToDb.CloseConnection();
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IsAdmin", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "IsAdmin", ex.Number), login, "error");
+                problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {

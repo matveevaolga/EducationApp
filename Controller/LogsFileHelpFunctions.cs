@@ -13,7 +13,7 @@ namespace FormProject.Controller
         {
             string message;
             LogsFileFuntcions logsFileFuntcions = new LogsFileFuntcions("logsFile.txt");
-            if (access.ToString() != "error")
+            if (access == null)
             {
                 bool isAdmin = DBHelpFunctional.HelpIsAdmin(login, out string dbProblem);
                 if (dbProblem != "")
