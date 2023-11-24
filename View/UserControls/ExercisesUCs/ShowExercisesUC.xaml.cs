@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static FormProject.Controller.DBHelpFunctional;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -23,11 +25,18 @@ namespace FormProject.View.UserControls.ExercisesUCs
         public ShowExercisesUC(string problem)
         {
             InitializeComponent();
+            FillStack();
         }
 
         public ShowExercisesUC()
         {
             InitializeComponent();
+            FillStack();
+        }
+
+        private void FillStack()
+        {
+            Dictionary<string, string>[] exersicesData = DBHelpFunctional.HelpGetExersices(); 
         }
     }
 }

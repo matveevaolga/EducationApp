@@ -283,7 +283,6 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                Console.WriteLine('j');
                 string getUserId = "select idProfile from users where login = @uLogin;";
                 MySqlCommand commandID = new MySqlCommand(getUserId, connectorToDb.GetConnection());
                 commandID.Parameters.AddWithValue("@uLogin", login);

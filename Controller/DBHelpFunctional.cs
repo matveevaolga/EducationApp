@@ -99,5 +99,10 @@ namespace FormProject.Controller
             if (dBFunctions == null) { return false; }
             return dBFunctions.IsAdmin(login, out problem);
         }
+
+        public static Dictionary<string, string>[] HelpGetExersices()
+        {
+            return null;
+        }
     }
 }

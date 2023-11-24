@@ -82,6 +82,9 @@
     <Compile Include="View\UserControls\ExercisesUCs\CreateExerciseUC.xaml.cs">
       <DependentUpon>CreateExerciseUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\ExerciseDescription.xaml.cs">
+      <DependentUpon>ExerciseDescription.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml.cs">
       <DependentUpon>InsertTheMissing.xaml</DependentUpon>
     </Compile>
@@ -144,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\ExercisesUCs\CreateExerciseUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\ExerciseDescription.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
