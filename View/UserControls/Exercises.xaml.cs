@@ -23,9 +23,12 @@ namespace FormProject.View.UserControls
     /// </summary>
     public partial class Exercises : UserControl
     {
+        string login;
+
         public Exercises(string login)
         {
             InitializeComponent();
+            this.login = login;
             if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) { createExerciseButton.Visibility = Visibility.Visible; }
             exercisesFunctional.Content = new ShowExercisesUC(problem);
         }
@@ -33,7 +36,7 @@ namespace FormProject.View.UserControls
         private void switchExercisesFunctional(object sender, EventArgs e)
         {
             CreateExerciseUC createExerciseUC = new CreateExerciseUC();
-            ShowExercisesUC showExercisesUC = new ShowExercisesUC();
+            ShowExercisesUC showExercisesUC = new ShowExercisesUC(login);
             if (exercisesFunctional.Content.GetType() != createExerciseUC.GetType()) 
             { exercisesFunctional.Content = createExerciseUC; }
             else { exercisesFunctional.Content = showExercisesUC; }

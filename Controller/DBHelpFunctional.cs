@@ -100,9 +100,12 @@ namespace FormProject.Controller
             return dBFunctions.IsAdmin(login, out problem);
         }
 
-        public static Dictionary<string, string>[] HelpGetExersices()
+        public static List<Dictionary<string, string>> HelpGetExersices(out string problem, string login)
         {
-            return null;
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", out problem, login);
+            if (dBFunctions == null) { return null; }
+            return dBFunctions.GetExercises(out problem, login);
         }
     }
 }

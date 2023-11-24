@@ -1,6 +1,7 @@
 ﻿using FormProject.Controller;
 using Microsoft.Win32;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -450,6 +451,44 @@ namespace FormProject
                 problem = "программная ошибка";
             }
             return false;
+        }
+
+        public List<Dictionary<string, string>> GetExercises(out string problem, string login)
+        {
+            List<Dictionary<string, string>> exerciseData = new List<Dictionary<string, string>>();
+            try
+            {
+                connectorToDb.OpenConnection();
+                string commandText = $"select idExercise, theme, complexity, description, exp from exercises;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                MySqlDataReader reader = command.ExecuteReader();
+                Dictionary<string, string> newDict;
+                while (reader.Read())
+                {
+                    newDict = new Dictionary<string, string>();
+                    newDict["id"] = reader.GetValue(0).ToString();
+                    newDict["theme"] = reader.GetValue(1).ToString();
+                    newDict["complexity"] = reader.GetValue(2).ToString();
+                    newDict["description"] = reader.GetValue(3).ToString();
+                    newDict["exp"] = reader.GetValue(4).ToString();
+                    exerciseData.Add(newDict);
+                }
+                problem = "";
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetExercises", ex.Number);
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetExercises", ex.Number), login, "error");
+                problem = "ошибка авторизации";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IsAdmin");
+                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetExercises"), login, "error");
+                problem = "программная ошибка";
+            }
+            return exerciseData;
         }
     }
 }

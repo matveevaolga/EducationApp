@@ -20,9 +20,28 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class ExerciseDescription : UserControl
     {
-        public ExerciseDescription()
+        public ExerciseDescription(Dictionary<string, string> exerciseData)
         {
             InitializeComponent();
+            DataContext = new DescriptionInfo(exerciseData);
+        }
+
+        class DescriptionInfo
+        {
+            public string id { get; set; }
+            public string theme { get; set; }
+            public string complexity { get; set; }
+            public string description { get; set; }
+            public string exp { get; set; }
+
+            public DescriptionInfo(Dictionary<string, string> exerciseData)
+            {
+                id = "id: " + exerciseData["id"];
+                theme = "Тема: " + exerciseData["theme"];
+                complexity = "Сложность: " + exerciseData["complexity"];
+                description = "Описание:\n" + exerciseData["description"];
+                exp = "exp: " + exerciseData["exp"];
+            }
         }
     }
 }

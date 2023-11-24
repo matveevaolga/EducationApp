@@ -22,21 +22,31 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class ShowExercisesUC : UserControl
     {
-        public ShowExercisesUC(string problem)
+        string login;
+
+        public ShowExercisesUC(string problem, string login)
         {
             InitializeComponent();
+            this.login = login;
             FillStack();
         }
 
-        public ShowExercisesUC()
+        public ShowExercisesUC(string login)
         {
             InitializeComponent();
+            this.login = login;
             FillStack();
         }
 
         private void FillStack()
         {
-            Dictionary<string, string>[] exersicesData = DBHelpFunctional.HelpGetExersices(); 
+            List<Dictionary<string, string>> exersicesData = DBHelpFunctional.HelpGetExersices(out string problem, login);
+            if (exersicesData == null) { return; }
+            foreach (Dictionary<string, string> data in exersicesData)
+            {
+                ExerciseDescription exersice = new ExerciseDescription(data);
+                exercisesStack.Children.Add(exersice);
+            }
         }
     }
 }
