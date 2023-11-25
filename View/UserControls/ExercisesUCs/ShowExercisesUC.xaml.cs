@@ -30,7 +30,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
             InitializeComponent();
             this.login = login;
             StackPanel exercisesStack = FillStack();
-            showState.Content = exercisesStack;
+            ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Content = exercisesStack;
+            showState.Content = scrollViewer;
         }
 
         public ShowExercisesUC(string login)
@@ -38,7 +40,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
             InitializeComponent();
             this.login = login;
             StackPanel exercisesStack = FillStack();
-            showState.Content = exercisesStack;
+            ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Content = exercisesStack;
+            showState.Content = scrollViewer;
         }
 
         private StackPanel FillStack()
