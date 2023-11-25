@@ -23,30 +23,44 @@ namespace FormProject.View.UserControls.ExercisesUCs
     public partial class ShowExercisesUC : UserControl
     {
         string login;
+        public static Dictionary<string, string> exerciseData;
 
         public ShowExercisesUC(string problem, string login)
         {
             InitializeComponent();
             this.login = login;
-            FillStack();
+            StackPanel exercisesStack = FillStack();
+            showState.Content = exercisesStack;
         }
 
         public ShowExercisesUC(string login)
         {
             InitializeComponent();
             this.login = login;
-            FillStack();
+            StackPanel exercisesStack = FillStack();
+            showState.Content = exercisesStack;
         }
 
-        private void FillStack()
+        private StackPanel FillStack()
         {
-            List<Dictionary<string, string>> exersicesData = DBHelpFunctional.HelpGetExersices(out string problem, login);
-            if (exersicesData == null) { return; }
+            List<Dictionary<string, string>> exersicesData = 
+                DBHelpFunctional.HelpGetExersices(out string problem, login);
+            if (exersicesData == null) { return null; }
+            StackPanel exercisesStack = new StackPanel();
             foreach (Dictionary<string, string> data in exersicesData)
             {
                 ExerciseDescription exersice = new ExerciseDescription(data);
+                Button exerciseButton = (Button)exersice.toTheExercise;
+                exerciseButton.Click += ExerciseClick;
                 exercisesStack.Children.Add(exersice);
             }
+            return exercisesStack;
+        }
+
+        void ExerciseClick(object sender, RoutedEventArgs e)
+        {
+            TestExercise shownExercise = new TestExercise(exerciseData["id"]);
+            showState.Content = shownExercise;
         }
     }
 }

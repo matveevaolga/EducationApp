@@ -91,6 +91,9 @@
     <Compile Include="View\UserControls\ExercisesUCs\ShowExercisesUC.xaml.cs">
       <DependentUpon>ShowExercisesUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\TestExercise.xaml.cs">
+      <DependentUpon>TestExercise.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\WriteCode.xaml.cs">
       <DependentUpon>WriteCode.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\ExercisesUCs\ShowExercisesUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\TestExercise.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
