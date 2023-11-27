@@ -21,12 +21,12 @@ namespace FormProject.Controller
                     Console.WriteLine(dbProblem);
                     access = "error";
                     message = $"Пользователь: {login} | Права: {access} | Ошибка: {dbProblem}";
-                    logsFileFuntcions.WriteToLogsFile(message);
+                    logsFileFuntcions.HelpWriteToLogsFile(message);
                 }
                 else access = Convert.ToUInt32(isAdmin); 
             }
             message = $"Пользователь: {login} | Права: {access} | Ошибка: {problem}";
-            logsFileFuntcions.WriteToLogsFile(message);
+            logsFileFuntcions.HelpWriteToLogsFile(message);
         }
     }
 }

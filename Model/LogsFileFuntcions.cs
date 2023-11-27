@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace FormProject.Model
             this.path = path;
         }
 
-        public void WriteToLogsFile(string message)
+        public void HelpWriteToLogsFile(string message)
         {
             try
             {
@@ -30,6 +31,26 @@ namespace FormProject.Model
             catch (ArgumentException) { Console.WriteLine("Некорректный путь к logsFile"); }
             catch (Exception ex) { Console.WriteLine($"Ошибка {ex.GetType().Name} при обращении к logsFile"); }
             Console.WriteLine("Не удалось записать данные в logsFile");
+        }
+
+        public void WriteToLogsFile(string problem, string login, object access = null)
+        {
+            string message;
+            LogsFileFuntcions logsFileFuntcions = new LogsFileFuntcions("logsFile.txt");
+            if (access == null)
+            {
+                bool isAdmin = DBHelpFunctional.HelpIsAdmin(login, out string dbProblem);
+                if (dbProblem != "")
+                {
+                    Console.WriteLine(dbProblem);
+                    access = "error";
+                    message = $"Пользователь: {login} | Права: {access} | Ошибка: {dbProblem}";
+                    logsFileFuntcions.HelpWriteToLogsFile(message);
+                }
+                else access = Convert.ToUInt32(isAdmin);
+            }
+            message = $"Пользователь: {login} | Права: {access} | Ошибка: {problem}";
+            logsFileFuntcions.HelpWriteToLogsFile(message);
         }
     }
 }

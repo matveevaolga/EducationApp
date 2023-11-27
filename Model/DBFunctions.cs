@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using FormProject.Model;
 
 namespace FormProject
 {
@@ -32,11 +33,14 @@ namespace FormProject
         " номер ошибки {1} (колонка не найдена).";
         const string cantConnectException = "ошибка в функции {0} при обращении к бд," +
         " номер ошибки {1} (не вышло подключиться к бд).";
+        const string path = "logsFile.txt";
+        LogsFileFuntcions writer;
 
         public DBFunctions()
         {
             connectorToDb = new DBConnection();
             cursor = new MySqlDataAdapter();
+            writer = new LogsFileFuntcions(path);
         }
 
         string GetMysqlException(MySqlException ex)
@@ -84,13 +88,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "IsPassCorrect", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "IsPassCorrect", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "IsPassCorrect", ex.Number), login);
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "IsPassCorrect");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsPassCorrect"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "IsPassCorrect"), login);
                 problem = "программная ошибка";
             }
             return false;
@@ -115,13 +119,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(dbException, "IsRegistered", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(dbException, "IsRegistered", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(dbException, "IsRegistered", ex.Number), login);
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "IsRegistered");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsRegistered"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "IsRegistered"), login);
                 problem = "программная ошибка";
             }
             return true;
@@ -140,12 +144,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "Regiser", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "Regiser", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "Regiser", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "Regiser");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "Register"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "Register"), login);
             }
             return false;
         }
@@ -165,7 +169,7 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "DeleteStats", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "DeleteStats", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "DeleteStats", ex.Number), login);
             }
         }
 
@@ -183,7 +187,7 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "DeleteProfile", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "DeleteProfile", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "DeleteProfile", ex.Number), login);
             }
         }
 
@@ -215,12 +219,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "AddToUsersTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToUsersTable", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "AddToUsersTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "AddToUsersTable");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToUsersTable"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "AddToUsersTable"), login);
             }
             return false;
         }
@@ -242,12 +246,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "AddToProfilesTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToProfilesTable", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "AddToProfilesTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "AddToProfilesTable");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToProfilesTable"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "AddToProfilesTable"), login);
             }
             return 0;
         }
@@ -269,12 +273,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "AddToStatsTable", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "AddToStatsTable", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "AddToStatsTable", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "AddToStatsTable");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "AddToStatsTable"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "AddToStatsTable"), login);
             }
             return 0;
         }
@@ -296,12 +300,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "ProfileIDByLog", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "ProfileIDByLog", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "ProfileIDByLog", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "ProfileIDByLog");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "ProfileIDByLog"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "ProfileIDByLog"), login);
             }
             return 0;
         }
@@ -323,12 +327,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "StatsIDByLog", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "StatsIDByLog", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "StatsIDByLog", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "StatsIDByLog");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "StatsIDByLog"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "StatsIDByLog"), login);
             }
             return 0;
         }
@@ -352,13 +356,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "GetStatsField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
                 return "программная ошибка";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "GetStatsField");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -382,13 +386,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "GetStatsField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "GetStatsField", ex.Number), login);
                 return "программная ошибка";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "GetStatsField");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -414,12 +418,12 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "ChangeField", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "ChangeField", ex.Number), login);
+                writer.WriteToLogsFile(string.Format(exception, "ChangeField", ex.Number), login);
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "ChangeField");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "ChangeField"), login);
+                writer.WriteToLogsFile(string.Format(nullException, "ChangeField"), login);
             }
             return false;
         }
@@ -441,13 +445,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "IsAdmin", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "IsAdmin", ex.Number), login, "error");
+                writer.WriteToLogsFile(string.Format(exception, "IsAdmin", ex.Number), login, "error");
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "IsAdmin");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "IsAdmin"), login, "error");
+                writer.WriteToLogsFile(string.Format(nullException, "IsAdmin"), login, "error");
                 problem = "программная ошибка";
             }
             return false;
@@ -479,13 +483,13 @@ namespace FormProject
             {
                 string exception = GetMysqlException(ex);
                 Console.WriteLine(exception, "GetExercises", ex.Number);
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(exception, "GetExercises", ex.Number), login, "error");
+                writer.WriteToLogsFile(string.Format(exception, "GetExercises", ex.Number), login, "error");
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(nullException, "IsAdmin");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(nullException, "GetExercises"), login, "error");
+                writer.WriteToLogsFile(string.Format(nullException, "GetExercises"), login, "error");
                 problem = "программная ошибка";
             }
             return exerciseData;
