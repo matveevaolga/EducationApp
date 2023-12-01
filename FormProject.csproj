@@ -64,6 +64,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controller\DBHelpFunctional.cs" />
+    <Compile Include="Controller\LogsFileHelpFunctions.cs" />
+    <Compile Include="Model\LogsFileFuntcions.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
@@ -79,11 +82,17 @@
     <Compile Include="View\UserControls\ExercisesUCs\CreateExerciseUC.xaml.cs">
       <DependentUpon>CreateExerciseUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\ExerciseDescription.xaml.cs">
+      <DependentUpon>ExerciseDescription.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml.cs">
       <DependentUpon>InsertTheMissing.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\ShowExercisesUC.xaml.cs">
       <DependentUpon>ShowExercisesUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\ExercisesUCs\TestExercise.xaml.cs">
+      <DependentUpon>TestExercise.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\WriteCode.xaml.cs">
       <DependentUpon>WriteCode.xaml</DependentUpon>
@@ -144,11 +153,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\ExercisesUCs\ExerciseDescription.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\UserControls\ExercisesUCs\ShowExercisesUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\ExercisesUCs\TestExercise.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,6 +220,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

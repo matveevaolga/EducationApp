@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FormProject.Controller;
 
 namespace FormProject
 {
@@ -39,45 +40,30 @@ namespace FormProject
             return true;
         }
 
-        private void GetDBFunctions(out DBFunctions dBFunctions)
+        private void EndRegistration(string problem)
         {
-            dBFunctions = null;
-            try
-            {
-                dBFunctions = new DBFunctions();
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine($"Ошибка при подключении к бд в ф-ции GetDBFunctions, номер ошибки {ex.Number}");
-                message.Content = "программная ошибка";
-                login.Text = "";
-                password.Password = "";
-            }
+            if (problem != "") message.Content = problem;  
+            login.Text = "";
+            password.Password = "";
         }
 
         private void SendForm(object sender, EventArgs e)
         {
-            DBFunctions dBFunctions;
-            GetDBFunctions(out dBFunctions);
-            if (dBFunctions == null) { return; }
             login.Text = login.Text.Trim();
             password.Password = password.Password.Trim();
             string problem;
-            bool isRegistered = dBFunctions.IsRegistered(login.Text, out problem);
+            bool isRegistered = DBHelpFunctional.HelpIsRegistered(login.Text, out problem);
             if (problem == "" && LogAndPassMessages(isRegistered))
             {
-                if (dBFunctions.Register(login.Text, password.Password))
+                if (DBHelpFunctional.HelpRegister(login.Text, password.Password, out problem))
                 {
                     AuthorizatoinWindow authWindow = new AuthorizatoinWindow("Вы успешно зарегестрировались");
                     authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     authWindow.Show();
                     this.Close();
                 }
-                else { message.Content = "При регистрации произошла ошибка. Повторите попытку позже."; }
             }
-            if (problem != "") { message.Content =  problem; }
-            login.Text = "";
-            password.Password = "";
+            EndRegistration(problem);
         }
 
         private void GoBack(object sender, EventArgs e)
@@ -87,6 +73,5 @@ namespace FormProject
             authWindow.Show();
             this.Close();
         }
-
     }
 }

@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="FormProject.View.UserControls.ExercisesUCs.ExerciseDescription"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormProject.View.UserControls.ExercisesUCs"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="0, 20, 0, 0" Background="#3c3e54">
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Label Content="{Binding id}" Background="#252634" Style="{StaticResource LabelStyle}"
+                   HorizontalAlignment="Stretch" FontSize="25"/>
+            <Label Margin="0,10,0,0" Background="#252634" Content="{Binding theme}"
+                   Style="{StaticResource LabelStyle}" HorizontalAlignment="Stretch" FontSize="25"/>
+            <Label Margin="0,10,0,0" Background="#252634" Content="{Binding complexity}"
+                   Style="{StaticResource LabelStyle}" HorizontalAlignment="Stretch" FontSize="25"/>
+            <Label Margin="0,10,0,0" Background="#252634" Content="{Binding description}"
+                   Style="{StaticResource LabelStyle}" HorizontalAlignment="Stretch" FontSize="25"/>
+            <Label Margin="0,10,0,0" Background="#252634" Content="{Binding exp}"
+                   Style="{StaticResource LabelStyle}" HorizontalAlignment="Stretch" FontSize="25"/>
+            <Button x:Name="toTheExercise" Content="К упражнению" Style="{StaticResource ButtonStyle}" FontSize="25"
+                    HorizontalAlignment="Left" Click="GoToTheExercise"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

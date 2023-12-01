@@ -13,25 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FormProject.View.UserControls
+namespace FormProject.View.UserControls.ExercisesUCs
 {
     /// <summary>
-    /// Логика взаимодействия для SettingsUC.xaml
+    /// Логика взаимодействия для TestExercise.xaml
     /// </summary>
-    public partial class SettingsUC : UserControl
+    public partial class TestExercise : UserControl
     {
-        public SettingsUC(string login)
+        public TestExercise()
         {
             InitializeComponent();
-            DataContext = new SettingsInfo(login);
         }
-    }
 
-    class SettingsInfo
-    {
-        public SettingsInfo(string login)
+        public TestExercise(string exerciseID)
         {
-
+            InitializeComponent();
+            exerciseLabel.Content = "id упражнения: " + exerciseID;
         }
     }
 }
