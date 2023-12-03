@@ -29,17 +29,21 @@ namespace FormProject.View.UserControls
         {
             InitializeComponent();
             this.login = login;
-            if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) { createExerciseButton.Visibility = Visibility.Visible; }
+            if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) 
+            { createExerciseButton.Visibility = Visibility.Visible; }
             exercisesFunctional.Content = new ShowExercisesUC(problem);
         }
 
-        private void switchExercisesFunctional(object sender, EventArgs e)
+        private void showExercises(object sender, EventArgs e)
+        {
+            ShowExercisesUC showExercisesUC = new ShowExercisesUC(login);
+            exercisesFunctional.Content = showExercisesUC;
+        }
+
+        private void createExercise(object sender, EventArgs e)
         {
             CreateExerciseUC createExerciseUC = new CreateExerciseUC();
-            ShowExercisesUC showExercisesUC = new ShowExercisesUC(login);
-            if (exercisesFunctional.Content.GetType() != createExerciseUC.GetType()) 
-            { exercisesFunctional.Content = createExerciseUC; }
-            else { exercisesFunctional.Content = showExercisesUC; }
+            exercisesFunctional.Content = createExerciseUC;
         }
     }
 }

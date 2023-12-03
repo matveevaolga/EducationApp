@@ -62,6 +62,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             Button toTheExercise = (Button)sender;
             StackPanel exercisesStack = (StackPanel)toTheExercise.Parent;
+            ///
+            Button res = (Button)exercisesStack.FindName(toTheExercise.Name);
+            Console.WriteLine(res == null);
+            ///
             Dictionary<string, string> exerciseData = new Dictionary<string, string>();
             foreach (var child in exercisesStack.Children)
             {
@@ -138,6 +142,14 @@ namespace FormProject.View.UserControls.ExercisesUCs
             toTheExercise.HorizontalAlignment = HorizontalAlignment.Stretch;
             toTheExercise.HorizontalContentAlignment = HorizontalAlignment.Left;
 
+            Label answer = new Label();
+            answer.Name = $"answery{exerciseNum}";
+            answer.Content = "Ответ: " + exerciseData["answer"];
+            answer.Style = Application.Current.FindResource("LabelStyle") as Style;
+            answer.HorizontalAlignment = HorizontalAlignment.Stretch;
+            answer.Background = (Brush)bc.ConvertFrom("#FF535572");
+            answer.Visibility = Visibility.Collapsed;
+
             StackPanel stackPanel = new StackPanel();
             stackPanel.Name = $"exercisesStacky{exerciseNum}";
             stackPanel.Children.Add(id);
@@ -146,6 +158,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
             stackPanel.Children.Add(description);
             stackPanel.Children.Add(exp);
             stackPanel.Children.Add(toTheExercise);
+            stackPanel.Children.Add(answer);
             return stackPanel;
         }
     }
