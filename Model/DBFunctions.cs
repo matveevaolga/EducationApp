@@ -522,16 +522,59 @@ namespace FormProject
             }
         }
 
-        //public bool IsSolved(string login)
-        //{
-        //    connectorToDb.OpenConnection();
-        //    string commandText = $"select idExercise, theme, complexity, description, exp, answer from exercises;";
-        //    MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
-        //}
+        public bool IsSolved(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string[] solved = command.ExecuteScalar().ToString().Split();
+                connectorToDb.CloseConnection();
+                return solved.Contains(id.ToString());
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IsSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "IsSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IsSolved");
+                writer.WriteToLogsFile(string.Format(nullException, "IsSolved"), login, "error");
+            }
+            return false;
+        }
 
-        //public void AddToSolved()
-        //{
-
-        //}
+        public void AddToSolved(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string solved = command.ExecuteScalar().ToString();
+                solved += $" {id}";
+                connectorToDb.OpenConnection();
+                commandText = $"update stats set solved = {solved} where idStats = {idStats};";
+                command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "AddToSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "AddToSolved");
+                writer.WriteToLogsFile(string.Format(nullException, "AddToSolved"), login, "error");
+            }
+        }
     }
 }

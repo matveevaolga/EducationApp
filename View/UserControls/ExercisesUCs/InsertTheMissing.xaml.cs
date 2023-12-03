@@ -23,6 +23,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
     {
         Dictionary<string, string> exerciseData;
         string login;
+        bool isSolved;
 
         public InsertTheMissing(Dictionary<string, string> exerciseData, string login)
         {
@@ -31,6 +32,12 @@ namespace FormProject.View.UserControls.ExercisesUCs
             this.login = login;
             idDesc.Content += exerciseData["id"];
             expDesc.Content += exerciseData["exp"];
+            if (DBHelpFunctional.HelpIsSolved(login, int.Parse(exerciseData["id"])))
+            {
+                expDesc.Content = "Задача уже была решена";
+                isSolved = true;
+            }   
+            else isSolved = false;
             ShowExerciseDesc();
         }
         
@@ -75,11 +82,20 @@ namespace FormProject.View.UserControls.ExercisesUCs
             }
             if (input == exerciseData["Ответ"])
             {
-                DBFunctions dBFunctions = new DBFunctions();
-                DBHelpFunctional.HelpIncreaseEXP(login, int.Parse(exerciseData["exp"]));
-                result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
-                result.Visibility = Visibility.Visible;
-                endButton.IsEnabled = false;
+                if (!isSolved)
+                {
+                    DBHelpFunctional.HelpIncreaseEXP(login, int.Parse(exerciseData["exp"]));
+                    DBHelpFunctional.HelpAddToSolved(login, int.Parse(exerciseData["id"]));
+                    result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
+                    result.Visibility = Visibility.Visible;
+                    endButton.IsEnabled = false;
+                }
+                else
+                {
+                    result.Content = "Верно!";
+                    result.Visibility = Visibility.Visible;
+                    endButton.IsEnabled = false;
+                }
             }
             else
             {
