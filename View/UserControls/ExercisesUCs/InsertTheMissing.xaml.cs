@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,6 +75,8 @@ namespace FormProject.View.UserControls.ExercisesUCs
             }
             if (input == exerciseData["Ответ"])
             {
+                DBFunctions dBFunctions = new DBFunctions();
+                DBHelpFunctional.HelpIncreaseEXP(login, int.Parse(exerciseData["exp"]));
                 result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
                 result.Visibility = Visibility.Visible;
                 endButton.IsEnabled = false;

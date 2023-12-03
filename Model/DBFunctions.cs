@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using FormProject.Model;
+using System.Runtime.InteropServices;
 
 namespace FormProject
 {
@@ -495,5 +496,42 @@ namespace FormProject
             }
             return exerciseData;
         }
+
+        public void IncreaseEXP(string login, int exp)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"update stats set exp = exp + {exp} where idStats = {idStats};" +
+                    $"update stats set solvedAmount = solvedAmount + 1 where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IncreaseEXP", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "IncreaseEXP", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IncreaseEXP");
+                writer.WriteToLogsFile(string.Format(nullException, "IncreaseEXP"), login, "error");
+            }
+        }
+
+        //public bool IsSolved(string login)
+        //{
+        //    connectorToDb.OpenConnection();
+        //    string commandText = $"select idExercise, theme, complexity, description, exp, answer from exercises;";
+        //    MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+        //}
+
+        //public void AddToSolved()
+        //{
+
+        //}
     }
 }

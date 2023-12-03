@@ -24,16 +24,6 @@ namespace FormProject.View.UserControls.ExercisesUCs
     {
         string login;
 
-        public ShowExercisesUC(string problem, string login)
-        {
-            InitializeComponent();
-            this.login = login;
-            StackPanel exercisesStack = FillStack();
-            ScrollViewer scrollViewer = new ScrollViewer();
-            scrollViewer.Content = exercisesStack;
-            showState.Content = scrollViewer;
-        }
-
         public ShowExercisesUC(string login)
         {
             InitializeComponent();
