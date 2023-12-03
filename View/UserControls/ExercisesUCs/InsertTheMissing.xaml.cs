@@ -47,18 +47,42 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 exDescStack.Children.Add(l);
                 if (descPiece != description[description.GetLength(0) - 1])
                 {
-                    Grid grid = new Grid();
-                    grid.HorizontalAlignment = HorizontalAlignment.Stretch;
                     TextBox textBox = new TextBox();
                     textBox.Style = Application.Current.FindResource("TextBoxStyle") as Style;
+                    textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
                     textBox.TextWrapping = TextWrapping.Wrap;
-                    grid.Children.Add(textBox);
-                    exDescStack.Children.Add(grid);
+                    textBox.MinWidth = 50;
+                    exDescStack.Children.Add(textBox);
                 }
             }
             ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
             scrollViewer.Content = exDescStack;
+            scrollViewer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             exerciseDesc.Content = scrollViewer;
+        }
+
+        private void CheckIfCorrect(object sender, EventArgs e)
+        {
+            ScrollViewer scrollViewer = exerciseDesc.Content as ScrollViewer;
+            WrapPanel exDescStack = scrollViewer.Content as WrapPanel;
+            string input = "";
+            foreach (var element in exDescStack.Children)
+            {
+                if (element is TextBox textBox) input += textBox.Text;
+                if (element is TextBlock textBlock) input += textBlock.Text;
+            }
+            if (input == exerciseData["Ответ"])
+            {
+                result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
+                result.Visibility = Visibility.Visible;
+                endButton.IsEnabled = false;
+            }
+            else
+            {
+                result.Content = "Неверно...";
+                result.Visibility = Visibility.Visible;
+            }
         }
     }
 }
