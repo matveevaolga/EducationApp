@@ -100,7 +100,7 @@ namespace FormProject
             {
                 table = new DataTable();
                 connectorToDb.OpenConnection();
-                MySqlCommand registered = new MySqlCommand("select * from uers " +
+                MySqlCommand registered = new MySqlCommand("select * from users " +
                     "where login = @uLogin;", connectorToDb.GetConnection());
                 registered.Parameters.AddWithValue("@uLogin", login);
                 cursor.SelectCommand = registered;

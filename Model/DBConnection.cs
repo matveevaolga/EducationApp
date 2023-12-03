@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Resources;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Windows;
 
 namespace FormProject
 {
@@ -13,7 +17,9 @@ namespace FormProject
 
         public DBConnection()
         {
-            connection = new MySqlConnection($"server=localhost;port=3306;username=root;password=t-tAq$C45qw45;database=educationappdb");
+            ResourceManager rm = new ResourceManager("FormProject.Properties.Resources",
+            typeof(DBConnection).Assembly);
+            connection = new MySqlConnection(rm.GetString("connectData"));
         }
 
         public void OpenConnection()

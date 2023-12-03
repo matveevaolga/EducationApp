@@ -88,6 +88,15 @@ namespace FormProject.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на server=localhost;port=3306;username=root;password=t-tAq$C45qw45;database=educationappdb.
+        /// </summary>
+        internal static string connectData {
+            get {
+                return ResourceManager.GetString("connectData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ошибка в функции {0} при обращении к бд, номер ошибки {1} (бд не найдена).
         /// </summary>
         internal static string dbDoesntExistException {
