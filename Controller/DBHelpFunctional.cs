@@ -107,5 +107,29 @@ namespace FormProject.Controller
             if (dBFunctions == null) { return null; }
             return dBFunctions.GetExercises(out problem, login);
         }
+
+        public static void HelpIncreaseEXP(string login, int exp)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return; }
+            dBFunctions.IncreaseEXP(login, exp);
+        }
+
+        public static bool HelpIsSolved(string login, int id)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return false; }
+            return dBFunctions.IsSolved(login, id);
+        }
+
+        public static void HelpAddToSolved(string login, int id)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return; }
+            dBFunctions.AddToSolved(login, id);
+        }
     }
 }

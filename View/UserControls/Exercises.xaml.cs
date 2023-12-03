@@ -31,7 +31,7 @@ namespace FormProject.View.UserControls
             this.login = login;
             if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) 
             { createExerciseButton.Visibility = Visibility.Visible; }
-            exercisesFunctional.Content = new ShowExercisesUC(problem);
+            exercisesFunctional.Content = new ShowExercisesUC(login);
         }
 
         private void showExercises(object sender, EventArgs e)

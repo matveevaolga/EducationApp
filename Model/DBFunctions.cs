@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using FormProject.Model;
+using System.Runtime.InteropServices;
 
 namespace FormProject
 {
@@ -494,6 +495,86 @@ namespace FormProject
                 problem = "программная ошибка";
             }
             return exerciseData;
+        }
+
+        public void IncreaseEXP(string login, int exp)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"update stats set exp = exp + {exp} where idStats = {idStats};" +
+                    $"update stats set solvedAmount = solvedAmount + 1 where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IncreaseEXP", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "IncreaseEXP", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IncreaseEXP");
+                writer.WriteToLogsFile(string.Format(nullException, "IncreaseEXP"), login, "error");
+            }
+        }
+
+        public bool IsSolved(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string[] solved = command.ExecuteScalar().ToString().Split();
+                connectorToDb.CloseConnection();
+                return solved.Contains(id.ToString());
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "IsSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "IsSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "IsSolved");
+                writer.WriteToLogsFile(string.Format(nullException, "IsSolved"), login, "error");
+            }
+            return false;
+        }
+
+        public void AddToSolved(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string solved = command.ExecuteScalar().ToString();
+                solved += $" {id}";
+                connectorToDb.OpenConnection();
+                commandText = $"update stats set solved = {solved} where idStats = {idStats};";
+                command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "AddToSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(nullException, "AddToSolved");
+                writer.WriteToLogsFile(string.Format(nullException, "AddToSolved"), login, "error");
+            }
         }
     }
 }
