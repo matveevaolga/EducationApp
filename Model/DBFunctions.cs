@@ -494,5 +494,10 @@ namespace FormProject
             }
             return exerciseData;
         }
+
+        //public string GetExerciseAnswer(int exerciseId)
+        //{
+
+        //}
     }
 }

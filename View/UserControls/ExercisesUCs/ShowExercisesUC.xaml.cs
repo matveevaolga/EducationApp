@@ -62,13 +62,33 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             Button toTheExercise = (Button)sender;
             StackPanel exercisesStack = (StackPanel)toTheExercise.Parent;
-            string exerciseNumber = exercisesStack.Name.Split('y')[1];
-            Console.WriteLine(exercisesStack.Name == $"exercisesStacky{ exerciseNumber}");
-            Console.WriteLine(FindName($"exercisesStacky{exerciseNumber}") as StackPanel == null);
-            //Console.WriteLine(id.GetType());
-            //string exersiceId = id.Content.ToString().Split('y')[1];
-            TestExercise exercise = new TestExercise(exercisesStack.Name);
-            showState.Content = exercise;
+            Dictionary<string, string> exerciseData = new Dictionary<string, string>();
+            foreach (var child in exercisesStack.Children)
+            {
+                if (child is Label)
+                {
+                    Label field = (Label)child;
+                    Console.WriteLine(field.Content);
+                    string[] data = field.Content.ToString().Split(new string[] {": "},
+                        StringSplitOptions.None);
+                    if (data.GetLength(0) == 1) exerciseData.Add(data[0], " ");
+                    else
+                    {
+                        string[] fieldInfo = data.Skip(1).Take(data.GetLength(0)).ToArray();
+                        exerciseData.Add(data[0], String.Join(": ", fieldInfo));
+                    }
+
+                }
+            }
+            switch (exerciseData["Тема"])
+            {
+                case "Вставить пропущенное":
+                    showState.Content = new InsertTheMissing(exerciseData, login);
+                    break;
+                default:
+                    Console.WriteLine("Ошибка в названии типа задачи");
+                    break;
+            }
         }
 
         public StackPanel Description(Dictionary<string, string> exerciseData, int exerciseNum)
@@ -80,35 +100,35 @@ namespace FormProject.View.UserControls.ExercisesUCs
             id.Content = "id: " + exerciseData["id"];
             id.Style = Application.Current.FindResource("LabelStyle") as Style;
             id.HorizontalAlignment = HorizontalAlignment.Stretch;
-            id.Background = (Brush)bc.ConvertFrom("#252634");
+            id.Background = (Brush)bc.ConvertFrom("#FF535572");
 
             Label theme = new Label();
             theme.Name = $"themey{exerciseNum}";
             theme.Content = "Тема: " + exerciseData["theme"];
             theme.Style = Application.Current.FindResource("LabelStyle") as Style;
             theme.HorizontalAlignment = HorizontalAlignment.Stretch;
-            theme.Background = (Brush)bc.ConvertFrom("#252634");
+            theme.Background = (Brush)bc.ConvertFrom("#FF535572");
 
             Label complexity = new Label();
             complexity.Name = $"complexityy{exerciseNum}";
             complexity.Content = "Сложность: " + exerciseData["complexity"];
             complexity.Style = Application.Current.FindResource("LabelStyle") as Style;
             complexity.HorizontalAlignment = HorizontalAlignment.Stretch;
-            complexity.Background = (Brush)bc.ConvertFrom("#252634");
+            complexity.Background = (Brush)bc.ConvertFrom("#FF535572");
 
             Label description = new Label();
             description.Name = $"descriptiony{exerciseNum}";
-            description.Content = "Описание:\n" + exerciseData["description"];
+            description.Content = "Описание: " + exerciseData["description"];
             description.Style = Application.Current.FindResource("LabelStyle") as Style;
             description.HorizontalAlignment = HorizontalAlignment.Stretch;
-            description.Background = (Brush)bc.ConvertFrom("#252634");
+            description.Background = (Brush)bc.ConvertFrom("#FF535572");
 
             Label exp = new Label();
             exp.Name = $"expy{exerciseNum}";
             exp.Content = "exp: " + exerciseData["exp"];
             exp.Style = Application.Current.FindResource("LabelStyle") as Style;
             exp.HorizontalAlignment = HorizontalAlignment.Stretch;
-            exp.Background = (Brush)bc.ConvertFrom("#252634");
+            exp.Background = (Brush)bc.ConvertFrom("#FF535572");
 
             Button toTheExercise = new Button();
             toTheExercise.Name = $"toTheExercisey{exerciseNum}";
