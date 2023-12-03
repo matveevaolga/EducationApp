@@ -29,28 +29,24 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
             Console.WriteLine(comboBoxItem.Content);
-            switchExerciseUC.Content = new WriteCode();
         }
 
         private void YourAnswerChosen(object sender, RoutedEventArgs e)
         {
             ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
             Console.WriteLine(comboBoxItem.Content);
-            switchExerciseUC.Content = new YourAnswer();
         }
 
         private void ChooseCorrectChosen(object sender, RoutedEventArgs e)
         {
             ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
             Console.WriteLine(comboBoxItem.Content);
-            switchExerciseUC.Content = new ChooseCorrect();
         }
 
         private void InsertTheMissingChosen(object sender, RoutedEventArgs e)
         {
             ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
             Console.WriteLine(comboBoxItem.Content);
-            switchExerciseUC.Content = new InsertTheMissing();
         }
 
         private void GetChosenTheme(object sender, SelectionChangedEventArgs e)

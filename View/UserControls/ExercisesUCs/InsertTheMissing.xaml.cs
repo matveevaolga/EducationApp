@@ -20,9 +20,45 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class InsertTheMissing : UserControl
     {
-        public InsertTheMissing()
+        Dictionary<string, string> exerciseData;
+        string login;
+
+        public InsertTheMissing(Dictionary<string, string> exerciseData, string login)
         {
             InitializeComponent();
+            this.exerciseData = exerciseData;
+            this.login = login;
+            idDesc.Content += exerciseData["id"];
+            expDesc.Content += exerciseData["exp"];
+            ShowExerciseDesc();
+        }
+        
+        public void ShowExerciseDesc()
+        {
+            WrapPanel exDescStack = new WrapPanel();
+            exDescStack.HorizontalAlignment = HorizontalAlignment.Stretch;
+            exDescStack.Orientation = Orientation.Horizontal;
+            String[] description = exerciseData["Описание"].Split('#');
+            foreach (string descPiece in description)
+            {
+                TextBlock l = new TextBlock();
+                l.Text = descPiece;
+                l.Style = Application.Current.FindResource("TextBlockStyle") as Style;
+                exDescStack.Children.Add(l);
+                if (descPiece != description[description.GetLength(0) - 1])
+                {
+                    Grid grid = new Grid();
+                    grid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                    TextBox textBox = new TextBox();
+                    textBox.Style = Application.Current.FindResource("TextBoxStyle") as Style;
+                    textBox.TextWrapping = TextWrapping.Wrap;
+                    grid.Children.Add(textBox);
+                    exDescStack.Children.Add(grid);
+                }
+            }
+            ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Content = exDescStack;
+            exerciseDesc.Content = scrollViewer;
         }
     }
 }
