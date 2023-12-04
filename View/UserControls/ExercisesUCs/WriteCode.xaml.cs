@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,28 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class WriteCode : UserControl
     {
-        public WriteCode()
+        Dictionary<string, string> exerciseData;
+        string login;
+        bool isSolved;
+
+        public WriteCode(Dictionary<string, string> exerciseData, string login)
         {
             InitializeComponent();
+            this.exerciseData = exerciseData;
+            this.login = login;
+            idDesc.Content += exerciseData["id"];
+            expDesc.Content += exerciseData["exp"];
+            if (DBHelpFunctional.HelpIsSolved(login, int.Parse(exerciseData["id"])))
+            {
+                expDesc.Content = "Задача уже была решена";
+                isSolved = true;
+            }
+            else isSolved = false;
+            ShowExerciseDesc();
         }
+
+        public void ShowExerciseDesc() { }
+
+        private void CheckIfCorrect(object sender, EventArgs e) { }
     }
 }

@@ -85,6 +85,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 case "Выбрать правильные варианты":
                     showState.Content = new ChooseCorrect(exerciseData, login);
                     break;
+                case "Написать код":
+                    showState.Content = new WriteCode(exerciseData, login);
+                    break;
                 default:
                     Console.WriteLine("Ошибка в названии типа задачи");
                     break;
