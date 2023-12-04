@@ -551,7 +551,7 @@ namespace FormProject
                 string solved = command.ExecuteScalar().ToString();
                 solved += $" {id}";
                 connectorToDb.OpenConnection();
-                commandText = $"update stats set solved = {solved} where idStats = {idStats};";
+                commandText = $"update stats set solved = '{solved}' where idStats = {idStats};";
                 command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 command.ExecuteNonQuery();
                 connectorToDb.CloseConnection();

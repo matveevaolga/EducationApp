@@ -79,6 +79,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 case "Вставить пропущенное":
                     showState.Content = new InsertTheMissing(exerciseData, login);
                     break;
+                case "Вписать свой ответ":
+                    showState.Content = new YourAnswer(exerciseData, login);
+                    break;
                 default:
                     Console.WriteLine("Ошибка в названии типа задачи");
                     break;
