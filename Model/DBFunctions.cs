@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using FormProject.Model;
 using System.Runtime.InteropServices;
+using System.Resources;
+using System.Reflection;
+using System.ComponentModel;
 
 namespace FormProject
 {
@@ -20,28 +23,17 @@ namespace FormProject
         DBConnection connectorToDb;
         DataTable table;
         MySqlDataAdapter cursor;
-        const string dbException = "ошибка в функции {0} при обращении к бд" +
-                    ", номер ошибки {1}";
-        const string nullException = "ошибка в функции {0}, " +
-                    "обращение к полю null, имя ошибки NullReferenceException";
-        const string accessException = "ошибка доступа к бд в функции {0}," +
-            " номер ошибки {1} (нверный логин/пароль)";
-        const string dbDoesntExistException = "ошибка в функции {0} при обращении к бд," +
-            " номер ошибки {1} (бд не найдена).";
-        const string tableDoesntExistException = "ошибка в функции {0} при обращении к бд," +
-            " номер ошибки {1} (таблица не найдена).";
-        const string columnDoesntExistException = "ошибка в функции {0} при обращении к бд," +
-        " номер ошибки {1} (колонка не найдена).";
-        const string cantConnectException = "ошибка в функции {0} при обращении к бд," +
-        " номер ошибки {1} (не вышло подключиться к бд).";
         const string path = "logsFile.txt";
         LogsFileFuntcions writer;
+        ResourceManager rm;
 
         public DBFunctions()
         {
             connectorToDb = new DBConnection();
             cursor = new MySqlDataAdapter();
             writer = new LogsFileFuntcions(path);
+            rm = new ResourceManager("FormProject.Properties.Resources",
+                typeof(DBFunctions).Assembly); 
         }
 
         string GetMysqlException(MySqlException ex)
@@ -50,22 +42,22 @@ namespace FormProject
             switch (ex.Number)
             {
                 case 0:
-                    exception = cantConnectException;
+                    exception = rm.GetString("cantConnectException");
                     break;
                 case 1045:
-                    exception = accessException;
+                    exception = rm.GetString("accessException");
                     break;
                 case 1050:
-                    exception = dbDoesntExistException;
+                    exception = rm.GetString("dbDoesntExistException");
                     break;
                 case 1051:
-                    exception = tableDoesntExistException;
+                    exception = rm.GetString("tableDoesntExistException");
                     break;
                 case 1055:
-                    exception = columnDoesntExistException;
+                    exception = rm.GetString("columnDoesntExistException");
                     break;
                 default:
-                    exception = dbException;
+                    exception = rm.GetString("dbException");
                     break;
             };
             return exception;
@@ -94,8 +86,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IsPassCorrect");
-                writer.WriteToLogsFile(string.Format(nullException, "IsPassCorrect"), login);
+                Console.WriteLine(rm.GetString("nullException"), "IsPassCorrect");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "IsPassCorrect"), login);
                 problem = "программная ошибка";
             }
             return false;
@@ -119,14 +111,14 @@ namespace FormProject
             catch (MySqlException ex)
             {
                 string exception = GetMysqlException(ex);
-                Console.WriteLine(dbException, "IsRegistered", ex.Number);
-                writer.WriteToLogsFile(string.Format(dbException, "IsRegistered", ex.Number), login);
+                Console.WriteLine(rm.GetString("dbException"), "IsRegistered", ex.Number);
+                writer.WriteToLogsFile(string.Format(rm.GetString("dbException"), "IsRegistered", ex.Number), login);
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IsRegistered");
-                writer.WriteToLogsFile(string.Format(nullException, "IsRegistered"), login);
+                Console.WriteLine(rm.GetString("nullException"), "IsRegistered");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "IsRegistered"), login);
                 problem = "программная ошибка";
             }
             return true;
@@ -149,8 +141,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "Regiser");
-                writer.WriteToLogsFile(string.Format(nullException, "Register"), login);
+                Console.WriteLine(rm.GetString("nullException"), "Regiser");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "Register"), login);
             }
             return false;
         }
@@ -224,8 +216,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "AddToUsersTable");
-                writer.WriteToLogsFile(string.Format(nullException, "AddToUsersTable"), login);
+                Console.WriteLine(rm.GetString("nullException"), "AddToUsersTable");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToUsersTable"), login);
             }
             return false;
         }
@@ -251,8 +243,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "AddToProfilesTable");
-                writer.WriteToLogsFile(string.Format(nullException, "AddToProfilesTable"), login);
+                Console.WriteLine(rm.GetString("nullException"), "AddToProfilesTable");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToProfilesTable"), login);
             }
             return 0;
         }
@@ -278,8 +270,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "AddToStatsTable");
-                writer.WriteToLogsFile(string.Format(nullException, "AddToStatsTable"), login);
+                Console.WriteLine(rm.GetString("nullException"), "AddToStatsTable");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToStatsTable"), login);
             }
             return 0;
         }
@@ -305,8 +297,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "ProfileIDByLog");
-                writer.WriteToLogsFile(string.Format(nullException, "ProfileIDByLog"), login);
+                Console.WriteLine(rm.GetString("nullException"), "ProfileIDByLog");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "ProfileIDByLog"), login);
             }
             return 0;
         }
@@ -332,8 +324,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "StatsIDByLog");
-                writer.WriteToLogsFile(string.Format(nullException, "StatsIDByLog"), login);
+                Console.WriteLine(rm.GetString("nullException"), "StatsIDByLog");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "StatsIDByLog"), login);
             }
             return 0;
         }
@@ -362,8 +354,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "GetStatsField");
-                writer.WriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
+                Console.WriteLine(rm.GetString("nullException"), "GetStatsField");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -392,8 +384,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "GetStatsField");
-                writer.WriteToLogsFile(string.Format(nullException, "GetStatsField"), login);
+                Console.WriteLine(rm.GetString("nullException"), "GetStatsField");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetStatsField"), login);
                 return "ошибка, не удалось получить поле";
             }
         }
@@ -423,8 +415,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "ChangeField");
-                writer.WriteToLogsFile(string.Format(nullException, "ChangeField"), login);
+                Console.WriteLine(rm.GetString("nullException"), "ChangeField");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "ChangeField"), login);
             }
             return false;
         }
@@ -451,8 +443,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IsAdmin");
-                writer.WriteToLogsFile(string.Format(nullException, "IsAdmin"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "IsAdmin");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "IsAdmin"), login, "error");
                 problem = "программная ошибка";
             }
             return false;
@@ -464,7 +456,7 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                string commandText = $"select idExercise, theme, complexity, description, exp, answer from exercises;";
+                string commandText = $"select idExercise, theme, complexity, description, exp, answer, additionalContent from exercises;";
                 MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 MySqlDataReader reader = command.ExecuteReader();
                 Dictionary<string, string> newDict;
@@ -477,6 +469,7 @@ namespace FormProject
                     newDict["description"] = reader.GetValue(3).ToString();
                     newDict["exp"] = reader.GetValue(4).ToString();
                     newDict["answer"] = reader.GetValue(5).ToString();
+                    newDict["additionalContent"] = reader.GetValue(6).ToString();
                     exerciseData.Add(newDict);
                 }
                 problem = "";
@@ -490,8 +483,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IsAdmin");
-                writer.WriteToLogsFile(string.Format(nullException, "GetExercises"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "IsAdmin");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetExercises"), login, "error");
                 problem = "программная ошибка";
             }
             return exerciseData;
@@ -517,8 +510,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IncreaseEXP");
-                writer.WriteToLogsFile(string.Format(nullException, "IncreaseEXP"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "IncreaseEXP");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "IncreaseEXP"), login, "error");
             }
         }
 
@@ -542,8 +535,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "IsSolved");
-                writer.WriteToLogsFile(string.Format(nullException, "IsSolved"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "IsSolved");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "IsSolved"), login, "error");
             }
             return false;
         }
@@ -559,7 +552,7 @@ namespace FormProject
                 string solved = command.ExecuteScalar().ToString();
                 solved += $" {id}";
                 connectorToDb.OpenConnection();
-                commandText = $"update stats set solved = {solved} where idStats = {idStats};";
+                commandText = $"update stats set solved = '{solved}' where idStats = {idStats};";
                 command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 command.ExecuteNonQuery();
                 connectorToDb.CloseConnection();
@@ -572,8 +565,8 @@ namespace FormProject
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(nullException, "AddToSolved");
-                writer.WriteToLogsFile(string.Format(nullException, "AddToSolved"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "AddToSolved");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToSolved"), login, "error");
             }
         }
     }

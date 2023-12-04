@@ -79,6 +79,15 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 case "Вставить пропущенное":
                     showState.Content = new InsertTheMissing(exerciseData, login);
                     break;
+                case "Вписать свой ответ":
+                    showState.Content = new YourAnswer(exerciseData, login);
+                    break;
+                case "Выбрать правильные варианты":
+                    showState.Content = new ChooseCorrect(exerciseData, login);
+                    break;
+                case "Написать код":
+                    showState.Content = new WriteCode(exerciseData, login);
+                    break;
                 default:
                     Console.WriteLine("Ошибка в названии типа задачи");
                     break;
@@ -140,6 +149,14 @@ namespace FormProject.View.UserControls.ExercisesUCs
             answer.Background = (Brush)bc.ConvertFrom("#FF535572");
             answer.Visibility = Visibility.Collapsed;
 
+            Label additionaContent = new Label();
+            additionaContent.Name = $"additionalContenty{exerciseNum}";
+            additionaContent.Content = "Дополнительный контент: " + exerciseData["additionalContent"];
+            additionaContent.Style = Application.Current.FindResource("LabelStyle") as Style;
+            additionaContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+            additionaContent.Background = (Brush)bc.ConvertFrom("#FF535572");
+            additionaContent.Visibility = Visibility.Collapsed;
+
             StackPanel stackPanel = new StackPanel();
             stackPanel.Name = $"exercisesStacky{exerciseNum}";
             stackPanel.Children.Add(id);
@@ -149,6 +166,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
             stackPanel.Children.Add(exp);
             stackPanel.Children.Add(toTheExercise);
             stackPanel.Children.Add(answer);
+            stackPanel.Children.Add(additionaContent);
             return stackPanel;
         }
     }
