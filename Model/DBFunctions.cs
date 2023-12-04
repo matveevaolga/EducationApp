@@ -456,7 +456,7 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                string commandText = $"select idExercise, theme, complexity, description, exp, answer from exercises;";
+                string commandText = $"select idExercise, theme, complexity, description, exp, answer, additionalContent from exercises;";
                 MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 MySqlDataReader reader = command.ExecuteReader();
                 Dictionary<string, string> newDict;
@@ -469,6 +469,7 @@ namespace FormProject
                     newDict["description"] = reader.GetValue(3).ToString();
                     newDict["exp"] = reader.GetValue(4).ToString();
                     newDict["answer"] = reader.GetValue(5).ToString();
+                    newDict["additionalContent"] = reader.GetValue(6).ToString();
                     exerciseData.Add(newDict);
                 }
                 problem = "";

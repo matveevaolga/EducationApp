@@ -59,5 +59,13 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        <Style TargetType="CheckBox" x:Key="CheckBoxStyle">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Trebuchet MS"/>
+            <Setter Property="Background" Value="#FF404364"/>
+            <Setter Property="Foreground" Value="#dedee8"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
     </Application.Resources>
 </Application>
