@@ -46,8 +46,6 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="FontFamily" Value="Trebuchet MS"/>
             <Setter Property="Background" Value="#FFCEC9D9"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Text" Value=""/>
         </Style>
         <Style TargetType="TextBlock" x:Key="TextBlockStyle">
