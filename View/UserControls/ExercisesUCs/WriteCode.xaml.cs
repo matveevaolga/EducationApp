@@ -81,23 +81,54 @@ namespace FormProject.View.UserControls.ExercisesUCs
             {
                 if (element is TextBox textBox) input += textBox.Text;
             }
-            bool result = ProcessInputScript(input);
+            string res = ProcessInputScript(input);
+            switch (res)
+            {
+                case "ok":
+                    if (!isSolved)
+                    {
+                        DBHelpFunctional.HelpIncreaseEXP(login, int.Parse(exerciseData["exp"]));
+                        DBHelpFunctional.HelpAddToSolved(login, int.Parse(exerciseData["id"]));
+                        result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
+                        result.Visibility = Visibility.Visible;
+                        endButton.IsEnabled = false;
+                    }
+                    else
+                    {
+                        result.Content = "Верно!";
+                        result.Visibility = Visibility.Visible;
+                        endButton.IsEnabled = false;
+                    }
+                    break;
+                case "wrong":
+                    result.Content = "Неверно...";
+                    result.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    result.Content = $"Произошла ошибка {res}";
+                    result.Visibility = Visibility.Visible;
+                    break;
+            }
         }
 
-        private bool ProcessInputScript(string input)
+        private string ProcessInputScript(string input)
         {
-            string[] answers = exerciseData["Ответ"].Split(new string[] {"#\n"}, StringSplitOptions.None);
-            string[] tests = exerciseData["Дополнительный контент"].Split();
-            ScriptEngine engine = Python.CreateEngine();
-            ScriptScope scope = engine.CreateScope();
-            engine.Execute(input, scope);
-            dynamic fib = scope.GetVariable("fib");
-            for (int i = 0; i < answers.GetLength(0); i++)
+            try
             {
-                dynamic output = fib(int.Parse(tests[i]));
-                if (output != answers[i]) { Console.WriteLine(tests[i]); return false; }
+                string[] answers = exerciseData["Ответ"].Split(new string[] { "#\n" }, StringSplitOptions.None);
+                string[] tests = exerciseData["Дополнительный контент"].Split();
+                ScriptEngine engine = Python.CreateEngine();
+                ScriptScope scope = engine.CreateScope();
+                engine.Execute(input, scope);
+                dynamic fib = scope.GetVariable("fib");
+                for (int i = 0; i < answers.GetLength(0); i++)
+                {
+                    dynamic output = fib(int.Parse(tests[i]));
+                    if (output != answers[i]) { Console.WriteLine(tests[i]); return "wrong"; }
+                }
+                return "ok";
             }
-            return true;
+            catch (Exception ex) { return ex.GetType().Name; }
         }
     }
 }
