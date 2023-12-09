@@ -29,7 +29,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
             InitializeComponent();
             this.login = login;
             StackPanel exercisesStack = FillStack();
+            exercisesStack.Name = "mainStack";
             ScrollViewer scrollViewer = new ScrollViewer();
+            scrollViewer.Name = "scrollPanel";
             scrollViewer.Content = exercisesStack;
             showState.Content = scrollViewer;
         }
@@ -52,18 +54,13 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             Button toTheExercise = (Button)sender;
             StackPanel exercisesStack = (StackPanel)toTheExercise.Parent;
-            ///
-            Button res = (Button)exercisesStack.FindName(toTheExercise.Name);
-            Console.WriteLine(res == null);
-            ///
             Dictionary<string, string> exerciseData = new Dictionary<string, string>();
             foreach (var child in exercisesStack.Children)
             {
-                if (child is Label)
+                if (child is TextBlock)
                 {
-                    Label field = (Label)child;
-                    Console.WriteLine(field.Content);
-                    string[] data = field.Content.ToString().Split(new string[] {": "},
+                    TextBlock field = (TextBlock)child;
+                    string[] data = field.Text.ToString().Split(new string[] {": "},
                         StringSplitOptions.None);
                     if (data.GetLength(0) == 1) exerciseData.Add(data[0], " ");
                     else
@@ -98,40 +95,45 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             var bc = new BrushConverter();
             
-            Label id = new Label();
+            TextBlock id = new TextBlock();
             id.Name = $"idy{exerciseNum}";
-            id.Content = "id: " + exerciseData["id"];
-            id.Style = Application.Current.FindResource("LabelStyle") as Style;
+            id.Text = "id: " + exerciseData["id"];
+            id.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             id.HorizontalAlignment = HorizontalAlignment.Stretch;
             id.Background = (Brush)bc.ConvertFrom("#FF535572");
+            id.TextWrapping = TextWrapping.Wrap;
 
-            Label theme = new Label();
+            TextBlock theme = new TextBlock();
             theme.Name = $"themey{exerciseNum}";
-            theme.Content = "Тема: " + exerciseData["theme"];
-            theme.Style = Application.Current.FindResource("LabelStyle") as Style;
+            theme.Text = "Тема: " + exerciseData["theme"];
+            theme.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             theme.HorizontalAlignment = HorizontalAlignment.Stretch;
             theme.Background = (Brush)bc.ConvertFrom("#FF535572");
+            theme.TextWrapping = TextWrapping.Wrap;
 
-            Label complexity = new Label();
+            TextBlock complexity = new TextBlock();
             complexity.Name = $"complexityy{exerciseNum}";
-            complexity.Content = "Сложность: " + exerciseData["complexity"];
-            complexity.Style = Application.Current.FindResource("LabelStyle") as Style;
+            complexity.Text = "Сложность: " + exerciseData["complexity"];
+            complexity.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             complexity.HorizontalAlignment = HorizontalAlignment.Stretch;
             complexity.Background = (Brush)bc.ConvertFrom("#FF535572");
+            complexity.TextWrapping = TextWrapping.Wrap;
 
-            Label description = new Label();
+            TextBlock description = new TextBlock();
             description.Name = $"descriptiony{exerciseNum}";
-            description.Content = "Описание: " + exerciseData["description"];
-            description.Style = Application.Current.FindResource("LabelStyle") as Style;
+            description.Text = "Описание: " + exerciseData["description"];
+            description.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             description.HorizontalAlignment = HorizontalAlignment.Stretch;
             description.Background = (Brush)bc.ConvertFrom("#FF535572");
+            description.TextWrapping = TextWrapping.Wrap;   
 
-            Label exp = new Label();
+            TextBlock exp = new TextBlock();
             exp.Name = $"expy{exerciseNum}";
-            exp.Content = "exp: " + exerciseData["exp"];
-            exp.Style = Application.Current.FindResource("LabelStyle") as Style;
+            exp.Text = "exp: " + exerciseData["exp"];
+            exp.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             exp.HorizontalAlignment = HorizontalAlignment.Stretch;
             exp.Background = (Brush)bc.ConvertFrom("#FF535572");
+            exp.TextWrapping = TextWrapping.Wrap;
 
             Button toTheExercise = new Button();
             toTheExercise.Name = $"toTheExercisey{exerciseNum}";
@@ -141,21 +143,23 @@ namespace FormProject.View.UserControls.ExercisesUCs
             toTheExercise.HorizontalAlignment = HorizontalAlignment.Stretch;
             toTheExercise.HorizontalContentAlignment = HorizontalAlignment.Left;
 
-            Label answer = new Label();
+            TextBlock answer = new TextBlock();
             answer.Name = $"answery{exerciseNum}";
-            answer.Content = "Ответ: " + exerciseData["answer"];
-            answer.Style = Application.Current.FindResource("LabelStyle") as Style;
+            answer.Text = "Ответ: " + exerciseData["answer"];
+            answer.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             answer.HorizontalAlignment = HorizontalAlignment.Stretch;
             answer.Background = (Brush)bc.ConvertFrom("#FF535572");
             answer.Visibility = Visibility.Collapsed;
+            answer.TextWrapping = TextWrapping.Wrap;
 
-            Label additionaContent = new Label();
+            TextBlock additionaContent = new TextBlock();
             additionaContent.Name = $"additionalContenty{exerciseNum}";
-            additionaContent.Content = "Дополнительный контент: " + exerciseData["additionalContent"];
-            additionaContent.Style = Application.Current.FindResource("LabelStyle") as Style;
+            additionaContent.Text = "Дополнительный контент: " + exerciseData["additionalContent"];
+            additionaContent.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             additionaContent.HorizontalAlignment = HorizontalAlignment.Stretch;
             additionaContent.Background = (Brush)bc.ConvertFrom("#FF535572");
             additionaContent.Visibility = Visibility.Collapsed;
+            additionaContent.TextWrapping = TextWrapping.Wrap;
 
             StackPanel stackPanel = new StackPanel();
             stackPanel.Name = $"exercisesStacky{exerciseNum}";
