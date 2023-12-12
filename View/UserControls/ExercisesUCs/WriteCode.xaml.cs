@@ -116,15 +116,27 @@ namespace FormProject.View.UserControls.ExercisesUCs
             try
             {
                 string[] answers = exerciseData["Ответ"].Split(new string[] { "#\n" }, StringSplitOptions.None);
-                string[] tests = exerciseData["Дополнительный контент"].Split();
+                string[] tests = exerciseData["Дополнительный контент"].Split(new string[] { "#\n" }, StringSplitOptions.None);
                 ScriptEngine engine = Python.CreateEngine();
                 ScriptScope scope = engine.CreateScope();
                 engine.Execute(input, scope);
-                dynamic fib = scope.GetVariable("fib");
+                dynamic function = scope.GetVariable("function");
+                object[][] args_ = new object[tests.GetLength(0)][];
+                for (int j = 0; j < tests.GetLength(0); j++)
+                {
+                    string[] currentTest = tests[j].Split('#');
+                    args_[j] = new object[currentTest.GetLength(0)];
+                    for (int i = 0; i < currentTest.GetLength(0); i++)
+                    {
+                        if (int.TryParse(currentTest[i], out int x)) args_[j][i] = x;
+                        else if (double.TryParse(currentTest[i], out double y)) args_[j][i] = y;
+                        else args_[j][i] = currentTest[i];
+                    }
+                }
                 for (int i = 0; i < answers.GetLength(0); i++)
                 {
-                    dynamic output = fib(int.Parse(tests[i]));
-                    if (output != answers[i]) { Console.WriteLine(tests[i]); return "wrong"; }
+                    dynamic output = function(args_[i]);
+                    if (output != answers[i]) { Console.WriteLine(output + "|" + answers[i]); return "wrong"; }
                 }
                 return "ok";
             }
