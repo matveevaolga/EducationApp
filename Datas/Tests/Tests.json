@@ -1,0 +1,54 @@
+{
+  "Exercise4": [
+    {
+      "Test": ["1", "int"],
+      "Answer": "1"
+    },
+    {
+      "Test": ["5", "int"],
+      "Answer": "1 1 2 3 5"
+    }
+  ],
+  "Exercise5": [
+    {
+      "Test": [
+        "abcdabcaaa", "str",
+        "a", "str"
+      ],
+      "Answer": "0 4 7 8 9"
+    }
+  ],
+  "Exercise6": [
+    {
+      "Test": [
+        "4", "array_size",
+        "1", "int",
+        "7", "int",
+        "7", "int",
+        "2", "int",
+        "3", "array_size",
+        "8", "int",
+        "0", "int",
+        "6", "int",
+        "", "bool"
+      ],
+      "Answer": "0 1 2 6 7 7 8"
+    },
+
+    {
+      "Test": [
+        "4", "array_size",
+        "1", "int",
+        "7", "int",
+        "7", "int",
+        "2", "int",
+        "3", "array_size",
+        "8", "int",
+        "0", "int",
+        "6", "int",
+        "True", "bool"
+      ],
+      "Answer":  "8 7 7 6 2 1 0"
+    }
+  ]
+}
