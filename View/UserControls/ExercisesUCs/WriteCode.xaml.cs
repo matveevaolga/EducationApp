@@ -1,21 +1,11 @@
 ﻿using FormProject.Controller;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Microsoft.Scripting.Hosting;
 using IronPython.Hosting;
-using System.Reflection.Emit;
+using FormProject.Model;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -82,6 +72,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 if (element is TextBox textBox) input += textBox.Text;
             }
             string res = ProcessInputScript(input);
+            Console.WriteLine(ProcessInputWithJsonTests(input));
             switch (res)
             {
                 case "ok":
@@ -140,7 +131,14 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 }
                 return "ok";
             }
-            catch (Exception ex) { return ex.GetType().Name; }
+            catch (Exception ex) { return ex.Message; }
+        }
+
+        private string ProcessInputWithJsonTests(string input)
+        {
+            if (!int.TryParse(exerciseData["id"], out int idExercise)) throw new ArgumentException();
+            JsonParsing jsonParsing = new JsonParsing("Exercise" + $"{idExercise}");
+            return "";
         }
     }
 }

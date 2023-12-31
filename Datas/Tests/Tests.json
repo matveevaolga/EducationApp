@@ -1,0 +1,19 @@
+{
+  "Exercise4": [
+    {
+      "Test": { "n": 1 },
+      "Answer": "1"
+    },
+    {
+      "Test": { "n": 1 },
+      "Answer": "1 1 2 3 5"
+    }
+  ],
+  "Exercise5":
+  [
+      {
+        "Test": { "target": "abcdabcaaa", "symbol":  "a"},
+        "Answer": "0 4 7 8 9"
+      }
+   ]
+}
