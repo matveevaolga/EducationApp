@@ -17,6 +17,7 @@ namespace FormProject.Model
         {
             public TestData[] Exercise4 { get; set; }
             public TestData[] Exercise5 { get; set; }
+            public TestData[] Exercise6 { get; set; }
 
         }
 
