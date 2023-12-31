@@ -71,8 +71,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
             {
                 if (element is TextBox textBox) input += textBox.Text;
             }
-            string res = ProcessInputScript(input);
-            Console.WriteLine(ProcessInputWithJsonTests(input));
+            string res = ProcessInputWithJsonTests(input);
             switch (res)
             {
                 case "ok":
@@ -102,43 +101,29 @@ namespace FormProject.View.UserControls.ExercisesUCs
             }
         }
 
-        private string ProcessInputScript(string input)
+        private string ProcessInputWithJsonTests(string input)
         {
             try
             {
-                string[] answers = exerciseData["Ответ"].Split(new string[] { "#\n" }, StringSplitOptions.None);
-                string[] tests = exerciseData["Дополнительный контент"].Split(new string[] { "#\n" }, StringSplitOptions.None);
                 ScriptEngine engine = Python.CreateEngine();
                 ScriptScope scope = engine.CreateScope();
+                input += '\n' + System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\TestScript.txt");
                 engine.Execute(input, scope);
-                dynamic function = scope.GetVariable("function");
-                object[][] args_ = new object[tests.GetLength(0)][];
-                for (int j = 0; j < tests.GetLength(0); j++)
+                dynamic helper = scope.GetVariable("helper");
+
+                if (!int.TryParse(exerciseData["id"], out int idExercise)) throw new ArgumentException();
+                JsonParsing jsonParsing = new JsonParsing("Exercise" + $"{idExercise}");
+                JsonParsing.TestData[] tests = jsonParsing.CurrentExerciseTests;
+                foreach (JsonParsing.TestData test in tests)
                 {
-                    string[] currentTest = tests[j].Split('#');
-                    args_[j] = new object[currentTest.GetLength(0)];
-                    for (int i = 0; i < currentTest.GetLength(0); i++)
-                    {
-                        if (int.TryParse(currentTest[i], out int x)) args_[j][i] = x;
-                        else if (double.TryParse(currentTest[i], out double y)) args_[j][i] = y;
-                        else args_[j][i] = currentTest[i];
-                    }
-                }
-                for (int i = 0; i < answers.GetLength(0); i++)
-                {
-                    dynamic output = function(args_[i]);
-                    if (output != answers[i]) { Console.WriteLine(output + "|" + answers[i]); return "wrong"; }
+                    string[] Test = test.Test;
+                    string Answer = test.Answer;
+                    dynamic output = helper(Test);
+                    if (output != Answer) { Console.WriteLine(output + "|" + Answer); return "wrong"; }
                 }
                 return "ok";
             }
             catch (Exception ex) { return ex.Message; }
-        }
-
-        private string ProcessInputWithJsonTests(string input)
-        {
-            if (!int.TryParse(exerciseData["id"], out int idExercise)) throw new ArgumentException();
-            JsonParsing jsonParsing = new JsonParsing("Exercise" + $"{idExercise}");
-            return "";
         }
     }
 }

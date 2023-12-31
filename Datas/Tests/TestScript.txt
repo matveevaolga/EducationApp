@@ -1,0 +1,9 @@
+def helper(arr):
+    processed_arr = []
+    for i in range(0, len(arr) - 1, 2):
+        var, type = arr[i], arr[i + 1]
+        if str(type) == "int":
+            processed_arr.append(int(var))
+        else:
+            processed_arr.append(var)
+    return function(*processed_arr)
