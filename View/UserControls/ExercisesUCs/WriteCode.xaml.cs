@@ -17,6 +17,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
         Dictionary<string, string> exerciseData;
         string login;
         bool isSolved;
+        string functionName;
 
         public WriteCode(Dictionary<string, string> exerciseData, string login)
         {
@@ -31,7 +32,17 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 isSolved = true;
             }
             else isSolved = false;
+            functionName = GetFunctionName();
             ShowExerciseDesc();
+        }
+
+        public string GetFunctionName()
+        {
+            string description = exerciseData["Описание"];
+            description = description.Split(new string[] {"функцию"}, StringSplitOptions.None)[1];
+            description = description.Split('(')[0];
+            description = description.Trim(new char[] { ' ', ',' });
+            return description;
         }
 
         public void ShowExerciseDesc()
@@ -118,7 +129,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 {
                     string[] Test = test.Test;
                     string Answer = test.Answer;
-                    dynamic output = helper(Test);
+                    dynamic output = helper(Test, functionName);
                     if (output != Answer) { Console.WriteLine(output + "|" + Answer); return "wrong"; }
                 }
                 return "ok";
