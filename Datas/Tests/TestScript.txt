@@ -7,7 +7,7 @@ def change_type(var, type):
         var = bool(var)
     return var
 
-def helper(arr):
+def helper(arr, function_name):
     processed_arr = []
     forming_local_arr = 0
     local_arr = []
@@ -27,5 +27,4 @@ def helper(arr):
     if not forming_local_arr and local_arr:
         processed_arr.append(local_arr[::])
         local_arr = []
-    print(processed_arr)
-    return function(*processed_arr)
+    return globals()[function_name](*processed_arr)
