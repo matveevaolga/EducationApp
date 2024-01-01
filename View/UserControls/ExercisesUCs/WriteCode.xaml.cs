@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Microsoft.Scripting.Hosting;
 using IronPython.Hosting;
 using FormProject.Model;
+using System.Windows.Input;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -64,6 +65,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
             scriptForm.Style = Application.Current.FindResource("TextBoxStyle") as Style;
             scriptForm.AcceptsReturn = true;
             scriptForm.AcceptsTab = true;
+            //scriptForm.KeyUp += new KeyEventHandler(EnterPressed);
             exercisePanel.Children.Add(scriptForm);
 
             ScrollViewer scrollViewer = new ScrollViewer();
@@ -71,6 +73,13 @@ namespace FormProject.View.UserControls.ExercisesUCs
             scrollViewer.Content = exercisePanel;
             scrollViewer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             exerciseDesc.Content = scrollViewer;
+        }
+
+        private void EnterPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+            }
         }
 
         private void CheckIfCorrect(object sender, EventArgs e)

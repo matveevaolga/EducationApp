@@ -1,20 +1,10 @@
-﻿using FormProject.Controller;
-using Microsoft.Win32;
-using MySql.Data.MySqlClient;
-using MySqlX.XDevAPI.Common;
-using MySqlX.XDevAPI.Relational;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using FormProject.Model;
-using System.Runtime.InteropServices;
 using System.Resources;
-using System.Reflection;
-using System.ComponentModel;
 
 namespace FormProject
 {
