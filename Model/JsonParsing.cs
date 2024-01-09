@@ -18,14 +18,28 @@ namespace FormProject.Model
 
         }
 
-        public TestData[] CurrentExerciseTests { get; set; }
-
-        public JsonParsing(string ExerciseId)
+        public static TestData[] ParseExercise(string ExerciseId)
         {
             string json = System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\Tests.json");
             Exercises tests = JsonSerializer.Deserialize<Exercises>(json);
             TestData[] exerciseTests = (TestData[])tests.GetType().GetProperty(ExerciseId).GetValue(tests);
-            this.CurrentExerciseTests = exerciseTests;
+            return exerciseTests;
+        }
+
+        public class ServerData
+        {
+            public string Server { get; set; }
+            public string Port { get; set; }
+            public string Username { get; set; }
+            public string Password { get; set; }
+            public string Database { get; set; }
+        }
+
+        public static ServerData ParseServer()
+        {
+            string json = System.IO.File.ReadAllText("..\\..\\Datas\\Access\\ServerData.json");
+            ServerData serverData = JsonSerializer.Deserialize<ServerData>(json);
+            return serverData;
         }
     }
 }

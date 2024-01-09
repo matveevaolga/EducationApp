@@ -132,8 +132,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 dynamic helper = scope.GetVariable("helper");
 
                 if (!int.TryParse(exerciseData["id"], out int idExercise)) throw new ArgumentException();
-                JsonParsing jsonParsing = new JsonParsing("Exercise" + $"{idExercise}");
-                JsonParsing.TestData[] tests = jsonParsing.CurrentExerciseTests;
+                JsonParsing.TestData[] tests = JsonParsing.ParseExercise("Exercise" + $"{idExercise}");
                 foreach (JsonParsing.TestData test in tests)
                 {
                     string[] Test = test.Test;
