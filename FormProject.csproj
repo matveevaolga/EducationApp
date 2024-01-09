@@ -248,6 +248,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Datas\Access\ServerData.json" />
     <None Include="Datas\Tests\Tests.json" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
