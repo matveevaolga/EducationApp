@@ -115,6 +115,33 @@ namespace FormProject.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ошибка FormatException в функции {0}.
+        /// </summary>
+        internal static string formatException {
+            get {
+                return ResourceManager.GetString("formatException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ошибка IndexOutOfRangeException обращения к элементу массива в функции {0}.
+        /// </summary>
+        internal static string indexOutOfRangeException {
+            get {
+                return ResourceManager.GetString("indexOutOfRangeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ошибка KeyNotFoundException получения ключа из словаря в функции {0}.
+        /// </summary>
+        internal static string keyNotFoundException {
+            get {
+                return ResourceManager.GetString("keyNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ошибка в функции {0}, обращение к полю null, имя ошибки NullReferenceException.
         /// </summary>
         internal static string nullException {
@@ -124,11 +151,29 @@ namespace FormProject.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ошибка ResourceReferenceKeyNotFoundException при обращении к ресурсу приложения в функции {0}.
+        /// </summary>
+        internal static string resourceReferenceKeyNotFoundException {
+            get {
+                return ResourceManager.GetString("resourceReferenceKeyNotFoundException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ошибка в функции {0} при обращении к бд, номер ошибки {1} (таблица не найдена).
         /// </summary>
         internal static string tableDoesntExistException {
             get {
                 return ResourceManager.GetString("tableDoesntExistException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ошибка {0} в функции {1}.
+        /// </summary>
+        internal static string unknownException {
+            get {
+                return ResourceManager.GetString("unknownException", resourceCulture);
             }
         }
     }
