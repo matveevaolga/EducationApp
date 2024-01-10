@@ -135,10 +135,25 @@
   <data name="dbException" xml:space="preserve">
     <value>ошибка в функции {0} при обращении к бд, номер ошибки {1}</value>
   </data>
+  <data name="formatException" xml:space="preserve">
+    <value>ошибка FormatException в функции {0}</value>
+  </data>
+  <data name="indexOutOfRangeException" xml:space="preserve">
+    <value>ошибка IndexOutOfRangeException обращения к элементу массива в функции {0}</value>
+  </data>
+  <data name="keyNotFoundException" xml:space="preserve">
+    <value>ошибка KeyNotFoundException получения ключа из словаря в функции {0}</value>
+  </data>
   <data name="nullException" xml:space="preserve">
     <value>ошибка в функции {0}, обращение к полю null, имя ошибки NullReferenceException</value>
   </data>
+  <data name="resourceReferenceKeyNotFoundException" xml:space="preserve">
+    <value>ошибка ResourceReferenceKeyNotFoundException при обращении к ресурсу приложения в функции {0}</value>
+  </data>
   <data name="tableDoesntExistException" xml:space="preserve">
     <value>ошибка в функции {0} при обращении к бд, номер ошибки {1} (таблица не найдена)</value>
+  </data>
+  <data name="unknownException" xml:space="preserve">
+    <value>ошибка {0} в функции {1}</value>
   </data>
 </root>
