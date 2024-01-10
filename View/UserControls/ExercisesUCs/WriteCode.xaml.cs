@@ -8,6 +8,8 @@ using IronPython.Hosting;
 using FormProject.Model;
 using System.Windows.Input;
 using System.Resources;
+using System.Linq;
+using System.Text;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -85,7 +87,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 scriptForm.Style = Application.Current.FindResource("TextBoxStyle") as Style;
                 scriptForm.AcceptsReturn = true;
                 scriptForm.AcceptsTab = true;
-                //scriptForm.KeyUp += new KeyEventHandler(EnterPressed);
+                scriptForm.KeyUp += new KeyEventHandler(EnterPressed);
                 exercisePanel.Children.Add(scriptForm);
 
                 ScrollViewer scrollViewer = new ScrollViewer();
@@ -110,6 +112,23 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             if (e.Key == Key.Enter)
             {
+                TextBox scriptForm = sender as TextBox;
+                string[] lines = scriptForm.Text.Split('\n');
+                if (lines.GetLength(0) > 1 && lines[lines.GetLength(0) - 2].Length > 0)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    string lastLine = lines[lines.GetLength(0) - 2];
+                    foreach (char symb in lastLine)
+                    {
+                        if (symb == ' ' || symb == '\t') sb.Append(symb);
+                        else break;
+                    }
+                    if (lastLine.EndsWith(":\r"))
+                    {
+                        sb.Append('\t');
+                    }
+                    scriptForm.AppendText(sb.ToString());
+                }
             }
         }
 
