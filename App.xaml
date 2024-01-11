@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:FormProject"
              StartupUri="View/AuthWindow.xaml">
     <Application.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
         <Style TargetType="Button" x:Key="ButtonStyle">
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
@@ -45,7 +46,8 @@
             <Setter Property="FontSize" Value="30"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="FontFamily" Value="Trebuchet MS"/>
-            <Setter Property="Background" Value="#FFCEC9D9"/>
+            <Setter Property="Background" Value="#FF535572"/>
+            <Setter Property="Foreground" Value="White"/>
             <Setter Property="Text" Value=""/>
         </Style>
         <Style TargetType="TextBlock" x:Key="TextBlockStyle">

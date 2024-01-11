@@ -120,6 +120,18 @@
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\UserControls\CreateExercisesUCs\CreateChooseCorrect.xaml.cs">
+      <DependentUpon>CreateChooseCorrect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CreateExercisesUCs\CreateInsertTheMissing.xaml.cs">
+      <DependentUpon>CreateInsertTheMissing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CreateExercisesUCs\CreateWriteCode.xaml.cs">
+      <DependentUpon>CreateWriteCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\UserControls\CreateExercisesUCs\CreateYourAnswer.xaml.cs">
+      <DependentUpon>CreateYourAnswer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\UserControls\EditUC.xaml.cs">
       <DependentUpon>EditUC.xaml</DependentUpon>
     </Compile>
@@ -129,7 +141,7 @@
     <Compile Include="View\UserControls\ExercisesUCs\ChooseCorrect.xaml.cs">
       <DependentUpon>ChooseCorrect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\ExercisesUCs\CreateExerciseUC.xaml.cs">
+    <Compile Include="View\UserControls\CreateExercisesUCs\CreateExerciseUC.xaml.cs">
       <DependentUpon>CreateExerciseUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\ExercisesUCs\InsertTheMissing.xaml.cs">
@@ -164,6 +176,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\UserControls\CreateExercisesUCs\CreateChooseCorrect.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CreateExercisesUCs\CreateInsertTheMissing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CreateExercisesUCs\CreateWriteCode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\UserControls\CreateExercisesUCs\CreateYourAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\UserControls\EditUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,7 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\ExercisesUCs\CreateExerciseUC.xaml">
+    <Page Include="View\UserControls\CreateExercisesUCs\CreateExerciseUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
