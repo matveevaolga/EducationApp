@@ -30,7 +30,7 @@ namespace FormProject.View.UserControls
 
         private void createExercise(object sender, EventArgs e)
         {
-            CreateExerciseUC createExerciseUC = new CreateExerciseUC();
+            CreateExerciseUC createExerciseUC = new CreateExerciseUC(login);
             exercisesFunctional.Content = createExerciseUC;
         }
     }

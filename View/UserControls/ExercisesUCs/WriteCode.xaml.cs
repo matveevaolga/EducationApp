@@ -125,7 +125,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                     }
                     if (lastLine.EndsWith(":\r"))
                     {
-                        sb.Append('\t');
+                        sb.Append("    ");
                     }
                     scriptForm.AppendText(sb.ToString());
                 }

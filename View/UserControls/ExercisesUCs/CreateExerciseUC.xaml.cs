@@ -10,9 +10,11 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// </summary>
     public partial class CreateExerciseUC : UserControl
     {
-        public CreateExerciseUC()
+        string login;
+        public CreateExerciseUC(string login)
         {
             InitializeComponent();
+            this.login = login;
         }
 
         private void WriteCodeChosen(object sender, RoutedEventArgs e)

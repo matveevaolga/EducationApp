@@ -65,5 +65,14 @@
             <Setter Property="Foreground" Value="#dedee8"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
+        <Style TargetType="ComboBox" x:Key="ComboBoxStyle">
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontFamily" Value="Trebuchet MS"/>
+            <Setter Property="Background" Value="#FF404364"/>
+            <Setter Property="Foreground" Value="#dedee8"/>
+            <Setter Property="IsEditable" Value="True"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+        </Style>
     </Application.Resources>
 </Application>
