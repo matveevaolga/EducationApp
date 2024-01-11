@@ -20,9 +20,11 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
     /// </summary>
     public partial class CreateChooseCorrect : UserControl
     {
-        public CreateChooseCorrect()
+        string login;
+        public CreateChooseCorrect(string login)
         {
             InitializeComponent();
+            this.login = login;
         }
     }
 }

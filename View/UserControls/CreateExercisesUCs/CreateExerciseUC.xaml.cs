@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormProject.View.UserControls.CreateExercisesUCs;
+using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,30 +16,27 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             InitializeComponent();
             this.login = login;
+            switchExerciseCreatingUC.Content = new CreateChooseCorrect(login);
         }
 
         private void WriteCodeChosen(object sender, RoutedEventArgs e)
         {
-            ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
-            Console.WriteLine(comboBoxItem.Content);
+            switchExerciseCreatingUC.Content = new CreateWriteCode(login);
         }
 
         private void YourAnswerChosen(object sender, RoutedEventArgs e)
         {
-            ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
-            Console.WriteLine(comboBoxItem.Content);
+            switchExerciseCreatingUC.Content = new CreateYourAnswer(login);
         }
 
         private void ChooseCorrectChosen(object sender, RoutedEventArgs e)
         {
-            ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
-            Console.WriteLine(comboBoxItem.Content);
+            switchExerciseCreatingUC.Content = new CreateChooseCorrect(login);
         }
 
         private void InsertTheMissingChosen(object sender, RoutedEventArgs e)
         {
-            ComboBoxItem comboBoxItem = (ComboBoxItem)sender;
-            Console.WriteLine(comboBoxItem.Content);
+            switchExerciseCreatingUC.Content = new CreateInsertTheMissing(login);
         }
 
         private void GetChosenTheme(object sender, SelectionChangedEventArgs e)

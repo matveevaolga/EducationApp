@@ -20,9 +20,11 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
     /// </summary>
     public partial class CreateYourAnswer : UserControl
     {
-        public CreateYourAnswer()
+        string login;
+        public CreateYourAnswer(string login)
         {
             InitializeComponent();
+            this.login = login;
         }
     }
 }

@@ -20,9 +20,11 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
     /// </summary>
     public partial class CreateInsertTheMissing : UserControl
     {
-        public CreateInsertTheMissing()
+        string login;
+        public CreateInsertTheMissing(string login)
         {
             InitializeComponent();
+            this.login = login;
         }
     }
 }
