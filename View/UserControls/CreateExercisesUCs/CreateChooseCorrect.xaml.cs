@@ -26,5 +26,16 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
             InitializeComponent();
             this.login = login;
         }
+        void AddNewOption(object sender, RoutedEventArgs e)
+        {
+            if (optionToAdd.Text != string.Empty)
+                allOptions.Items.Add(optionToAdd.Text);
+        }
+
+        void DeleteOption(object sender, RoutedEventArgs e)
+        {
+            if (allOptions.SelectedValue != null)
+                allOptions.Items.Remove(allOptions.SelectedValue.ToString());
+        }
     }
 }
