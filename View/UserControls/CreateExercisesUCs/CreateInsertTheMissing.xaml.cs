@@ -26,5 +26,10 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
             InitializeComponent();
             this.login = login;
         }
+
+        public void GetInsertTheMissingExerciseData(out string answer, out string additionalContent)
+        {
+            answer = additionalContent = string.Empty;
+        }
     }
 }

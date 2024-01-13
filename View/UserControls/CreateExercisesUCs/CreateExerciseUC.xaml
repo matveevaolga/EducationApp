@@ -24,8 +24,8 @@
                     <Trigger Property="Text" Value="{x:Null}">
                         <Setter Property="Background" Value="{StaticResource HintBrush}" />
                     </Trigger>
-                    <Trigger Property="IsMouseCaptured" Value="True">
-                        <Setter Property="Background" Value="#FF535572"/>
+                    <Trigger Property="Tag" Value="IncorrectInput">
+                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
                     </Trigger>
                 </Style.Triggers>
             </Style>
@@ -33,19 +33,10 @@
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="20">
         <StackPanel HorizontalAlignment="Stretch">
-            <Label Style="{StaticResource LabelStyle}" Content="Введите название задачи"
-                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" x:Name="exerciseName"/>
-            <Label Style="{StaticResource LabelStyle}" Content="Выберите тему задачи"
-                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <ComboBox Text="Тема задачи" SelectionChanged="GetChosenTheme" x:Name="exerciseTheme"
-                      Style="{StaticResource ComboBoxStyle}">
-                <ComboBoxItem Content="1"/>
-                <ComboBoxItem Content="2"/>
-            </ComboBox>
             <Label Style="{StaticResource LabelStyle}" Content="Выберите тип задачи"
                                Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <ComboBox Text="Тип задачи" Style="{StaticResource ComboBoxStyle}" x:Name="exerciseType">
+            <ComboBox Text="Тип задачи" Style="{StaticResource ComboBoxStyle}"
+                      x:Name="exerciseType" GotMouseCapture="ResetComboBox">
                 <ComboBoxItem Content="Написать код" Selected="WriteCodeChosen"/>
                 <ComboBoxItem Content="Вписать свой ответ" Selected="YourAnswerChosen"/>
                 <ComboBoxItem Content="Выбрать верное" Selected="ChooseCorrectChosen"/>
@@ -53,15 +44,18 @@
             </ComboBox>
             <Label Style="{StaticResource LabelStyle}" Content="Введите сложность задачи" 
                    Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}" x:Name="exerciseComplexity"/>
+            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}"
+                     x:Name="exerciseComplexity" TextChanged="ResetTextBoxBackground"/>
             <Label Style="{StaticResource LabelStyle}" Content="Введите exp задачи" 
                    Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}" x:Name="exerciseExp"/>
+            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}" 
+                     x:Name="exerciseExp" TextChanged="ResetTextBoxBackground"/>
             <Label Style="{StaticResource LabelStyle}" Content="Введите условие задачи"
                    Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" x:Name="exerciseCondition"/>
-            <ContentControl x:Name="chooseExerciseType"/>
-            <Button Content="Завершить" HorizontalAlignment="Right"
+            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"
+                     x:Name="exerciseCondition" TextChanged="ResetTextBoxBackground"/>
+            <ContentControl x:Name="chooseExerciseType" />
+            <Button Content="Завершить" HorizontalAlignment="Left" Name="finishButton"
                     Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish"/>
         </StackPanel>
     </ScrollViewer>
