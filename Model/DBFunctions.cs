@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using FormProject.Model;
 using System.Resources;
+using Microsoft.Win32;
 
 namespace FormProject
 {
@@ -558,6 +559,50 @@ namespace FormProject
                 Console.WriteLine(rm.GetString("nullException"), "AddToSolved");
                 writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToSolved"), login, "error");
             }
+        }
+
+        public void CreateExercise(string login, Dictionary<string, object> exerciseData, ref bool problem)
+        {
+            try
+            {
+                int userStatsId = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = "insert into exercises (theme, complexity, description, exp, answer, additionalContent, creatorStatsId)" +
+                    " values (@Theme, @Complexity, @Description, @Exp, @Answer, @AdditionalContent, @CreatorStatsId);";
+                MySqlCommand exerciseInsertCommand = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                exerciseInsertCommand.Parameters.AddWithValue("@Theme", exerciseData["theme"]);
+                exerciseInsertCommand.Parameters.AddWithValue("@Complexity", exerciseData["complexity"]);
+                exerciseInsertCommand.Parameters.AddWithValue("@Description", exerciseData["description"]);
+                exerciseInsertCommand.Parameters.AddWithValue("@Exp", exerciseData["exp"]);
+                exerciseInsertCommand.Parameters.AddWithValue("Answer", exerciseData["answer"]);
+                exerciseInsertCommand.Parameters.AddWithValue("@AdditionalContent", exerciseData["additionalContent"]);
+                exerciseInsertCommand.Parameters.AddWithValue("@CreatorStatsId", userStatsId);
+                exerciseInsertCommand.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+                problem = false;
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "CreateExercise", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "CreateExercise", ex.Number), login);
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "CreateExercise");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "CreateExercise"), login);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine(rm.GetString("keyNotFoundException"), "CreateExercise");
+                writer.WriteToLogsFile(string.Format(rm.GetString("keyNotFoundException"), "CreateExercise"), login);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unknownException", "CreateExercise", ex.GetType().Name);
+                writer.WriteToLogsFile(string.Format("unknownException", "CreateExercise", ex.GetType().Name), login);
+            }
+            problem = true;
         }
     }
 }

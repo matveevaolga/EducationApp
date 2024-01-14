@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls.CreateExercisesUCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
-    </Grid>
+    <StackPanel>
+        <Label Style="{StaticResource LabelStyle}" Content="Введите верный ответ на задачу" 
+               HorizontalAlignment="Stretch"/>
+        <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"
+                 x:Name="correctAnswer" TextChanged="ResetTextBoxBackground"/>
+    </StackPanel>
 </UserControl>

@@ -70,7 +70,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 case "Вписать свой ответ":
                     showState.Content = new YourAnswer(exerciseData, login);
                     break;
-                case "Выбрать правильные варианты":
+                case "Выбрать верное":
                     showState.Content = new ChooseCorrect(exerciseData, login);
                     break;
                 case "Написать код":
