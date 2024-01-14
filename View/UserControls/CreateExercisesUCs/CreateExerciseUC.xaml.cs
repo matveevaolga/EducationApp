@@ -36,16 +36,16 @@ namespace FormProject.View.UserControls.ExercisesUCs
         }
 
         private void WriteCodeChosen(object sender, RoutedEventArgs e) =>
-            chooseExerciseType.Content = new CreateWriteCode(login);
+            chooseExerciseType.Content = new CreateWriteCode();
 
         private void YourAnswerChosen(object sender, RoutedEventArgs e) =>
-            chooseExerciseType.Content = new CreateYourAnswer(login);
+            chooseExerciseType.Content = new CreateYourAnswer();
 
         private void ChooseCorrectChosen(object sender, RoutedEventArgs e) =>
-            chooseExerciseType.Content = new CreateChooseCorrect(login);
+            chooseExerciseType.Content = new CreateChooseCorrect();
 
         private void InsertTheMissingChosen(object sender, RoutedEventArgs e) =>
-            chooseExerciseType.Content = new CreateInsertTheMissing(login);
+            chooseExerciseType.Content = new CreateInsertTheMissing();
 
         private void GetChosenTheme(object sender, SelectionChangedEventArgs e)
         {

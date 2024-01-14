@@ -20,11 +20,9 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
     /// </summary>
     public partial class CreateWriteCode : UserControl
     {
-        string login;
-        public CreateWriteCode(string login)
+        public CreateWriteCode()
         {
             InitializeComponent();
-            this.login = login;
         }
 
         public void GetWriteCodeExerciseData(out string answer, out string additionalContent)
