@@ -580,6 +580,7 @@ namespace FormProject
                 exerciseInsertCommand.ExecuteNonQuery();
                 connectorToDb.CloseConnection();
                 problem = false;
+                return;
             }
             catch (MySqlException ex)
             {
