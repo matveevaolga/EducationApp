@@ -131,5 +131,13 @@ namespace FormProject.Controller
             if (dBFunctions == null) { return; }
             dBFunctions.AddToSolved(login, id);
         }
+
+        public static void HelpCreateExercise(string login, Dictionary<string, object> exerciseData, ref bool problem)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { problem = true; return; }
+            dBFunctions.CreateExercise(login, exerciseData, ref problem);
+        }
     }
 }

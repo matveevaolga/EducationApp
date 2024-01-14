@@ -1,4 +1,5 @@
-﻿using FormProject.View.UserControls.CreateExercisesUCs;
+﻿using FormProject.Controller;
+using FormProject.View.UserControls.CreateExercisesUCs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,15 @@ namespace FormProject.View.UserControls.ExercisesUCs
         string answer;
         string additionalContent;
         List<string> incorrectlyFilled;
+        bool problem;
+        public bool Problem { get { return problem; } set { problem = value; } }
 
         public CreateExerciseUC(string login)
         {
-            InitializeComponent();
+            DataContext = this;
+            Problem = false;
             this.login = login;
+            InitializeComponent();
             chooseExerciseType.Content = null;
         }
 
@@ -57,6 +62,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
             if (incorrectlyFilled.Count > 0 || answer == string.Empty || additionalContent == string.Empty)
                 { FinishDenied(); return; }
             Dictionary<string, object> exerciseData = FormExerciseDict();
+            DBHelpFunctional.HelpCreateExercise(login, exerciseData, ref problem);
         }
 
         void GetGeneralData()

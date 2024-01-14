@@ -30,7 +30,7 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
 
         void AddNewOption(object sender, RoutedEventArgs e)
         {
-            if (optionToAdd.Text != string.Empty)
+            if (optionToAdd.Text != string.Empty && !allOptions.Items.Contains(optionToAdd.Text))
                 allOptions.Items.Add(optionToAdd.Text);
         }
 

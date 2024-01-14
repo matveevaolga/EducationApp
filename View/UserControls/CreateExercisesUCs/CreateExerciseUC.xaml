@@ -52,11 +52,18 @@
                      x:Name="exerciseExp" TextChanged="ResetTextBoxBackground"/>
             <Label Style="{StaticResource LabelStyle}" Content="Введите условие задачи"
                    Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"
-                     x:Name="exerciseCondition" TextChanged="ResetTextBoxBackground"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" AcceptsReturn="True"
+                     AcceptsTab="True" x:Name="exerciseCondition" TextChanged="ResetTextBoxBackground"/>
             <ContentControl x:Name="chooseExerciseType" />
-            <Button Content="Завершить" HorizontalAlignment="Left" Name="finishButton"
-                    Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish"/>
+            <DockPanel>
+                <Button Content="Завершить" HorizontalAlignment="Left" Name="finishButton" 
+                    Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish" DockPanel.Dock="Left"/>
+                <TextBlock x:Name="errorTextBlock" Style="{StaticResource TextBlockStyle}" 
+                       Foreground="Red" Background="#FF535572"
+                       Visibility="{Binding Path=Problem, Converter={StaticResource BoolToVisibility}}"
+                       FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="0, 10, 0, 0"
+                       Text="При создании задачи возникла программная ошибка, повторите попытку позже"/>
+            </DockPanel>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
