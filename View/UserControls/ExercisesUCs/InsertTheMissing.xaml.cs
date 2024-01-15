@@ -14,6 +14,8 @@ namespace FormProject.View.UserControls.ExercisesUCs
         Dictionary<string, string> exerciseData;
         string login;
         bool isSolved;
+        List<string> blanks;
+        List<string> fullText;
 
         public InsertTheMissing(Dictionary<string, string> exerciseData, string login)
         {
@@ -33,29 +35,46 @@ namespace FormProject.View.UserControls.ExercisesUCs
         
         public void ShowExerciseDesc()
         {
+            StackPanel mainPanel = new StackPanel();
+            TextBox textBox;
+            TextBlock textBlock = new TextBlock();
+            textBlock.Style = Application.Current.FindResource("TextBlockStyle") as Style;
+            textBlock.TextWrapping = TextWrapping.Wrap;
+            textBlock.Text = exerciseData["Описание"];
+            textBlock.HorizontalAlignment = HorizontalAlignment.Left;
+            mainPanel.Children.Add(textBlock);
+
             WrapPanel exDescStack = new WrapPanel();
             exDescStack.HorizontalAlignment = HorizontalAlignment.Stretch;
             exDescStack.Orientation = Orientation.Horizontal;
-            String[] description = exerciseData["Описание"].Split('#');
-            foreach (string descPiece in description)
+            string[] data = exerciseData["Ответ"].Split('$');
+            string[] tags = exerciseData["Дополнительный контент"].Split();
+            if (data.GetLength(0) != tags.GetLength(0)) { throw new ArgumentException(); }
+            blanks = new List<string>();
+            fullText = new List<string>();
+            for (int i = 0; i < data.GetLength(0); i++)
             {
-                TextBlock l = new TextBlock();
-                l.Text = descPiece;
-                l.Style = Application.Current.FindResource("TextBlockStyle") as Style;
-                exDescStack.Children.Add(l);
-                if (descPiece != description[description.GetLength(0) - 1])
+                fullText.Add(data[i].Trim());
+                if (tags[i] == "Blank")
                 {
-                    TextBox textBox = new TextBox();
+                    blanks.Add(data[i].Trim());
+                    textBox = new TextBox();
                     textBox.Style = Application.Current.FindResource("TextBoxStyle") as Style;
-                    textBox.HorizontalAlignment = HorizontalAlignment.Stretch;
-                    textBox.TextWrapping = TextWrapping.Wrap;
-                    textBox.MinWidth = 50;
+                    textBox.Width = data[i].Length * 100;
                     exDescStack.Children.Add(textBox);
                 }
+                else
+                {
+                    textBlock = new TextBlock();
+                    textBlock.Text = data[i].Trim();
+                    textBlock.Style = Application.Current.FindResource("TextBlockStyle") as Style;
+                    exDescStack.Children.Add(textBlock);
+                }
             }
+            mainPanel.Children.Add(exDescStack);
             ScrollViewer scrollViewer = new ScrollViewer();
             scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
-            scrollViewer.Content = exDescStack;
+            scrollViewer.Content = mainPanel;
             scrollViewer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             exerciseDesc.Content = scrollViewer;
         }
@@ -67,10 +86,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
             string input = "";
             foreach (var element in exDescStack.Children)
             {
-                if (element is TextBox textBox) input += textBox.Text;
-                if (element is TextBlock textBlock) input += textBlock.Text;
+                if (element is TextBox textBox) input += textBox.Text.Trim();
+                if (element is TextBlock textBlock) input += textBlock.Text.Trim();
             }
-            if (input == exerciseData["Ответ"])
+            if (input == string.Join("", fullText)) 
             {
                 if (!isSolved)
                 {
