@@ -63,6 +63,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 { FinishDenied(); return; }
             Dictionary<string, object> exerciseData = FormExerciseDict();
             DBHelpFunctional.HelpCreateExercise(login, exerciseData, ref problem);
+            if (!problem) { success.Visibility = Visibility.Visible; finishButton.IsEnabled = false; }
         }
 
         void GetGeneralData()
