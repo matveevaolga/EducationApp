@@ -2,7 +2,9 @@
 using FormProject.View.UserControls.CreateExercisesUCs;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,7 +15,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
     /// <summary>
     /// Логика взаимодействия для CreateExerciseUC.xaml
     /// </summary>
-    public partial class CreateExerciseUC : UserControl
+    public partial class CreateExerciseUC : UserControl, INotifyPropertyChanged
     {
         string login;
         string theme;
@@ -24,16 +26,21 @@ namespace FormProject.View.UserControls.ExercisesUCs
         string additionalContent;
         List<string> incorrectlyFilled;
         bool problem;
-        public bool Problem { get { return problem; } set { problem = value; } }
+        public bool Problem { get { return problem; } set
+            { problem = value; OnPropertyChanged("Problem"); } }
 
         public CreateExerciseUC(string login)
         {
-            DataContext = this;
-            Problem = false;
-            this.login = login;
             InitializeComponent();
+            this.login = login;
+            Problem = false;
+            DataContext = this;
             chooseExerciseType.Content = null;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         private void WriteCodeChosen(object sender, RoutedEventArgs e) =>
             chooseExerciseType.Content = new CreateWriteCode();
@@ -60,9 +67,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
             GetGeneralData();
             GetDataSpecificForExerciseType();
             if (incorrectlyFilled.Count > 0 || answer == string.Empty || additionalContent == string.Empty)
-                { FinishDenied(); return; }
+            { FinishDenied(); return; }
             Dictionary<string, object> exerciseData = FormExerciseDict();
             DBHelpFunctional.HelpCreateExercise(login, exerciseData, ref problem);
+            Problem = problem;
             if (!problem) { success.Visibility = Visibility.Visible; finishButton.IsEnabled = false; }
         }
 

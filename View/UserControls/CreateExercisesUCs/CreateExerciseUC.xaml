@@ -60,11 +60,12 @@
                     Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish" DockPanel.Dock="Left"/>
                 <TextBlock x:Name="errorTextBlock" Style="{StaticResource TextBlockStyle}" 
                        Foreground="Red" Background="#FF535572"
-                       Visibility="{Binding Path=Problem, Converter={StaticResource BoolToVisibility}}"
-                       FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="0, 10, 0, 0"
-                       Text="При создании задачи возникла программная ошибка, повторите попытку позже"/>
+                       Visibility="{Binding Problem, UpdateSourceTrigger=PropertyChanged,
+                    Converter={StaticResource BoolToVisibility}}"
+                       FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="10, 10, 0, 0"
+                       Text="Возникла программная ошибка, повторите попытку позже"/>
                 <TextBlock x:Name="success" Style="{StaticResource TextBlockStyle}" Background="#FF535572"
-                       Visibility="Collapsed" FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="0, 10, 0, 0"
+                       Visibility="Collapsed" FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="10, 10, 0, 0"
                        Text="Задача успешно создана"/>
             </DockPanel>
         </StackPanel>
