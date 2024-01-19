@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,20 +21,28 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
     /// <summary>
     /// Логика взаимодействия для CreateInsertTheMissing.xaml
     /// </summary>
-    public partial class CreateInsertTheMissing : UserControl
+    public partial class CreateInsertTheMissing : UserControl, INotifyPropertyChanged
     {
         Color colorLight = (Color)ColorConverter.ConvertFromString("#dedee8");
         Color colorDark = (Color)ColorConverter.ConvertFromString("#282b4f");
         Color colorRed = (Color)ColorConverter.ConvertFromString("#FF0000");
-        public bool ProblemText { get; set; }
-        public bool ProblemBlank { get; set; }
+        bool problemText;
+        bool problemBlank;
+        public bool ProblemText { get { return problemText; } set 
+            { problemText = value; OnPropertyChanged("ProblemText"); } }
+        public bool ProblemBlank { get { return problemBlank; } set 
+            { problemBlank = value; OnPropertyChanged("ProblemBlank"); } }
         public CreateInsertTheMissing()
         {
             InitializeComponent();
-            DataContext = this;
             ProblemText = false;
             ProblemBlank = false;
+            DataContext = this;
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void GetInsertTheMissingExerciseData(out string answer, out string additionalContent)
         {

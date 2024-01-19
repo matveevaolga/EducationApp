@@ -29,11 +29,13 @@
         <WrapPanel Orientation="Vertical" Margin="10, 10, 0, 0">
             <TextBlock Text="Не создано ни одного блока текста" x:Name="errorTexts" Style="{StaticResource TextBlockStyle}" 
                        Foreground="Red" Background="#FF535572"
-                       Visibility="{Binding Path=ProblemText, Converter={StaticResource BoolToVisibility}}"
+                       Visibility="{Binding Path=ProblemText,  UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource BoolToVisibility}}"
                        FontWeight ="Light" TextWrapping="Wrap" HorizontalAlignment="Left"/>
             <TextBlock Text="Не создано ни одного блока пропуска" x:Name="errorBlanks" Style="{StaticResource TextBlockStyle}" 
                        Foreground="Red" Background="#FF535572"
-                       Visibility="{Binding Path=ProblemBlank, Converter={StaticResource BoolToVisibility}}"
+                       Visibility="{Binding Path=ProblemBlank, UpdateSourceTrigger=PropertyChanged,
+                Converter={StaticResource BoolToVisibility}}"
                        FontWeight ="Light" TextWrapping="Wrap" HorizontalAlignment="Left"/>
         </WrapPanel>
     </StackPanel>
