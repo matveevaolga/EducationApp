@@ -1,0 +1,13 @@
+def traversal(values, types):
+    if type(values).__name__ == "dict":
+        values = list(values.values())
+    for value in values:
+        print(type(value).__name__)
+        if type(value).__name__ in types:
+            if type(value).__name__ == "list":
+                traversal(value, types)
+            elif type(value).__name__ == "dict":
+                traversal(value, types)
+        else:
+            raise Exception
+traversal(values, types)
