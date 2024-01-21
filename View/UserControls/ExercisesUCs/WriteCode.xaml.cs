@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Resources;
 using System.Linq;
 using System.Text;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -21,7 +22,6 @@ namespace FormProject.View.UserControls.ExercisesUCs
         Dictionary<string, string> exerciseData;
         string login;
         bool isSolved;
-        string functionName;
         ResourceManager rm;
 
         public WriteCode(Dictionary<string, string> exerciseData, string login)
@@ -39,31 +39,7 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 isSolved = true;
             }
             else isSolved = false;
-            functionName = GetFunctionName();
             ShowExerciseDesc();
-        }
-
-        public string GetFunctionName()
-        {
-            try
-            {
-                string description = exerciseData["Описание"];
-                description = description.Split(new string[] { "функцию" }, StringSplitOptions.None)[1];
-                description = description.Split('(')[0];
-                description = description.Trim(new char[] { ' ', ',' });
-                return description;
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine(rm.GetString("keyNotFoundException"), "GetFunctionName");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(rm.GetString("keyNotFoundException"), "GetFunctionName"), login);
-            }
-            catch (IndexOutOfRangeException)
-            {
-                Console.WriteLine(rm.GetString("indexOutOfRangeException"), "GetFunctionName");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(rm.GetString("indexOutOfRangeException"), "GetFunctionName"), login);
-            }
-            return "ошибка";
         }
 
         public void ShowExerciseDesc()
@@ -141,8 +117,9 @@ namespace FormProject.View.UserControls.ExercisesUCs
             {
                 if (element is TextBox textBox) input += textBox.Text;
             }
-            string res = ProcessInputWithJsonTests(input, out string comparison);
-            switch (res)
+            string message = "ok";
+            ProcessInputWithJsonTests(input, ref message);
+            switch (message)
             {
                 case "ok":
                     if (!isSolved)
@@ -152,6 +129,8 @@ namespace FormProject.View.UserControls.ExercisesUCs
                             DBHelpFunctional.HelpIncreaseEXP(login, int.Parse(exerciseData["exp"]));
                             DBHelpFunctional.HelpAddToSolved(login, int.Parse(exerciseData["id"]));
                             result.Content = $"\tВерно!\nВам начислено {exerciseData["exp"]} exp";
+                            result.Visibility = Visibility.Visible;
+                            break;
                         }
                         catch (KeyNotFoundException)
                         {
@@ -169,53 +148,33 @@ namespace FormProject.View.UserControls.ExercisesUCs
                             LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(rm.GetString("unknownException"), ex.GetType().Name, "CheckIfCorrect"), login);
                         }
                         result.Content = "\tВерно!\tПри начислении exp произошла ошибка";
+                        result.Visibility = Visibility.Visible;
                     }
                     else
                     {
                         result.Content = "Верно!";
-                        result.Visibility = Visibility.Visible;
                         endButton.IsEnabled = false;
+                        result.Visibility = Visibility.Visible;
                     }
                     break;
-                case "wrong":
-                    result.Content = $"Неверно: {comparison}";
-                    result.Visibility = Visibility.Visible;
-                    break;
                 default:
-                    result.Content = $"Произошла ошибка {res}";
+                    result.Content = message;
                     result.Visibility = Visibility.Visible;
                     break;
+
             }
         }
 
-        private string ProcessInputWithJsonTests(string input, out string comparison)
+        private void ProcessInputWithJsonTests(string input, ref string message)
         {
-            comparison = string.Empty;
             try
             {
-                ScriptEngine engine = Python.CreateEngine();
-                ScriptScope scope = engine.CreateScope();
-                input += '\n' + System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\TestScript.txt");
-                engine.Execute(input, scope);
-                dynamic helper = scope.GetVariable("helper");
-
-                if (!int.TryParse(exerciseData["id"], out int idExercise)) throw new ArgumentException();
-                JsonParsing.TestData[] tests = JsonParsing.ParseExercise("Exercise" + $"{idExercise}");
-                foreach (JsonParsing.TestData test in tests)
-                {
-                    string[] Test = test.Test;
-                    string Answer = test.Answer;
-                    dynamic output = helper(Test, functionName);
-                    if (output != Answer) { comparison = $"ваш ответ = {output}, а верный = {Answer}"; return "wrong"; }
-                }
-                return "ok";
+                string creatorLogin = DBHelpFunctional.HelpGetCreatorLoginByIdExercise
+                    (int.Parse(exerciseData["id"]), login);
+                JsonParsing.RunTestsFromJson(input, creatorLogin, int.Parse(exerciseData["id"]),
+                    exerciseData["Дополнительный контент"], ref message);
             }
-            catch (Exception ex) 
-            {
-                Console.WriteLine(rm.GetString("unknownException"), ex.GetType().Name, "ProcessInputWithJsonTests");
-                LogsFileHelpFunctions.HelpWriteToLogsFile(string.Format(rm.GetString("unknownException"), ex.GetType().Name, "ProcessInputWithJsonTests"), login);
-                return ex.Message; 
-            }
+            catch (Exception ex) { message = ex.Message; }
         }
     }
 }
