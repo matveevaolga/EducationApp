@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static IronPython.Modules._ast;
 
 namespace FormProject.Controller
 {
@@ -138,6 +139,30 @@ namespace FormProject.Controller
             GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
             if (dBFunctions == null) { problem = true; return; }
             dBFunctions.CreateExercise(login, exerciseData, ref problem);
+        }
+
+        public static int HelpGetLastExerciseId(string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return 0; }
+            return dBFunctions.GetLastExerciseId(login);
+        }
+
+        public static void HelpDeleteExercise(int exerciseId, string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return; }
+            dBFunctions.DeleteExercise(exerciseId, login);
+        }
+
+        public static string HelpGetCreatorLoginByIdExercise(int exerciseId, string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) throw new NullReferenceException();
+            return dBFunctions.GetCreatorLoginByIdExercise(exerciseId, login);
         }
     }
 }
