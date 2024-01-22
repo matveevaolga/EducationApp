@@ -76,7 +76,7 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
             WrapPanel wrapPanel = new WrapPanel();
             wrapPanel.Orientation = Orientation.Horizontal;
             Thickness margin = wrapPanel.Margin;
-            margin.Left = 10;
+            if (allText.Children.Count != 0) margin.Left = 10;
             wrapPanel.Margin = margin;
 
             Label label = new Label();

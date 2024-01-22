@@ -25,7 +25,8 @@ namespace FormProject.View.UserControls.CreateExercisesUCs
         void DeleteOption(object sender, RoutedEventArgs e)
         {
             if (allOptions.SelectedValue != null)
-                allOptions.Items.Remove(allOptions.SelectedValue.ToString());
+            { allOptions.Items.Remove(allOptions.SelectedValue.ToString());
+                allOptions.Text = "Варианты ответа"; };
         }
 
         public void GetChooseCorrectExerciseData(out string answer, out string additionalContent)
