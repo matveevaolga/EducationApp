@@ -1,8 +1,10 @@
 ﻿using FormProject.Controller;
+using FormProject.Model;
 using FormProject.View.UserControls.CreateExercisesUCs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -65,13 +67,16 @@ namespace FormProject.View.UserControls.ExercisesUCs
         {
             incorrectlyFilled = new List<string>();
             GetGeneralData();
+            if (incorrectlyFilled.Count > 0) { FinishDenied(); return; }
             GetDataSpecificForExerciseType();
-            if (incorrectlyFilled.Count > 0 || answer == string.Empty || additionalContent == string.Empty)
-            { FinishDenied(); return; }
+            if (answer == string.Empty || additionalContent == string.Empty) return;
+            if (!description.Contains(additionalContent)) 
+                { exerciseCondition.Tag = "IncorrectInput"; return; }
             Dictionary<string, object> exerciseData = FormExerciseDict();
             DBHelpFunctional.HelpCreateExercise(login, exerciseData, ref problem);
-            Problem = problem;
-            if (!problem) { success.Visibility = Visibility.Visible; finishButton.IsEnabled = false; }
+            if (problem) return;
+            if (theme == "Написать код") try { AddTestsToJson(); } catch { Problem = true; DeleteExercise(); return; }
+            success.Visibility = Visibility.Visible; finishButton.IsEnabled = false; 
         }
 
         void GetGeneralData()
@@ -161,6 +166,21 @@ namespace FormProject.View.UserControls.ExercisesUCs
             Color color = (Color)ColorConverter.ConvertFromString("#dedee8");
             comboBox.Foreground = new SolidColorBrush(color);
             comboBox.Text = "Тип задачи";
+        }
+
+        void AddTestsToJson()
+        {
+            CreateWriteCode writeCode = chooseExerciseType.Content as CreateWriteCode;
+            string tests = writeCode.tests;
+            int exerciseId = DBHelpFunctional.HelpGetLastExerciseId(login);
+            if (exerciseId == 0) { throw new ArgumentException(); }
+            JsonParsing.WriteExerciseToJson(tests, login, exerciseId);
+        }
+
+        void DeleteExercise()
+        {
+            int exerciseId = DBHelpFunctional.HelpGetLastExerciseId(login);
+            DBHelpFunctional.HelpDeleteExercise(exerciseId, login);
         }
     }
 }
