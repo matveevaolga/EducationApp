@@ -272,12 +272,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Resource Include="Datas\Tests\TestUserInputScript.txt" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Datas\Access\ServerData.json" />
-    <None Include="Datas\Tests\Tests.json" />
+    <Content Include="Datas\Tests\Tests.txt" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -289,6 +290,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Datas\Tests\TestScript.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Datas\Tests\StructTraversalScript.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Datas\Tests\UpdateJsonScript.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,29 +1,49 @@
-﻿using System.Text.Json;
+﻿using FormProject.View.UserControls;
+using IronPython.Hosting;
+using Microsoft.Scripting.Hosting;
+using System;
+using System.Text;
+using System.Text.Json;
 
 namespace FormProject.Model
 {
     public class JsonParsing
     {
-        public class TestData
+        public static void RunTestsFromJson(string inputScript, string creatorLogin,
+            int idExercise, string functionName, ref string message)
         {
-            public string[] Test { get; set; }
-            public string Answer { get; set; }
+            try
+            {
+                string tests = System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\Tests.txt",
+                Encoding.GetEncoding("windows-1251"));
+                string testScript = System.IO.File.ReadAllText("..\\..\\Datas\\" +
+                "Tests\\TestUserInputScript.txt", Encoding.GetEncoding("windows-1251"));
+                ScriptEngine engine = Python.CreateEngine();
+                string fullScript = $"function_name=\"{functionName.Split('(')[0].Trim()}\"\n" +
+                    $"all_tests={tests}\ntests_by_creator=all_tests[\"{creatorLogin}\"]\n" +
+                    $"tests=tests_by_creator[{idExercise}]\n{inputScript}\n{testScript}";
+                engine.Execute(fullScript);
+            }
+            catch (Exception ex) { message = ex.Message; }
         }
 
-        class Exercises
+        public static void WriteExerciseToJson(string exerciseTests,
+            string creatorLogin, int exerciseId)
         {
-            public TestData[] Exercise4 { get; set; }
-            public TestData[] Exercise5 { get; set; }
-            public TestData[] Exercise6 { get; set; }
-
-        }
-
-        public static TestData[] ParseExercise(string ExerciseId)
-        {
-            string json = System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\Tests.json");
-            Exercises tests = JsonSerializer.Deserialize<Exercises>(json);
-            TestData[] exerciseTests = (TestData[])tests.GetType().GetProperty(ExerciseId).GetValue(tests);
-            return exerciseTests;
+            string json = System.IO.File.ReadAllText("..\\..\\Datas\\Tests\\Tests.txt",
+                Encoding.GetEncoding("windows-1251"));
+            string updateJsonScript = System.IO.File.ReadAllText("..\\..\\Datas\\" +
+                "Tests\\UpdateJsonScript.txt",
+            Encoding.GetEncoding("windows-1251"));
+            ScriptEngine engine = Python.CreateEngine();
+            ScriptScope scope = engine.CreateScope();
+            string script = $"exerciseId={exerciseId}\nfull_json={json}\ncreator_login=\"{creatorLogin}\"" +
+                $"\nexerciseTests={exerciseTests}\n{updateJsonScript}\n" +
+                $"result=create_exercise(exerciseId, exerciseTests, full_json, creator_login)";
+            engine.Execute(script, scope);
+            string updated_json = scope.GetVariable("result");
+            System.IO.File.WriteAllText("..\\..\\Datas\\Tests\\Tests.txt", updated_json,
+                Encoding.GetEncoding("windows-1251"));
         }
 
         public class ServerData

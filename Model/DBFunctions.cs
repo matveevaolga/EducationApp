@@ -6,6 +6,7 @@ using System.Linq;
 using FormProject.Model;
 using System.Resources;
 using Microsoft.Win32;
+using static IronPython.Modules._ast;
 
 namespace FormProject
 {
@@ -604,6 +605,91 @@ namespace FormProject
                 writer.WriteToLogsFile(string.Format("unknownException", "CreateExercise", ex.GetType().Name), login);
             }
             problem = true;
+        }
+
+        public int GetLastExerciseId(string login)
+        {
+            try
+            {
+                int userStatsId = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select idExercise from exercises where creatorStatsId={userStatsId}" +
+                    $" and theme=\"Написать код\" order by idExercise desc limit 1;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                int exerciseId = Convert.ToInt32(command.ExecuteScalar());
+                connectorToDb.CloseConnection();
+                return exerciseId;
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetExerciseId", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetExerciseId", ex.Number), login);
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetLastExerciseId");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetLastExerciseId"), login);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unknownException", "GetLastExerciseId", ex.GetType().Name);
+                writer.WriteToLogsFile(string.Format("unknownException", "GetLastExerciseId", ex.GetType().Name), login);
+            }
+            return 0;
+        }
+
+        public void DeleteExercise(int exerciseId, string login)
+        {
+            try
+            {
+                connectorToDb.OpenConnection();
+                MySqlCommand delete = new MySqlCommand($"delete from exercises where idExercise" +
+                    $" = {exerciseId}", connectorToDb.GetConnection());
+                delete.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "DeleteProfile", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "DeleteProfile", ex.Number), login);
+            }
+        }
+
+        public string GetCreatorLoginByIdExercise(int idExercise, string login)
+        {
+            try
+            {
+                connectorToDb.OpenConnection();
+                string getId = $"select creatorStatsId from exercises where idExercise={idExercise} limit 1";
+                MySqlCommand command = new MySqlCommand(getId, connectorToDb.GetConnection());
+                int statsId = Convert.ToInt32(command.ExecuteScalar());
+
+                string getLogin = $"select login from users where idStats={statsId} limit 1";
+                command = new MySqlCommand(getLogin, connectorToDb.GetConnection());
+
+                string creatorLogin = command.ExecuteScalar().ToString();
+                connectorToDb.CloseConnection();
+                return creatorLogin;
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetStatsByExercise", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetStatsByExercise", ex.Number), login);
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetStatsByExercise");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetStatsByExercise"), login);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("unknownException", "GetStatsByExercise", ex.GetType().Name);
+                writer.WriteToLogsFile(string.Format("unknownException", "GetStatsByExercise", ex.GetType().Name), login);
+            }
+            return "";
         }
     }
 }

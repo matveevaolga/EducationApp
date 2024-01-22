@@ -1,30 +1,5 @@
-def change_type(var, type):
-    if type == "array_size" or type == "int":
-        var = int(var)
-    elif type == "float":
-        var = float(var)
-    elif type == "bool":
-        var = bool(var)
-    return var
-
-def helper(arr, function_name):
-    processed_arr = []
-    forming_local_arr = 0
-    local_arr = []
-    for i in range(0, len(arr) - 1, 2):
-        var, type = arr[i], arr[i + 1]
-        var = change_type(var, type)
-        if not forming_local_arr and local_arr:
-            processed_arr.append(local_arr[::])
-            local_arr = []
-        if type == "array_size":
-            forming_local_arr = var
-        elif forming_local_arr:
-            local_arr.append(var)
-            forming_local_arr -= 1
-        else:
-            processed_arr.append(var)
-    if not forming_local_arr and local_arr:
-        processed_arr.append(local_arr[::])
-        local_arr = []
-    return globals()[function_name](*processed_arr)
+def helper(test, function):
+    answer = test.pop("Ответ")
+    if answer != globals()[function](**test):
+        raise Exception("Неверный ответ")
+helper(test_data, function_name)
