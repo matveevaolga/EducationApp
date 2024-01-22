@@ -6,7 +6,74 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls.CreateExercisesUCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}" x:Key="InputTip">
+                <Style.Resources>
+                    <VisualBrush x:Key="HintBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                        <VisualBrush.Visual>
+                            <Label Content="func(x: int, y: float) -> int" Foreground="LightGray" FontSize="30"
+                                   FontFamily="Trebuchet MS"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Tag" Value="IncorrectInput">
+                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <StackPanel Margin="0, 10, 0, 0" Background="#FF535572">
-        
+        <TextBlock Text="Напишите сигнатуру функции, которую должен реализовать пользователь"
+                   Style="{StaticResource TextBlockStyle}" TextWrapping="Wrap" HorizontalAlignment="Stretch"/>
+        <TextBox x:Name="signature" Style="{StaticResource InputTip}" TextChanged="CheckSignature"/>
+        <Label Style="{StaticResource LabelStyle}" Content="Добавить тест к задаче"
+               HorizontalAlignment="Stretch" Margin="0 10 0 0"/>
+        <Label Style="{StaticResource LabelStyle}" Content="Сигнатура функции некорректна"
+                       Foreground="Red" Background="#FF535572" FontWeight = "Light"
+                       HorizontalAlignment="Left" Visibility="{Binding IncorrectSignature, 
+                       UpdateSourceTrigger=PropertyChanged,
+                       Converter={StaticResource BoolToVisibility}}"/>
+        <Label Style="{StaticResource LabelStyle}" Content="К задаче не добавлено ни одного теста"
+                       Foreground="Red" Background="#FF535572" FontWeight = "Light"
+                       HorizontalAlignment="Left" Visibility="{Binding NoTests, 
+                       UpdateSourceTrigger=PropertyChanged,
+                       Converter={StaticResource BoolToVisibility}}"/>
+        <WrapPanel Orientation="Horizontal" x:Name="testData" Margin="0, 10, 0, 0"/>
+        <Button Content="Добавить" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Right"
+                Click="CreateTest"/>
+        <DockPanel Background="#FF535572">
+            <Label Style="{StaticResource LabelStyle}" Content="Удалить тест к задаче"
+                   DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0"/>
+            <Button Content="Удалить" DockPanel.Dock="Right"
+                    Style="{StaticResource ButtonStyle}" Click="DeleteTest"/>
+            <ComboBox x:Name="createdTests" Text="Созданные тесты"
+                      Style="{StaticResource ComboBoxStyle}"/>
+        </DockPanel>
+        <DockPanel LastChildFill="True">
+            <TextBlock Style="{StaticResource TextBlockStyle}" TextWrapping="Wrap" DockPanel.Dock="Top"
+                       Text="Реализуйте функцию, решающую поставленную задачу" HorizontalAlignment="Stretch"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" DockPanel.Dock="Top"
+                     AcceptsReturn="True" AcceptsTab="True" KeyUp="EnterPressed" x:Name="solution"/>
+            <Label Style="{StaticResource LabelStyle}" DockPanel.Dock="Top"
+                       Content="Все тесты пройдены" HorizontalAlignment="Stretch"
+                       Visibility="{Binding AllTestsPassed, 
+                       UpdateSourceTrigger=PropertyChanged,
+                       Converter={StaticResource BoolToVisibility}}"/>
+            <TextBlock Style="{StaticResource TextBlockStyle}" TextWrapping="Wrap" DockPanel.Dock="Top"
+                       Foreground="Red" Background="#FF535572" FontWeight = "Light"
+                       Visibility="{Binding IncorrectTestResult,
+                       UpdateSourceTrigger=PropertyChanged,
+                       Converter={StaticResource BoolToVisibility}}"
+                       HorizontalAlignment="Left" x:Name="failedTest"/>
+        </DockPanel>
     </StackPanel>
 </UserControl>
