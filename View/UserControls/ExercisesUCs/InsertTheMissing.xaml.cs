@@ -82,9 +82,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
         private void CheckIfCorrect(object sender, EventArgs e)
         {
             ScrollViewer scrollViewer = exerciseDesc.Content as ScrollViewer;
-            WrapPanel exDescStack = scrollViewer.Content as WrapPanel;
+            StackPanel exDescStack = scrollViewer.Content as StackPanel;
+            WrapPanel contentPanel = exDescStack.Children[1] as WrapPanel;
             string input = "";
-            foreach (var element in exDescStack.Children)
+            foreach (var element in contentPanel.Children)
             {
                 if (element is TextBox textBox) input += textBox.Text.Trim();
                 if (element is TextBlock textBlock) input += textBlock.Text.Trim();
