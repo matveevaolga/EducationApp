@@ -5,22 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormProject"
         mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" Height="1000" Width="1500">
     <Grid Background="#252634">
-        <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20" Padding="100" Height="800" Width="1020">
+        <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20"
+                Padding="100" MaxHeight="800" MaxWidth="1020">
             <StackPanel Margin="20 100 20 100">
                 <Label Content="Заполните форму для регистрации" Margin="0 0 0 40"
                        x:Name="message" Style="{StaticResource LabelStyle}"/>
                 <Label Content="Введите логин" x:Name="loginMessage"
-                       Style="{StaticResource LabelStyle}"/>
-                <TextBox FontSize="30" Foreground="#252634" x:Name="login" FontFamily="Trebuchet MS"/>
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Left"/>
+                <TextBox Style="{StaticResource TextBoxStyle}"
+                         x:Name="login"/>
                 <Label Content="Введите пароль" x:Name="passwordMessage"
-                       Style="{StaticResource LabelStyle}"/>
-                <PasswordBox FontSize="30" Foreground="#252634" x:Name="password" FontFamily="Trebuchet MS"/>
-                <Button Content="Отправить форму" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
-                        Background="#282b4f" Foreground="#dedee8" Click="SendForm"/>
-                <Button Content="Вернуться назад" FontSize="30" FontWeight="SemiBold" VerticalAlignment="Bottom" FontFamily="Trebuchet MS"
-                        Background="#282b4f" Foreground="#dedee8" Click="GoBack"/>
+                       Style="{StaticResource LabelStyle}" HorizontalAlignment="Left"/>
+                <TextBox Style="{StaticResource TextBoxStyle}"
+                         x:Name="password"/>
+                <Grid Margin="0 30 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Content="Отправить форму" Grid.Column="0" Margin="0 0 5 0"
+                            Style="{StaticResource ButtonMenuStyle}" Click="SendForm"/>
+                    <Button Content="К авторизации" Grid.Column="1" Margin="5 0 0 0"
+                            Style="{StaticResource ButtonMenuStyle}" Click="GoBack"/>
+                </Grid>
             </StackPanel>
         </Border>
     </Grid>

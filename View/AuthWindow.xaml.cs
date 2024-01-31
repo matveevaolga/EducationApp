@@ -29,7 +29,7 @@ namespace FormProject
                 message.Content = "Вы не ввели логин.";
                 return false;
             }
-            if (password.Password.Length == 0)
+            if (password.Text.Length == 0)
             {
                 message.Content = "Вы не ввели пароль.";
                 return false;
@@ -41,7 +41,7 @@ namespace FormProject
         {
             if (problem != "") message.Content = problem;
             login.Text = "";
-            password.Password = "";
+            password.Text = "";
         }
 
         private bool CheckLog()
@@ -62,7 +62,8 @@ namespace FormProject
 
         private bool CheckPass()
         {
-            bool isPassOk = DBHelpFunctional.HelpIsPassCorrect(login.Text, password.Password, out string problem);
+            bool isPassOk = DBHelpFunctional.HelpIsPassCorrect(login.Text,
+                password.Text, out string problem);
             if (problem != "")
             {
                 EndAuth(problem);
@@ -87,7 +88,7 @@ namespace FormProject
         private void LogIn(object sender, EventArgs e)
         {
             login.Text = login.Text.Trim();
-            password.Password = password.Password.Trim();
+            password.Text = password.Text.Trim();
             if (LengthCheck() && CheckLog() && CheckPass() )
             {
                 MainWindow mainWindow = new MainWindow(login.Text);
