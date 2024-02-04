@@ -164,5 +164,44 @@ namespace FormProject.Controller
             if (dBFunctions == null) throw new NullReferenceException();
             return dBFunctions.GetCreatorLoginByIdExercise(exerciseId, login);
         }
+
+        public static void HelpAddToFavourite(int exerciseId, string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) throw new NullReferenceException();
+            dBFunctions.AddToFavourite(login, exerciseId);
+        }
+
+        public static void HelpDeleteFromFavourite(int exerciseId, string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) throw new NullReferenceException();
+            dBFunctions.DeleteFromFavourite(login, exerciseId);
+        }
+
+        public static List<Dictionary<string, string>>
+            HelpGetFavourite(out string problem, string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка",
+                out problem, login);
+            if (dBFunctions == null) { return null; }
+            List<string> favString = dBFunctions.GetFavourite(login).Split().ToList();
+            Dictionary<string, string> exerciseData;
+            List<Dictionary<string, string>> favourite = 
+                new List<Dictionary<string, string>>();
+            foreach (string fav in favString)
+            {
+                if (int.TryParse(fav.Trim(), out int favId))
+                {
+                    exerciseData = dBFunctions.
+                        GetFavouriteDict(out problem, login, favId);
+                    favourite.Add(exerciseData);
+                }
+            }
+            return favourite;
+        }
     }
 }

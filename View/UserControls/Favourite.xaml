@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1500">
     <Grid>
-        <Label Content="Избранное"  Style="{StaticResource LabelStyle}" FontSize="50"
-               VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <ContentControl x:Name="showState" Margin="20"/>
     </Grid>
 </UserControl>
