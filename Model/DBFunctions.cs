@@ -465,6 +465,7 @@ namespace FormProject
                     newDict["additionalContent"] = reader.GetValue(6).ToString();
                     exerciseData.Add(newDict);
                 }
+                reader.Close();
                 problem = "";
             }
             catch (MySqlException ex)
@@ -708,13 +709,13 @@ namespace FormProject
             catch (MySqlException ex)
             {
                 string exception = GetMysqlException(ex);
-                Console.WriteLine(exception, "AddToFavourite", ex.Number);
-                writer.WriteToLogsFile(string.Format(exception, "AddToFavourite", ex.Number), login, "error");
+                Console.WriteLine(exception, "GetFavourite", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetFavourite", ex.Number), login, "error");
             }
             catch (NullReferenceException)
             {
-                Console.WriteLine(rm.GetString("nullException"), "AddToFavourite");
-                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToFavourite"), login, "error");
+                Console.WriteLine(rm.GetString("nullException"), "GetFavourite");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavourite"), login, "error");
             }
             return "";
         }
@@ -728,7 +729,7 @@ namespace FormProject
                 string commandText = $"select favourite from stats where idStats = {idStats};";
                 MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 string favourite = command.ExecuteScalar().ToString();
-                favourite += $" {id}";
+                favourite += $"#{id}#";
                 connectorToDb.OpenConnection();
                 commandText = $"update stats set favourite = '{favourite}' where idStats = {idStats};";
                 command = new MySqlCommand(commandText, connectorToDb.GetConnection());
@@ -757,7 +758,7 @@ namespace FormProject
                 string commandText = $"select favourite from stats where idStats = {idStats};";
                 MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
                 string favourite = command.ExecuteScalar().ToString();
-                favourite = favourite.Replace(id.ToString(), "").Replace(" ", "");
+                favourite = favourite.Replace($"#{id}#", "");
                 connectorToDb.OpenConnection();
                 commandText = $"update stats set favourite = '{favourite}' where idStats = {idStats};";
                 command = new MySqlCommand(commandText, connectorToDb.GetConnection());
@@ -798,19 +799,20 @@ namespace FormProject
                     exerciseData["answer"] = reader.GetValue(5).ToString();
                     exerciseData["additionalContent"] = reader.GetValue(6).ToString();
                 }
+                reader.Close();
                 problem = "";
             }
             catch (MySqlException ex)
             {
                 string exception = GetMysqlException(ex);
-                Console.WriteLine(exception, "GetFavourite", ex.Number);
-                writer.WriteToLogsFile(string.Format(exception, "GetFavourite", ex.Number), login, "error");
+                Console.WriteLine(exception, "GetFavouriteDict", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetFavouriteDict", ex.Number), login, "error");
                 problem = "ошибка авторизации";
             }
             catch (NullReferenceException)
             {
                 Console.WriteLine(rm.GetString("nullException"), "IsAdmin");
-                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavourite"), login, "error");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavouriteDict"), login, "error");
                 problem = "программная ошибка";
             }
             return exerciseData;

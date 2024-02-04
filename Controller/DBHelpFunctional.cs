@@ -188,7 +188,7 @@ namespace FormProject.Controller
             GetDBFunctions(out dBFunctions, "Произошла программная ошибка",
                 out problem, login);
             if (dBFunctions == null) { return null; }
-            List<string> favString = dBFunctions.GetFavourite(login).Split().ToList();
+            List<string> favString = dBFunctions.GetFavourite(login).Split('#').ToList();
             Dictionary<string, string> exerciseData;
             List<Dictionary<string, string>> favourite = 
                 new List<Dictionary<string, string>>();
@@ -198,10 +198,21 @@ namespace FormProject.Controller
                 {
                     exerciseData = dBFunctions.
                         GetFavouriteDict(out problem, login, favId);
-                    favourite.Add(exerciseData);
+                    if (exerciseData.Count != 0) favourite.Add(exerciseData);
                 }
             }
             return favourite;
+        }
+
+        public static bool
+    IsExerciseInFavourite(out string problem, string login, string id)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка",
+                out problem, login);
+            if (dBFunctions == null) { return false; }
+            List<string> favString = dBFunctions.GetFavourite(login).Split('#').ToList();
+            return favString.Contains(id);
         }
     }
 }
