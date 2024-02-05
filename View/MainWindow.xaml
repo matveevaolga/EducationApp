@@ -5,24 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FormProject.View"
         mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="MainWindow" WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         SizeChanged="Window_SizeChanged"
         MinHeight="600" MinWidth="700">
-    <Grid Background="#3c3e54">
+    <Grid Background="#252634">
     <DockPanel LastChildFill="True">
-        <Border x:Name="mainMenu" Background="#FFCEC9D9" DockPanel.Dock="Bottom">
+        <Border x:Name="mainMenu" DockPanel.Dock="Bottom">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Content="Упражнения"
+                <Button Grid.Column="0" Content="Упражнения" Margin="0 0 5 0"
                         Style="{StaticResource ButtonMenuStyle}" Click="ToExercises"/>
                 <Button Grid.Column="1" Content="Избранное"
                         Style="{StaticResource ButtonMenuStyle}" Click="ToFavourite"/>
-                <Button Grid.Column="2" Content="Профиль"
+                <Button Grid.Column="2" Content="Профиль" Margin="5 0 0 0"
                         Style="{StaticResource ButtonMenuStyle}" Click="ToUserProfile"/>
             </Grid>
         </Border>

@@ -28,6 +28,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 isSolved = true;
             }
             else isSolved = false;
+            if (DBHelpFunctional.IsExerciseInFavourite(out string problem,
+                login, exerciseData["id"]))
+                favouriteButton.Style = Resources["FavouriteButton"] as Style;
+            else favouriteButton.Style = Resources["UnFavouriteButton"] as Style;
             ShowExerciseDesc();
         }
 
@@ -96,7 +100,19 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 result.Content = "Неверно...";
                 result.Visibility = Visibility.Visible;
             }
-
+        }
+        private void FavoriteProcessing(object sender, RoutedEventArgs e)
+        {
+            if (favouriteButton.Style == Resources["FavouriteButton"] as Style)
+            {
+                favouriteButton.Style = Resources["UnFavouriteButton"] as Style;
+                DBHelpFunctional.HelpDeleteFromFavourite(int.Parse(exerciseData["id"]), login);
+            }
+            else
+            {
+                favouriteButton.Style = Resources["FavouriteButton"] as Style;
+                DBHelpFunctional.HelpAddToFavourite(int.Parse(exerciseData["id"]), login);
+            }
         }
     }
 }
