@@ -73,9 +73,6 @@
                     <Trigger Property="IsMouseCaptured" Value="True">
                         <Setter Property="Background" Value="#FF535572"/>
                     </Trigger>
-                    <Trigger Property="Tag" Value="IncorrectInput">
-                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
-                    </Trigger>
                 </Style.Triggers>
             </Style>
             <Style TargetType="TextBlock" x:Key="TextBlockStyle"
