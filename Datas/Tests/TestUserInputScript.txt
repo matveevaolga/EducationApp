@@ -1,0 +1,7 @@
+def helper(test, function):
+    message = str(test)
+    answer = test.pop("Ответ")
+    if answer != globals()[function](**test):
+        raise Exception(f"Неверный ответ на тесте {message}")
+for test_data in tests:
+    helper(test_data, function_name)

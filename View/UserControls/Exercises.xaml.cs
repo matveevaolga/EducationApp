@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using FormProject.View.UserControls.ExercisesUCs;
+using FormProject.Controller;
 
 namespace FormProject.View.UserControls
 {
@@ -21,29 +11,27 @@ namespace FormProject.View.UserControls
     /// </summary>
     public partial class Exercises : UserControl
     {
+        string login;
+
         public Exercises(string login)
         {
             InitializeComponent();
+            this.login = login;
+            if (DBHelpFunctional.HelpIsAdmin(login, out string problem)) 
+            { createExerciseButton.Visibility = Visibility.Visible; }
+            exercisesFunctional.Content = new ShowExercisesUC(login);
         }
 
-        private void WriteCodeChosen(object sender, RoutedEventArgs e)
+        private void showExercises(object sender, EventArgs e)
         {
-            switchExerciseUC.Content = new WriteCode();
+            ShowExercisesUC showExercisesUC = new ShowExercisesUC(login);
+            exercisesFunctional.Content = showExercisesUC;
         }
 
-        private void YourAnswerChosen(object sender, RoutedEventArgs e)
+        private void createExercise(object sender, EventArgs e)
         {
-            switchExerciseUC.Content = new YourAnswer();
-        }
-
-        private void ChooseCorrectChosen(object sender, RoutedEventArgs e)
-        {
-            switchExerciseUC.Content = new ChooseCorrect();
-        }
-
-        private void InsertTheMissingChosen(object sender, RoutedEventArgs e)
-        {
-            switchExerciseUC.Content = new InsertTheMissing();
+            CreateExerciseUC createExerciseUC = new CreateExerciseUC(login);
+            exercisesFunctional.Content = createExerciseUC;
         }
     }
 }

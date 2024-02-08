@@ -9,36 +9,19 @@
     <Grid Background="#252634">
         <Border CornerRadius="20" Background="#3c3e54"
                 VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Margin="70, 60, 70, 60" BorderThickness="1">
-            <DockPanel>
-                <Button Style="{StaticResource ButtonStyle }" Content="Создать задачу"
-                    Background="#282b4f" Height="40" VerticalAlignment="Top" Visibility="Visible"/>
+                Margin="70, 60, 70, 60" BorderThickness="1" Cursor="">
+            <DockPanel Cursor="">
+                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top"
+                            Margin="20">
+                    <Button Style="{StaticResource ButtonMenuStyle }" Content="К задачам"
+                            HorizontalAlignment="Stretch"
+                        Visibility="Visible" x:Name="showExercisesButton" Click="showExercises"/>
+                    <Button Style="{StaticResource ButtonMenuStyle }" Content="Создать задачу" Margin="0, 10, 0, 0"
+                            HorizontalAlignment="Stretch"
+                        Visibility="Collapsed" x:Name="createExerciseButton" Click="createExercise"/>
+                </StackPanel>
                 <Border Background="#FF535572" Margin="30" CornerRadius="20">
-                    <DockPanel>
-                        <StackPanel Margin="20, 20, 10, 10" HorizontalAlignment="Left"
-                                    VerticalAlignment="Top" DockPanel.Dock="Top">
-                            <Label Style="{StaticResource LabelStyle}" Content="Введите название задачи"
-                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-                            <TextBox FontSize="30" TextWrapping="Wrap"/>
-                            <Label Style="{StaticResource LabelStyle}" Content="Выберите тему задачи"
-                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-                            <ComboBox Visibility="Visible" FontSize="30" Text="Тема задачи"
-                          IsEditable="True" IsReadOnly="True">
-                                <ComboBoxItem Content="1"/>
-                                <ComboBoxItem Content="2"/>
-                            </ComboBox>
-                            <Label Style="{StaticResource LabelStyle}" Content="Выберите тип задачи"
-                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
-                            <ComboBox Visibility="Visible" FontSize="30" Text="Тип задачи"
-                          IsEditable="True" IsReadOnly="True">
-                                <ComboBoxItem Content="Написать код" Selected="WriteCodeChosen"/>
-                                <ComboBoxItem Content="Вписать свой ответ" Selected="YourAnswerChosen"/>
-                                <ComboBoxItem Content="Выбрать верное" Selected="ChooseCorrectChosen"/>
-                                <ComboBoxItem Content="Вставить пропущенное" Selected="InsertTheMissingChosen"/>
-                            </ComboBox>
-                        </StackPanel>
-                        <ContentControl x:Name="switchExerciseUC"/>
-                    </DockPanel>
+                    <ContentControl x:Name="exercisesFunctional"/>
                 </Border>
             </DockPanel>
         </Border>

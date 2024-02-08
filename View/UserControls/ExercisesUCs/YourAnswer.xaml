@@ -4,9 +4,73 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormProject.View.UserControls.ExercisesUCs"
-             mc:Ignorable="d" 
+             mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Label Style="{StaticResource LabelStyle}"  Content="Вписать свой ответ" HorizontalAlignment="Stretch"/>
-    </Grid>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ControlTemplate TargetType="Button" x:Key="UnAdded">
+                <Border CornerRadius="30"
+                    Height="{TemplateBinding Height}"
+                    Width="{TemplateBinding Width}">
+                    <materialDesign:PackIcon Kind="StarBorder"
+                                 Background="Transparent" 
+                                 Foreground="#282b4f"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Height="60" Width="60"/>
+                </Border>
+            </ControlTemplate>
+            <ControlTemplate TargetType="Button" x:Key="Added">
+                <Border CornerRadius="30"
+                    Height="{TemplateBinding Height}"
+                    Width="{TemplateBinding Width}">
+                    <materialDesign:PackIcon Kind="Star"
+                                 Background="Transparent" 
+                                 Foreground="#F2CD5C"
+                                 HorizontalAlignment="Stretch"
+                                 VerticalAlignment="Stretch"
+                                 Height="60" Width="60"/>
+                </Border>
+            </ControlTemplate>
+            <Style TargetType="Button" x:Key="FavouriteButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Template" Value="{StaticResource Added}"/>
+            </Style>
+            <Style TargetType="Button" x:Key="UnFavouriteButton">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+                <Setter Property="Height" Value="60"/>
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Template" Value="{StaticResource UnAdded}"/>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel Background="#FF535572" x:Name="parentDock">
+        <Label Style="{StaticResource LabelStyle}" 
+               Content="Вписать свой ответ" HorizontalAlignment="Stretch"
+               HorizontalContentAlignment="Center" VerticalAlignment="Top" DockPanel.Dock="Top"/>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" VerticalAlignment="Top"
+                    HorizontalAlignment="Center">
+            <Label x:Name = "idDesc" Content="id: " Style="{StaticResource LabelStyle}" 
+                   HorizontalContentAlignment="Center" Background="#FF535572"/>
+            <Label x:Name = "expDesc" Content="exp: " Style="{StaticResource LabelStyle}"
+                   HorizontalContentAlignment="Center" Background="#FF535572"/>
+        </StackPanel>
+        <Grid DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource UnFavouriteButton}" Margin="0 0 10 0"
+                    Click="FavoriteProcessing" x:Name="favouriteButton"/>
+            <Button Content="Завершить" Style="{StaticResource ButtonStyle}"
+                    Click="CheckIfCorrect" x:Name="endButton" Grid.Column="1"/>
+        </Grid>
+        <Label x:Name="result" Content="Верно!" Style="{StaticResource LabelStyle}" Background="#FF535572"
+               DockPanel.Dock="Bottom" HorizontalAlignment="Center" Visibility="Collapsed"/>
+        <ContentControl x:Name="exerciseDesc" Margin="10"/>
+    </DockPanel>
 </UserControl>

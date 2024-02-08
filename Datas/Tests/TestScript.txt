@@ -1,0 +1,5 @@
+def helper(test, function):
+    answer = test.pop("Ответ")
+    if answer != globals()[function](**test):
+        raise Exception("Неверный ответ")
+helper(test_data, function_name)

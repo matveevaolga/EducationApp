@@ -1,0 +1,8 @@
+def create_exercise(exerciseId, exerciseTests, full_json, creator_login):
+	if creator_login not in full_json:
+		full_json[creator_login] = {}
+	if exerciseId not in full_json[creator_login]:
+		full_json[creator_login][exerciseId] = []
+	for test in exerciseTests:
+		full_json[creator_login][exerciseId].append(test)
+	return str(full_json)

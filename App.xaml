@@ -4,51 +4,105 @@
              xmlns:local="clr-namespace:FormProject"
              StartupUri="View/AuthWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Button" x:Key="ButtonStyle">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="Trebuchet MS"/>
-            <Setter Property="Background" Value="#282b4f"/>
-            <Setter Property="Foreground" Value="#dedee8"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF404364"/>
-                    <Setter Property="Foreground" Value="#282b4f"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="Button" x:Key="ButtonMenuStyle">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="Trebuchet MS"/>
-            <Setter Property="Background" Value="#282b4f"/>
-            <Setter Property="Foreground" Value="#dedee8"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FF404364"/>
-                    <Setter Property="Foreground" Value="#282b4f"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-        <Style TargetType="Label" x:Key="LabelStyle">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="Trebuchet MS"/>
-            <Setter Property="Background" Value="#FF404364"/>
-            <Setter Property="Foreground" Value="#dedee8"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-        </Style>
-        <Style TargetType="TextBox" x:Key="TextBoxStyle">
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="FontFamily" Value="Trebuchet MS"/>
-            <Setter Property="Background" Value="#FFCEC9D9"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Text" Value=""/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+            <Style TargetType="Button" x:Key="ButtonStyle" 
+                   BasedOn="{StaticResource MaterialDesignFlatAccentBgButton}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Background" Value="#282b4f"/>
+                <Setter Property="BorderBrush" Value="#282b4f"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="MinHeight" Value="50"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF404364"/>
+                        <Setter Property="Foreground" Value="#282b4f"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Button" x:Key="ButtonMenuStyle"
+                   BasedOn="{StaticResource MaterialDesignFlatAccentBgButton}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="BorderBrush" Value="#282b4f"/>
+                <Setter Property="Background" Value="#282b4f"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="MinHeight" Value="50"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF404364"/>
+                        <Setter Property="Foreground" Value="#282b4f"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="Label" x:Key="LabelStyle"
+                   BasedOn="{StaticResource MaterialDesignLabel}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <VisualBrush x:Key="IncorrectInputBrush" AlignmentX = "Left"
+                             AlignmentY = "Center" Stretch = "None">
+                <VisualBrush.Visual >
+                    <Label Content = "Поле заполнено некорректно" Foreground = "Red" FontSize = "30"
+                                   FontFamily = "Trebuchet MS" BorderBrush="Red"/>
+                </VisualBrush.Visual>
+            </VisualBrush>
+            <Style TargetType="TextBox" x:Key="TextBoxStyle">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Background" Value="#FF535572"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="CaretBrush" Value="#dedee8"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseCaptured" Value="True">
+                        <Setter Property="Background" Value="#FF535572"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="TextBlockStyle"
+                   BasedOn="{StaticResource MaterialDesignBody1TextBlock}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+            </Style>
+            <Style TargetType="CheckBox" x:Key="CheckBoxStyle"
+                   BasedOn="{StaticResource MaterialDesignAccentCheckBox}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Background" Value="#dedee8"/>
+                <Setter Property="Foreground" Value="#dedee8"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+            </Style>
+            <Style TargetType="ComboBox" x:Key="ComboBoxStyle">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="Background" Value="#dedee8"/>
+                <Setter Property="BorderBrush" Value="#dedee8"/>
+                <Setter Property="Foreground" Value="#FF404364"/>
+                <Setter Property="IsEditable" Value="True"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

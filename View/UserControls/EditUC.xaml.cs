@@ -1,34 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using FormProject.Controller;
+using System;
 
 namespace FormProject.View.UserControls
 {
     /// <summary>
     /// Логика взаимодействия для EditUC.xaml
     /// </summary>
-    public partial class EditUC : UserControl
+    public partial class EditUC: System.Windows.Controls.UserControl
     {
-        public EditUC()
+        string login;
+
+        public EditUC(string login)
         {
+            this.login = login;
             InitializeComponent();
-            DataContext = new EditInfo();
+            DataContext = new EditInfo(login);
         }
 
         class EditInfo
         {
-            public EditInfo()
+            public EditInfo(string login)
             {
 
             }
@@ -36,16 +27,15 @@ namespace FormProject.View.UserControls
 
         private void EditProfile(object sender, EventArgs e)
         {
-            DBFunctions dBFunctions = new DBFunctions();
             if (nameChange.Text != "")
             {
-                bool result = dBFunctions.ChangeField(UserProfile.login, "profiles", "name", nameChange.Text);
-                nameChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "name", nameChange.Text, out string problem);
+                nameChange.Text = result == true ? "" : problem;
             }
             if (infoChange.Text != "")
             {
-                bool result = dBFunctions.ChangeField(UserProfile.login, "profiles", "about", infoChange.Text);
-                infoChange.Text = result == true ? "" : "ошибка, не удалось изменить поле";
+                bool result = DBHelpFunctional.HelpChangeField(this.login, "profiles", "about", infoChange.Text, out string problem);
+                infoChange.Text = result == true ? "" : problem;
             }
         }
     }

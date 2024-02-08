@@ -1,21 +1,21 @@
 ﻿using FormProject.Controller;
-using FormProject.View.UserControls.ExercisesUCs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace FormProject.View.UserControls
+namespace FormProject.View.UserControls.ExercisesUCs
 {
     /// <summary>
-    /// Логика взаимодействия для Favourite.xaml
+    /// Логика взаимодействия для ShowExercisesUC.xaml
     /// </summary>
-    public partial class Favourite : UserControl
+    public partial class ShowExercisesUC : UserControl
     {
         string login;
-        public Favourite(string login)
+
+        public ShowExercisesUC(string login)
         {
             InitializeComponent();
             this.login = login;
@@ -29,12 +29,11 @@ namespace FormProject.View.UserControls
 
         private StackPanel FillStack()
         {
-            List<Dictionary<string, string>> exersicesData =
-                DBHelpFunctional.HelpGetFavourite(out string problem, login);
+            List<Dictionary<string, string>> exersicesData = 
+                DBHelpFunctional.HelpGetExersices(out string problem, login);
             if (exersicesData == null) { return null; }
             StackPanel exercisesStack = new StackPanel();
-            for (int i = 0; i < exersicesData.Count; i++)
-            {
+            for (int i = 0; i < exersicesData.Count; i++){
                 Dictionary<string, string> data = exersicesData[i];
                 StackPanel exercise = Description(data, i + 1);
                 exercisesStack.Children.Add(exercise);
@@ -52,7 +51,7 @@ namespace FormProject.View.UserControls
                 if (child is TextBlock)
                 {
                     TextBlock field = (TextBlock)child;
-                    string[] data = field.Text.ToString().Split(new string[] { ": " },
+                    string[] data = field.Text.ToString().Split(new string[] {": "},
                         StringSplitOptions.None);
                     if (data.GetLength(0) == 1) exerciseData.Add(data[0], " ");
                     else
@@ -86,7 +85,7 @@ namespace FormProject.View.UserControls
         public StackPanel Description(Dictionary<string, string> exerciseData, int exerciseNum)
         {
             var bc = new BrushConverter();
-
+            
             TextBlock id = new TextBlock();
             id.Name = $"idy{exerciseNum}";
             id.Text = "id: " + exerciseData["id"];
@@ -117,7 +116,7 @@ namespace FormProject.View.UserControls
             description.Style = Application.Current.FindResource("TextBlockStyle") as Style;
             description.HorizontalAlignment = HorizontalAlignment.Stretch;
             description.Background = (Brush)bc.ConvertFrom("#FF535572");
-            description.TextWrapping = TextWrapping.Wrap;
+            description.TextWrapping = TextWrapping.Wrap;   
 
             TextBlock exp = new TextBlock();
             exp.Name = $"expy{exerciseNum}";
@@ -167,5 +166,3 @@ namespace FormProject.View.UserControls
         }
     }
 }
-    
-

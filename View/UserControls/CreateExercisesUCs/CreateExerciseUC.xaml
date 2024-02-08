@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="FormProject.View.UserControls.ExercisesUCs.CreateExerciseUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormProject.View.UserControls.ExercisesUCs"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}" x:Key="InputTip">
+                <Style.Resources>
+                    <VisualBrush x:Key="HintBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                        <VisualBrush.Visual>
+                            <Label Content="от 1 до 10" Foreground="LightGray" FontSize="30"
+                                   FontFamily="Trebuchet MS"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Tag" Value="IncorrectInput">
+                        <Setter Property="Text" Value=""/>
+                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}" x:Key="SignatureTip">
+                <Style.Resources>
+                    <VisualBrush x:Key="HintBrush" AlignmentX="Left" AlignmentY="Center" Stretch="None">
+                        <VisualBrush.Visual>
+                            <Label Content="должна упоминаться сигнатура функции" Foreground="LightGray" FontSize="30"
+                       FontFamily="Trebuchet MS"/>
+                        </VisualBrush.Visual>
+                    </VisualBrush>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="Text" Value="">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Text" Value="{x:Null}">
+                        <Setter Property="Background" Value="{StaticResource HintBrush}" />
+                    </Trigger>
+                    <Trigger Property="Tag" Value="IncorrectInput">
+                        <Setter Property="Text" Value=""/>
+                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="20">
+        <StackPanel HorizontalAlignment="Stretch">
+            <Label Style="{StaticResource LabelStyle}" Content="Выберите тип задачи"
+                               Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
+            <ComboBox Text="Тип задачи" Style="{StaticResource ComboBoxStyle}"
+                      x:Name="exerciseType" GotMouseCapture="ResetComboBox">
+                <ComboBoxItem Content="Написать код" Selected="WriteCodeChosen"/>
+                <ComboBoxItem Content="Вписать свой ответ" Selected="YourAnswerChosen"/>
+                <ComboBoxItem Content="Выбрать верное" Selected="ChooseCorrectChosen"/>
+                <ComboBoxItem Content="Вставить пропущенное" Selected="InsertTheMissingChosen"/>
+            </ComboBox>
+            <Label Style="{StaticResource LabelStyle}" Content="Введите сложность задачи" 
+                   Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
+            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}"
+                     x:Name="exerciseComplexity" TextChanged="ResetTextBoxBackground"/>
+            <Label Style="{StaticResource LabelStyle}" Content="Введите exp задачи" 
+                   Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
+            <TextBox TextWrapping="Wrap" Style="{StaticResource InputTip}" 
+                     x:Name="exerciseExp" TextChanged="ResetTextBoxBackground"/>
+            <Label Style="{StaticResource LabelStyle}" Content="Введите условие задачи"
+                   Margin="0, 10, 0, 0" HorizontalAlignment="Stretch"/>
+            <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap" AcceptsReturn="True"
+                     AcceptsTab="True" x:Name="exerciseCondition" TextChanged="ResetTextBoxBackground"/>
+            <ContentControl x:Name="chooseExerciseType" />
+            <DockPanel>
+                <Button Content="Завершить" HorizontalAlignment="Left" Name="finishButton" 
+                    Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish" DockPanel.Dock="Left"/>
+                <TextBlock x:Name="errorTextBlock" Style="{StaticResource TextBlockStyle}" 
+                       Foreground="Red" Background="#FF535572"
+                       Visibility="{Binding Problem, UpdateSourceTrigger=PropertyChanged,
+                    Converter={StaticResource BoolToVisibility}}"
+                       FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="10, 10, 0, 0"
+                       Text="Возникла программная ошибка, повторите попытку позже"/>
+                <TextBlock x:Name="success" Style="{StaticResource TextBlockStyle}" Background="#FF535572"
+                       Visibility="Collapsed" FontWeight ="Light" TextWrapping="Wrap" DockPanel.Dock="Left" Margin="10, 10, 0, 0"
+                       Text="Задача успешно создана"/>
+            </DockPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
