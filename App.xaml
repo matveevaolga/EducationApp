@@ -103,6 +103,13 @@
                 <Setter Property="IsEditable" Value="True"/>
                 <Setter Property="IsReadOnly" Value="True"/>
             </Style>
+            <Style TargetType="ListView" x:Key="ListViewStyle"
+                   BasedOn="{StaticResource MaterialDesignListView}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="IsHitTestVisible" Value="False"/>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

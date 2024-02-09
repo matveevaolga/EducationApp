@@ -143,7 +143,7 @@
     <Compile Include="View\UserControls\CreateExercisesUCs\CreateYourAnswer.xaml.cs">
       <DependentUpon>CreateYourAnswer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\EditUC.xaml.cs">
+    <Compile Include="View\UserControls\ProfileUCs\EditUC.xaml.cs">
       <DependentUpon>EditUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\UserControls\Exercises.xaml.cs">
@@ -170,13 +170,13 @@
     <Compile Include="View\UserControls\Favourite.xaml.cs">
       <DependentUpon>Favourite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\SettingsUC.xaml.cs">
+    <Compile Include="View\UserControls\ProfileUCs\SettingsUC.xaml.cs">
       <DependentUpon>SettingsUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\StatsUC.xaml.cs">
+    <Compile Include="View\UserControls\ProfileUCs\StatsUC.xaml.cs">
       <DependentUpon>StatsUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\UserProfile.xaml.cs">
+    <Compile Include="View\UserControls\ProfileUCs\UserProfile.xaml.cs">
       <DependentUpon>UserProfile.xaml</DependentUpon>
     </Compile>
     <Page Include="View\AuthWindow.xaml">
@@ -203,7 +203,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\EditUC.xaml">
+    <Page Include="View\UserControls\ProfileUCs\EditUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -256,15 +256,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\SettingsUC.xaml">
+    <Page Include="View\UserControls\ProfileUCs\SettingsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\StatsUC.xaml">
+    <Page Include="View\UserControls\ProfileUCs\StatsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\UserProfile.xaml">
+    <Page Include="View\UserControls\ProfileUCs\UserProfile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
