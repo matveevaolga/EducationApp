@@ -1,6 +1,8 @@
 ﻿using FormProject.Controller;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 
@@ -13,16 +15,14 @@ namespace FormProject.View.UserControls
     {
         public class ExerciseDescription
         {
-            public int Id { get; set; }
+            public string Id { get; set; }
             public string Type { get; set; }
-            public int Exp { get; set; }
-            public string Date { get; set; }
-            public ExerciseDescription(int id, string type, int exp, string date)
+            public string Complexity { get; set; }
+            public ExerciseDescription(string id, string type, string complexity)
             {
                 Id = id;
                 Type = type;
-                Exp = exp;
-                Date = date;
+                Complexity = complexity;
             }
         }
         public string uActive { get; set; }
@@ -41,16 +41,44 @@ namespace FormProject.View.UserControls
             get { return createdExercises; }
             set { createdExercises = value; }
         }
+        string login;
         public StatsUC(string login)
         {
             InitializeComponent();
+            this.login = login;
             uActive = DBHelpFunctional.HelpGetStatsField(login, "active");
             uMaxSession = DBHelpFunctional.HelpGetStatsField(login, "maxSession");
             uSolvedAmount = DBHelpFunctional.HelpGetStatsField(login, "solvedAmount");
             uTopicsAmount = DBHelpFunctional.HelpGetStatsField(login, "coveredTopicsAmount");
-            //FillSolved();
-            //FillCreated();
+            solvedExercises = new List<ExerciseDescription>();
+            createdExercises = new List<ExerciseDescription>();
+            FillSolved();
+            FillCreated();
             DataContext = this;
+        }
+        void FillSolved()
+        {
+            List<Dictionary<string,string>> solved =
+                DBHelpFunctional.HelpGetSolved(login);
+            ExerciseDescription newExercise;
+            foreach (Dictionary<string,string> exData in solved)
+            {
+                newExercise = new ExerciseDescription(exData["Id"],
+                    exData["Type"], exData["Complexity"]);
+                SolvedExercises.Add(newExercise);
+            }
+        }
+        void FillCreated()
+        {
+            List<Dictionary<string, string>> created =
+                DBHelpFunctional.HelpGetCreated(login);
+            ExerciseDescription newExercise;
+            foreach (Dictionary<string, string> exData in created)
+            {
+                newExercise = new ExerciseDescription(exData["Id"],
+                    exData["Type"], exData["Complexity"]);
+                CreatedExercises.Add(newExercise);
+            }
         }
     }
 }

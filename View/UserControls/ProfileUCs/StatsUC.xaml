@@ -60,10 +60,8 @@
                         Header="Id"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Type}"
                         Header="Тип задачи"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Exp}"
-                        Header="Exp"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}"
-                        Header="Дата решения"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Complexity}"
+                        Header="Сложность"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -85,10 +83,8 @@
                         Header="Id"/>
                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Type}"
                         Header="Тип задачи"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Exp}"
-                        Header="Exp"/>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path=Date}"
-                        Header="Дата создания"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Complexity}"
+                        Header="Сложность" />
                             </GridView>
                         </ListView.View>
                     </ListView>

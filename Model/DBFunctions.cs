@@ -8,6 +8,7 @@ using System.Resources;
 using Microsoft.Win32;
 using static IronPython.Modules._ast;
 using IronPython.Runtime.Operations;
+using static IronPython.Modules.PythonCsvModule;
 
 namespace FormProject
 {
@@ -190,8 +191,8 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                string insertLogPass = "insert into users (login, pass, idStats, idProfile) " +
-                    "values (@uLogin, @uPass, @uStatsId, @uProfileId);";
+                string insertLogPass = "insert into users (login, pass, idStats, idProfile, isAdmin) " +
+                    $"values (@uLogin, @uPass, @uStatsId, @uProfileId, {1});";
                 MySqlCommand register = new MySqlCommand(insertLogPass, connectorToDb.GetConnection());
                 register.Parameters.AddWithValue("@uLogin", login);
                 register.Parameters.AddWithValue("@uPass", password);
@@ -814,6 +815,86 @@ namespace FormProject
                 Console.WriteLine(rm.GetString("nullException"), "IsAdmin");
                 writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavouriteDict"), login, "error");
                 problem = "программная ошибка";
+            }
+            return exerciseData;
+        }
+
+        public List<Dictionary<string, string>> GetSolved(string login)
+        {
+            List<Dictionary<string, string>> exerciseData = new List<Dictionary<string, string>>();
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string solved = command.ExecuteScalar().ToString();
+                Dictionary<string, string> newDict;
+                foreach (string ex in solved.Split())
+                {
+                    if (!int.TryParse(ex.Trim(), out int exId)) continue;
+                    commandText = $"select idExercise, theme, complexity" +
+                        $" from exercises where IdExercise={exId};";
+                    command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                    MySqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    newDict = new Dictionary<string, string>();
+                    newDict["Id"] = reader.GetValue(0).ToString();
+                    newDict["Type"] = reader.GetValue(1).ToString();
+                    newDict["Complexity"] = reader.GetValue(2).ToString();
+                    exerciseData.Add(newDict);
+                    reader.Close();
+                }
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetSolved");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetSolved"), login, "error");
+            }
+            return exerciseData;
+        }
+
+        public List<Dictionary<string, string>> GetCreated(string login)
+        {
+            List<Dictionary<string, string>> exerciseData = new List<Dictionary<string, string>>();
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select idExercise, theme, complexity" +
+                    $" from exercises where creatorStatsId = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                MySqlDataReader reader = command.ExecuteReader();
+                Dictionary<string, string> newDict;
+                while (reader.Read())
+                {
+                    newDict = new Dictionary<string, string>();
+                    newDict["Id"] = reader.GetValue(0).ToString();
+                    newDict["Type"] = reader.GetValue(1).ToString();
+                    newDict["Complexity"] = reader.GetValue(2).ToString();
+                    exerciseData.Add(newDict);
+                }
+                reader.Close();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetCreated", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetCreated", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetCreated");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"),
+                    "GetCreated"), login, "error");
             }
             return exerciseData;
         }
