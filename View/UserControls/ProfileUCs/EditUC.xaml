@@ -18,19 +18,21 @@
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Label Content="Изменить имя" Grid.Row="0"
-                       Grid.Column="0" Style="{StaticResource LabelStyle}"/>
-        <Label Content="Изменить инф о польз-е" Grid.Row="1"
-                       Grid.Column="0" Style="{StaticResource LabelStyle}"/>
-        <Label Content="Изменить фото" Grid.Row="2"
-                       Grid.Column="0" Style="{StaticResource LabelStyle}"/>
-        <Button Content="Применить" Click="EditProfile" Grid.Column="3"
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                    VerticalAlignment="Center">
+            <Label Content="Изменить имя" Style="{StaticResource LabelStyle}"/>
+            <TextBox x:Name="nameChange" HorizontalAlignment="Stretch"
+                     Style="{StaticResource TextBoxStyle}"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    VerticalAlignment="Center">
+            <Label Content="Изменить информацию о себе" Style="{StaticResource LabelStyle}"/>
+            <TextBox x:Name="infoChange"
+                         HorizontalAlignment="Stretch" Style="{StaticResource TextBoxStyle}"/>
+        </StackPanel> 
+        <Label Content="Изменить фото" Grid.Row="0"
+                       Grid.Column="4" Style="{StaticResource LabelStyle}"/>
+        <Button Content="Применить" Click="EditProfile" Grid.Column="0"
                         Grid.Row="2" Style="{StaticResource ButtonStyle}"/>
-        <TextBox x:Name="nameChange" Grid.Row="0"
-                         Grid.Column="1" Grid.ColumnSpan="2"
-                         HorizontalAlignment="Stretch" Style="{StaticResource TextBoxStyle}"/>
-        <TextBox x:Name="infoChange" Grid.Row="1"
-                         Grid.Column="1" Grid.ColumnSpan="2" 
-                         HorizontalAlignment="Stretch" Style="{StaticResource TextBoxStyle}"/>
     </Grid>
 </UserControl>
