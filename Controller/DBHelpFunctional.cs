@@ -204,8 +204,7 @@ namespace FormProject.Controller
             return favourite;
         }
 
-        public static bool
-    IsExerciseInFavourite(out string problem, string login, string id)
+        public static bool IsExerciseInFavourite(out string problem, string login, string id)
         {
             DBFunctions dBFunctions;
             GetDBFunctions(out dBFunctions, "Произошла программная ошибка",
@@ -213,6 +212,20 @@ namespace FormProject.Controller
             if (dBFunctions == null) { return false; }
             List<string> favString = dBFunctions.GetFavourite(login).Split('#').ToList();
             return favString.Contains(id);
+        }
+        public static List<Dictionary<string, string>> HelpGetSolved(string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return null; }
+            return dBFunctions.GetSolved(login);
+        }
+        public static List<Dictionary<string, string>> HelpGetCreated(string login)
+        {
+            DBFunctions dBFunctions;
+            GetDBFunctions(out dBFunctions, "Произошла программная ошибка", login);
+            if (dBFunctions == null) { return null; }
+            return dBFunctions.GetCreated(login);
         }
     }
 }
