@@ -28,9 +28,9 @@
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <Button Content="Войти" Margin="0 0 5 0" Grid.Column="0"
-                                Click="LogIn" Style="{StaticResource ButtonMenuStyle}"/>
+                                Click="LogIn" Style="{StaticResource ButtonStyle}"/>
                         <Button Content="Зарегистрироваться" Margin="5 0 0 0"
-                            Click="SignUp" Style="{StaticResource ButtonMenuStyle}" Grid.Column="1"/>
+                            Click="SignUp" Style="{StaticResource ButtonStyle}" Grid.Column="1"/>
                     </Grid>
                 </StackPanel>
             </Border>

@@ -46,13 +46,14 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="stats" Click="ShowStats"
-        Content="Статистика" Grid.Row="0"
-        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                <Button x:Name="edit" Click="ShowEdit"
-        Content="Редактирование" Grid.Row="1"
-        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-
+                <DockPanel Grid.Row="0" Grid.Column="4" Grid.RowSpan="3"
+                           Margin="10">
+                    <Button x:Name="stats" Click="ShowStats"
+                        Content="Статистика" Style="{StaticResource ButtonStyle}"
+                            DockPanel.Dock="Top"/>
+                    <Button x:Name="edit" Click="ShowEdit"
+                        Content="Настройки" Style="{StaticResource ButtonStyle}"/>
+                </DockPanel>
                 <Border Grid.Column="0" Grid.RowSpan="3" CornerRadius="20" Margin="10"
                         Background="{Binding uImage}"/>
                 
