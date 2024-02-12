@@ -6,24 +6,22 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1500">
-    <Grid Background="#252634">
-        <Border CornerRadius="20" Background="#3c3e54"
-                VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                Margin="70, 60, 70, 60" BorderThickness="1" Cursor="">
-            <DockPanel Cursor="">
-                <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top"
-                            Margin="20">
-                    <Button Style="{StaticResource ButtonMenuStyle }" Content="К задачам"
-                            HorizontalAlignment="Stretch"
-                        Visibility="Visible" x:Name="showExercisesButton" Click="showExercises"/>
-                    <Button Style="{StaticResource ButtonMenuStyle }" Content="Создать задачу" Margin="0, 10, 0, 0"
-                            HorizontalAlignment="Stretch"
-                        Visibility="Collapsed" x:Name="createExerciseButton" Click="createExercise"/>
-                </StackPanel>
-                <Border Background="#FF535572" Margin="30" CornerRadius="20">
-                    <ContentControl x:Name="exercisesFunctional"/>
-                </Border>
-            </DockPanel>
-        </Border>
-    </Grid>
+    <Border CornerRadius="20" Background="#3c3e54"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            Margin="70, 60, 70, 60" BorderThickness="1" Cursor="">
+        <DockPanel Cursor="">
+            <StackPanel DockPanel.Dock="Left" VerticalAlignment="Top"
+                        Margin="20">
+                <Button Style="{StaticResource ButtonMenuStyle }" Content="К задачам"
+                        HorizontalAlignment="Stretch"
+                    Visibility="Visible" x:Name="showExercisesButton" Click="showExercises"/>
+                <Button Style="{StaticResource ButtonMenuStyle }" Content="Создать задачу" Margin="0, 10, 0, 0"
+                        HorizontalAlignment="Stretch"
+                    Visibility="Collapsed" x:Name="createExerciseButton" Click="createExercise"/>
+            </StackPanel>
+            <Border Background="#FF535572" Margin="20" CornerRadius="20">
+                <ContentControl x:Name="exercisesFunctional"/>
+            </Border>
+        </DockPanel>
+    </Border>
 </UserControl>
