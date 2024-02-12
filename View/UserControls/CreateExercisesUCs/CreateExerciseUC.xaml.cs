@@ -44,17 +44,29 @@ namespace FormProject.View.UserControls.ExercisesUCs
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        private void WriteCodeChosen(object sender, RoutedEventArgs e) =>
+        private void WriteCodeChosen(object sender, RoutedEventArgs e)
+        {
+            exerciseCondition.Style = Resources["SignatureTip"] as Style;
             chooseExerciseType.Content = new CreateWriteCode();
+        }
 
-        private void YourAnswerChosen(object sender, RoutedEventArgs e) =>
+        private void YourAnswerChosen(object sender, RoutedEventArgs e)
+        {
+            exerciseCondition.Style = Application.Current.Resources["TextBoxStyle"] as Style;
             chooseExerciseType.Content = new CreateYourAnswer();
+        }
 
-        private void ChooseCorrectChosen(object sender, RoutedEventArgs e) =>
+        private void ChooseCorrectChosen(object sender, RoutedEventArgs e)
+        {
+            exerciseCondition.Style = Application.Current.Resources["TextBoxStyle"] as Style;
             chooseExerciseType.Content = new CreateChooseCorrect();
+        }
 
-        private void InsertTheMissingChosen(object sender, RoutedEventArgs e) =>
+        private void InsertTheMissingChosen(object sender, RoutedEventArgs e)
+        {
+            exerciseCondition.Style = Application.Current.Resources["TextBoxStyle"] as Style;
             chooseExerciseType.Content = new CreateInsertTheMissing();
+        }
 
         private void GetChosenTheme(object sender, SelectionChangedEventArgs e)
         {
@@ -70,8 +82,12 @@ namespace FormProject.View.UserControls.ExercisesUCs
             if (incorrectlyFilled.Count > 0) { FinishDenied(); return; }
             GetDataSpecificForExerciseType();
             if (answer == string.Empty || additionalContent == string.Empty) return;
-            if (!description.Contains(additionalContent)) 
-                { exerciseCondition.Tag = "IncorrectInput"; return; }
+            if (theme == "Написать код" && !description.Contains(additionalContent)) 
+                { 
+                    exerciseCondition.Tag = "IncorrectInput"; 
+                    exerciseCondition.Text = string.Empty;
+                    return; 
+                }
             Dictionary<string, object> exerciseData = FormExerciseDict();
             DBHelpFunctional.HelpCreateExercise(login, exerciseData, ref problem);
             if (problem) return;
