@@ -7,6 +7,8 @@ using FormProject.Model;
 using System.Resources;
 using Microsoft.Win32;
 using static IronPython.Modules._ast;
+using IronPython.Runtime.Operations;
+using static IronPython.Modules.PythonCsvModule;
 
 namespace FormProject
 {
@@ -189,8 +191,8 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                string insertLogPass = "insert into users (login, pass, idStats, idProfile) " +
-                    "values (@uLogin, @uPass, @uStatsId, @uProfileId);";
+                string insertLogPass = "insert into users (login, pass, idStats, idProfile, isAdmin) " +
+                    $"values (@uLogin, @uPass, @uStatsId, @uProfileId, {1});";
                 MySqlCommand register = new MySqlCommand(insertLogPass, connectorToDb.GetConnection());
                 register.Parameters.AddWithValue("@uLogin", login);
                 register.Parameters.AddWithValue("@uPass", password);
@@ -246,7 +248,7 @@ namespace FormProject
             try
             {
                 connectorToDb.OpenConnection();
-                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, сoveredTopics) values ('', '', '');", connectorToDb.GetConnection());
+                MySqlCommand idProfileInsert = new MySqlCommand("insert into stats (solved, unsolved, сoveredTopics, favourite) values ('', '', '', '');", connectorToDb.GetConnection());
                 idProfileInsert.ExecuteNonQuery();
                 MySqlCommand getCurrentID = new MySqlCommand("select last_insert_id() from stats;", connectorToDb.GetConnection());
                 object currentID = getCurrentID.ExecuteScalar();
@@ -464,6 +466,7 @@ namespace FormProject
                     newDict["additionalContent"] = reader.GetValue(6).ToString();
                     exerciseData.Add(newDict);
                 }
+                reader.Close();
                 problem = "";
             }
             catch (MySqlException ex)
@@ -690,6 +693,210 @@ namespace FormProject
                 writer.WriteToLogsFile(string.Format("unknownException", "GetStatsByExercise", ex.GetType().Name), login);
             }
             return "";
+        }
+
+        public string GetFavourite(string login)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select favourite from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string favourite = command.ExecuteScalar().ToString();
+                connectorToDb.CloseConnection();
+                return favourite;
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetFavourite", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetFavourite", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetFavourite");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavourite"), login, "error");
+            }
+            return "";
+        }
+
+        public void AddToFavourite(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select favourite from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string favourite = command.ExecuteScalar().ToString();
+                favourite += $"#{id}#";
+                connectorToDb.OpenConnection();
+                commandText = $"update stats set favourite = '{favourite}' where idStats = {idStats};";
+                command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "AddToFavourite", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "AddToFavourite", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "AddToFavourite");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "AddToFavourite"), login, "error");
+            }
+        }
+
+        public void DeleteFromFavourite(string login, int id)
+        {
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select favourite from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string favourite = command.ExecuteScalar().ToString();
+                favourite = favourite.Replace($"#{id}#", "");
+                connectorToDb.OpenConnection();
+                commandText = $"update stats set favourite = '{favourite}' where idStats = {idStats};";
+                command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                command.ExecuteNonQuery();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "DeleteFromFavourite", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "DeleteFromFavourite", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "DeleteFromFavourite");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "DeleteFromFavourite"), login, "error");
+            }
+        }
+
+        public Dictionary<string, string>
+            GetFavouriteDict(out string problem, string login, int id)
+        {
+            Dictionary<string, string> exerciseData = new Dictionary<string, string>();
+            try
+            {
+                connectorToDb.OpenConnection();
+                string commandText = $"select idExercise, theme, complexity, description," +
+                    $" exp, answer, additionalContent from exercises where idExercise = {id} limit 1;";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    exerciseData["id"] = reader.GetValue(0).ToString();
+                    exerciseData["theme"] = reader.GetValue(1).ToString();
+                    exerciseData["complexity"] = reader.GetValue(2).ToString();
+                    exerciseData["description"] = reader.GetValue(3).ToString();
+                    exerciseData["exp"] = reader.GetValue(4).ToString();
+                    exerciseData["answer"] = reader.GetValue(5).ToString();
+                    exerciseData["additionalContent"] = reader.GetValue(6).ToString();
+                }
+                reader.Close();
+                problem = "";
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetFavouriteDict", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetFavouriteDict", ex.Number), login, "error");
+                problem = "ошибка авторизации";
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "IsAdmin");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetFavouriteDict"), login, "error");
+                problem = "программная ошибка";
+            }
+            return exerciseData;
+        }
+
+        public List<Dictionary<string, string>> GetSolved(string login)
+        {
+            List<Dictionary<string, string>> exerciseData = new List<Dictionary<string, string>>();
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select solved from stats where idStats = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                string solved = command.ExecuteScalar().ToString();
+                Dictionary<string, string> newDict;
+                foreach (string ex in solved.Split())
+                {
+                    if (!int.TryParse(ex.Trim(), out int exId)) continue;
+                    commandText = $"select idExercise, theme, complexity" +
+                        $" from exercises where IdExercise={exId};";
+                    command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                    MySqlDataReader reader = command.ExecuteReader();
+                    reader.Read();
+                    newDict = new Dictionary<string, string>();
+                    newDict["Id"] = reader.GetValue(0).ToString();
+                    newDict["Type"] = reader.GetValue(1).ToString();
+                    newDict["Complexity"] = reader.GetValue(2).ToString();
+                    exerciseData.Add(newDict);
+                    reader.Close();
+                }
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetSolved", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetSolved", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetSolved");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"), "GetSolved"), login, "error");
+            }
+            return exerciseData;
+        }
+
+        public List<Dictionary<string, string>> GetCreated(string login)
+        {
+            List<Dictionary<string, string>> exerciseData = new List<Dictionary<string, string>>();
+            try
+            {
+                int idStats = StatsIDByLog(login);
+                connectorToDb.OpenConnection();
+                string commandText = $"select idExercise, theme, complexity" +
+                    $" from exercises where creatorStatsId = {idStats};";
+                MySqlCommand command = new MySqlCommand(commandText, connectorToDb.GetConnection());
+                MySqlDataReader reader = command.ExecuteReader();
+                Dictionary<string, string> newDict;
+                while (reader.Read())
+                {
+                    newDict = new Dictionary<string, string>();
+                    newDict["Id"] = reader.GetValue(0).ToString();
+                    newDict["Type"] = reader.GetValue(1).ToString();
+                    newDict["Complexity"] = reader.GetValue(2).ToString();
+                    exerciseData.Add(newDict);
+                }
+                reader.Close();
+                connectorToDb.CloseConnection();
+            }
+            catch (MySqlException ex)
+            {
+                string exception = GetMysqlException(ex);
+                Console.WriteLine(exception, "GetCreated", ex.Number);
+                writer.WriteToLogsFile(string.Format(exception, "GetCreated", ex.Number), login, "error");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine(rm.GetString("nullException"), "GetCreated");
+                writer.WriteToLogsFile(string.Format(rm.GetString("nullException"),
+                    "GetCreated"), login, "error");
+            }
+            return exerciseData;
         }
     }
 }

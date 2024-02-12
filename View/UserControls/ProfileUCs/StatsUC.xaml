@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="FormProject.View.UserControls.StatsUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FormProject.View.UserControls"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="450" d:DesignWidth="1500">
+    <Grid Background="#3c3e54">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                <Label Content="Активных дней" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uActive}" Style="{StaticResource LabelStyle}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+                <Label Content="Максимальная серия" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uMaxSession}" Style="{StaticResource LabelStyle}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
+                <Label Content="Решенных задач" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uSolvedAmount}" Style="{StaticResource LabelStyle}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+                <Label Content="Созданных задач" Style="{StaticResource LabelStyle}"/>
+                <Label Content="{Binding uTopicsAmount}" Style="{StaticResource LabelStyle}"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0 10 0 10">
+            <Label Content="Решенные задачи" Style="{StaticResource LabelStyle}"/>
+            <Border Background="#dedee8" Margin="10" CornerRadius="20"
+                    HorizontalAlignment="Center" MaxHeight="200">
+                <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}"
+          VerticalScrollBarVisibility="Hidden" 
+          HorizontalScrollBarVisibility="Disabled">
+                    <ListView ItemsSource="{Binding SolvedExercises}"
+             Style="{StaticResource ListViewStyle}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"
+                        Header="Id"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Type}"
+                        Header="Тип задачи"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Complexity}"
+                        Header="Сложность"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="0 10 0 10">
+            <Label Content="Созданные задачи" Style="{StaticResource LabelStyle}"/>
+            <Border Background="#dedee8" Grid.Row="1" HorizontalAlignment="Center"
+                Grid.Column="1" Margin="10" CornerRadius="20" MaxHeight="200">
+                <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}"
+          VerticalScrollBarVisibility="Hidden" 
+          HorizontalScrollBarVisibility="Disabled">
+                    <ListView ItemsSource="{Binding CreatedExercises}"
+                Style="{StaticResource ListViewStyle}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Id}"
+                        Header="Id"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Type}"
+                        Header="Тип задачи"/>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path=Complexity}"
+                        Header="Сложность" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </ScrollViewer>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

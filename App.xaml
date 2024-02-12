@@ -73,9 +73,6 @@
                     <Trigger Property="IsMouseCaptured" Value="True">
                         <Setter Property="Background" Value="#FF535572"/>
                     </Trigger>
-                    <Trigger Property="Tag" Value="IncorrectInput">
-                        <Setter Property="Background" Value="{StaticResource IncorrectInputBrush}"/>
-                    </Trigger>
                 </Style.Triggers>
             </Style>
             <Style TargetType="TextBlock" x:Key="TextBlockStyle"
@@ -105,6 +102,13 @@
                 <Setter Property="Foreground" Value="#FF404364"/>
                 <Setter Property="IsEditable" Value="True"/>
                 <Setter Property="IsReadOnly" Value="True"/>
+            </Style>
+            <Style TargetType="ListView" x:Key="ListViewStyle"
+                   BasedOn="{StaticResource MaterialDesignListView}">
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="FontFamily" Value="Trebuchet MS"/>
+                <Setter Property="IsHitTestVisible" Value="False"/>
             </Style>
         </ResourceDictionary>
     </Application.Resources>
