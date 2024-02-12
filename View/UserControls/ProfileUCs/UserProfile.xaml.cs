@@ -1,6 +1,9 @@
 ﻿using FormProject.Controller;
 using System;
+using System.Windows.Automation.Peers;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace FormProject.View.UserControls
 {
@@ -15,13 +18,17 @@ namespace FormProject.View.UserControls
         public string uLevel { get; set; }
         public string uExp { get; set; }
         public string uInfo { get; set; }
+        public ImageBrush uImage { get; set; }
         public GeneralInfo(string uLogin)
         {
             login = uLogin;
-            uName = "Имя:\n" + DBHelpFunctional.HelpGetProfileField(login, "name");
-            uLevel = "Уровень:\n" + DBHelpFunctional.HelpGetStatsField(login, "level");
-            uExp = "Exp:\n" + DBHelpFunctional.HelpGetStatsField(login, "exp");
-            uInfo = "О себе:\n" + DBHelpFunctional.HelpGetProfileField(login, "about");
+            uName = DBHelpFunctional.HelpGetProfileField(login, "name");
+            uLevel = DBHelpFunctional.HelpGetStatsField(login, "level");
+            uExp = DBHelpFunctional.HelpGetStatsField(login, "exp");
+            uInfo = DBHelpFunctional.HelpGetProfileField(login, "about");
+            uImage = new ImageBrush();
+            uImage.ImageSource = new BitmapImage(new Uri("D:\\C#projects\\WpfProjects\\FormProject\\Datas\\Images\\default.png",
+                UriKind.Relative));
         }
     }
 
@@ -46,12 +53,6 @@ namespace FormProject.View.UserControls
         private void ShowEdit(object sender, EventArgs e)
         {
             switchUC.Content = new EditUC(login);
-            DataContext = new GeneralInfo(login);
-        }
-
-        private void ShowSettings(object sender, EventArgs e)
-        {
-            switchUC.Content = new SettingsUC(login);
             DataContext = new GeneralInfo(login);
         }
     }

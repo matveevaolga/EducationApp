@@ -52,20 +52,34 @@
                 <Button x:Name="edit" Click="ShowEdit"
         Content="Редактирование" Grid.Row="1"
         Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                <Button x:Name="settings" Click="ShowSettings"
-        Content="Настройки" Grid.Row="2"
-        Grid.Column="4" Style="{StaticResource ButtonStyle}"/>
-                <Label Content="Фото профиля" Grid.Column="0"
-        Grid.RowSpan="3" Style="{StaticResource LabelStyle}"/>
-                <Label Content="{Binding uName}" Grid.Row="0"
-        Grid.Column="1" Style="{StaticResource LabelStyle}"/>
-                <Label Content="{Binding uLevel}" Grid.Row="1"
-        Grid.Column="1" Style="{StaticResource LabelStyle}"/>
-                <Label Content="{Binding uInfo}" Grid.Row="0" Grid.Column="2"
-        Grid.RowSpan="3" Grid.ColumnSpan="2"
-        Style="{StaticResource LabelStyle}"/>
-                <Label Content="{Binding uExp}" Grid.Column="1"
-        Grid.Row="2" Style="{StaticResource LabelStyle}"/>
+
+                <Border Grid.Column="0" Grid.RowSpan="3" CornerRadius="20" Margin="10"
+                        Background="{Binding uImage}"/>
+                
+                <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                    <Label Content="Имя" Style="{StaticResource LabelStyle}"/>
+                    <TextBlock Text="{Binding uName}" TextWrapping="Wrap"
+                       Style="{StaticResource TextBlockStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="1" Grid.Column="1">
+                    <Label Content="Level" Style="{StaticResource LabelStyle}"/>
+                    <Label Content="{Binding uLevel}" 
+                           Style="{StaticResource LabelStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
+                            Grid.ColumnSpan="2">
+                <Label Content="О себе" Style="{StaticResource LabelStyle}"/>
+                <TextBlock Text="{Binding uInfo}" TextWrapping="Wrap"
+                    Style="{StaticResource TextBlockStyle}"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Grid.Row="2" >
+                    <Label Content="Exp" Style="{StaticResource LabelStyle}"/>
+                    <Label Content="{Binding uExp}" 
+                           Style="{StaticResource LabelStyle}"/>
+                </StackPanel>
             </Grid>
             <ContentControl x:Name="switchUC" Grid.Row="1" Grid.RowSpan="2"/>
         </Grid>
