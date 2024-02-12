@@ -6,8 +6,9 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1500">
-    <Grid>
-        <Label Content="Избранное"  Style="{StaticResource LabelStyle}" FontSize="50"
-               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </Grid>
+    <Border CornerRadius="20" Background="#FF535572"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+            Margin="70, 60, 70, 60" BorderThickness="1" Cursor="">
+        <ContentControl x:Name="showState" Margin="20"/>
+    </Border>
 </UserControl>
