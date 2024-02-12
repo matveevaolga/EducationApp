@@ -170,9 +170,6 @@
     <Compile Include="View\UserControls\Favourite.xaml.cs">
       <DependentUpon>Favourite.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\UserControls\ProfileUCs\SettingsUC.xaml.cs">
-      <DependentUpon>SettingsUC.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View\UserControls\ProfileUCs\StatsUC.xaml.cs">
       <DependentUpon>StatsUC.xaml</DependentUpon>
     </Compile>
@@ -256,10 +253,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\UserControls\ProfileUCs\SettingsUC.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="View\UserControls\ProfileUCs\StatsUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -307,6 +300,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Datas\Tests\UpdateJsonScript.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Datas\Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets" Condition="Exists('packages\MaterialDesignThemes.4.9.0\build\MaterialDesignThemes.targets')" />
