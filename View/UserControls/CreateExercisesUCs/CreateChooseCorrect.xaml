@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:FormProject.View.UserControls.CreateExercisesUCs"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Margin="0, 10, 0, 0">
+    <StackPanel Margin="0, 10, 0, 0" Background="#FF535572">
         <Label Style="{StaticResource LabelStyle}" Content="Введите верный ответ на задачу" 
                HorizontalAlignment="Stretch"/>
         <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="Wrap"
                  x:Name="correctOption" TextChanged="ResetTextBoxBackground"/>
-        <DockPanel Background="#FF535572">
+        <DockPanel Background="#FF535572" Margin="0 0 0 30">
             <Label Style="{StaticResource LabelStyle}" Content="Добавить новый вариант ответа"
                    DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0"/>
             <Button Content="Добавить" DockPanel.Dock="Right"
@@ -19,7 +19,7 @@
             <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="NoWrap"
                      HorizontalAlignment="Stretch" DockPanel.Dock="Left" x:Name="optionToAdd"/>
         </DockPanel>
-        <DockPanel Background="#FF535572">
+        <DockPanel Background="#FF535572" Margin="0 0 0 30">
             <Label Style="{StaticResource LabelStyle}" Content="Удалить вариант ответа"
                    DockPanel.Dock="Top" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0"/>
             <Button Content="Удалить" DockPanel.Dock="Right"

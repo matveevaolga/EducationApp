@@ -27,9 +27,9 @@
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Button Content="Отправить форму" Grid.Column="0" Margin="0 0 5 0"
-                            Style="{StaticResource ButtonMenuStyle}" Click="SendForm"/>
+                            Style="{StaticResource ButtonStyle}" Click="SendForm"/>
                     <Button Content="К авторизации" Grid.Column="1" Margin="5 0 0 0"
-                            Style="{StaticResource ButtonMenuStyle}" Click="GoBack"/>
+                            Style="{StaticResource ButtonStyle}" Click="GoBack"/>
                 </Grid>
             </StackPanel>
         </Border>
