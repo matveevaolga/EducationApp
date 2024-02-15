@@ -7,6 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="View\UserControls\ExercisesUCs\ExercisesResourceDict.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
@@ -17,12 +18,13 @@
             <ControlTemplate TargetType="Button" x:Key="ButtonTemplate">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Ellipse Fill="{TemplateBinding Background}" 
-                             Stroke="{TemplateBinding Background}" Height="{TemplateBinding Height}"
+                             Stroke="{TemplateBinding BorderBrush}" Height="{TemplateBinding Height}"
                              Width="{TemplateBinding Width}" Name="coloredEllipse"
+                             StrokeThickness="2"
                              MinWidth="300"/>
                     <Ellipse Height="{Binding ElementName=coloredEllipse, Path=Height}"
                              Width="{Binding ElementName=coloredEllipse, Path=Width}"
-                             Stroke="Black" StrokeThickness="5">
+                             Stroke="Black" StrokeThickness="2">
                         <Ellipse.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform/>
@@ -39,6 +41,22 @@
                     <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center"
                                       VerticalAlignment="Center" Margin="40"/>
                 </Grid>
+                <ControlTemplate.Triggers>
+                    <Trigger Property="IsPressed" Value="True">
+                        <Trigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <ColorAnimation Duration="0:0:0:0.5"
+                                    Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)"
+                                    To="#dedee8" AutoReverse="True"/>
+                                    <ColorAnimation Duration="0:0:0:0.5"
+                                    Storyboard.TargetProperty="(Button.BorderBrush).(SolidColorBrush.Color)"
+                                    To="#282b4f"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </Trigger.EnterActions>
+                    </Trigger>
+                </ControlTemplate.Triggers>
             </ControlTemplate>
             <Style TargetType="Button" x:Key="ButtonStyle">
                 <Setter Property="FontSize" Value="30"/>

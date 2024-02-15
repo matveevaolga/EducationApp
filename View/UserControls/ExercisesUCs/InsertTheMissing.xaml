@@ -4,50 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:FormProject.View.UserControls.ExercisesUCs"
-             mc:Ignorable="d" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ControlTemplate TargetType="Button" x:Key="UnAdded">
-                <Border CornerRadius="30"
-                    Height="{TemplateBinding Height}"
-                    Width="{TemplateBinding Width}">
-                    <materialDesign:PackIcon Kind="StarBorder"
-                                 Background="Transparent" 
-                                 Foreground="#282b4f"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Stretch"
-                                 Height="60" Width="60"/>
-                </Border>
-            </ControlTemplate>
-            <ControlTemplate TargetType="Button" x:Key="Added">
-                <Border CornerRadius="30"
-                    Height="{TemplateBinding Height}"
-                    Width="{TemplateBinding Width}">
-                    <materialDesign:PackIcon Kind="Star"
-                                 Background="Transparent" 
-                                 Foreground="#F2CD5C"
-                                 HorizontalAlignment="Stretch"
-                                 VerticalAlignment="Stretch"
-                                 Height="60" Width="60"/>
-                </Border>
-            </ControlTemplate>
-            <Style TargetType="Button" x:Key="FavouriteButton">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Height" Value="60"/>
-                <Setter Property="Width" Value="60"/>
-                <Setter Property="Template" Value="{StaticResource Added}"/>
-            </Style>
-            <Style TargetType="Button" x:Key="UnFavouriteButton">
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="BorderBrush" Value="Transparent"/>
-                <Setter Property="Height" Value="60"/>
-                <Setter Property="Width" Value="60"/>
-                <Setter Property="Template" Value="{StaticResource UnAdded}"/>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>
     <DockPanel Background="#FF535572">
         <Label Style="{StaticResource LabelStyle}" 
                Content="Вставить пропущенное" HorizontalAlignment="Stretch"
@@ -64,8 +22,10 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource UnFavouriteButton}" Margin="0 0 10 0"
-            Click="FavoriteProcessing" x:Name="favouriteButton"/>
+            <Button Style="{StaticResource StarButtonStyle}" 
+                    Template="{StaticResource StarButtonTemplate}"
+                    Margin="0 0 10 0" Foreground="{Binding StarButtonForeground}"
+                    Click="FavoriteProcessing" x:Name="favouriteButton"/>
             <Button Content="Завершить" Style="{StaticResource ButtonStyle}"
             Click="CheckIfCorrect" x:Name="endButton" Grid.Column="1"/>
         </Grid>
