@@ -11,7 +11,8 @@
             <Label Style="{StaticResource LabelStyle}" Content="Добавить блок текста"
                    DockPanel.Dock="Top" HorizontalAlignment="Stretch"/>
             <Button Content="Добавить" DockPanel.Dock="Right"
-                    Style="{StaticResource ButtonStyle}" Click="AddTextBlock"/>
+                    Style="{StaticResource ButtonStyle}" Click="AddTextBlock"
+                    Template="{StaticResource ButtonTemplate}"/>
             <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="NoWrap"
                      HorizontalAlignment="Stretch" DockPanel.Dock="Left" x:Name="addingTextTextBox"/>
         </DockPanel>
@@ -19,7 +20,8 @@
             <Label Style="{StaticResource LabelStyle}" Content="Добавить блок пропуска"
                    DockPanel.Dock="Top" HorizontalAlignment="Stretch"/>
             <Button Content="Добавить" DockPanel.Dock="Right"
-                    Style="{StaticResource ButtonStyle}" Click="AddBlank"/>
+                    Style="{StaticResource ButtonStyle}" Click="AddBlank"
+                    Template="{StaticResource ButtonTemplate}"/>
             <TextBox Style="{StaticResource TextBoxStyle}" TextWrapping="NoWrap"
                      HorizontalAlignment="Stretch" DockPanel.Dock="Left" x:Name="addingBlankTextBox"/>
         </DockPanel>

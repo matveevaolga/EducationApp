@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace FormProject.View.UserControls.ExercisesUCs
 {
@@ -14,9 +15,12 @@ namespace FormProject.View.UserControls.ExercisesUCs
         Dictionary<string, string> exerciseData;
         string login;
         bool isSolved;
+        bool isInFavourite;
+        public Brush StarButtonForeground { get; set; }
 
         public ChooseCorrect(Dictionary<string, string> exerciseData, string login)
         {
+            BrushConverter converter = new BrushConverter();
             InitializeComponent();
             this.exerciseData = exerciseData;
             this.login = login;
@@ -30,8 +34,16 @@ namespace FormProject.View.UserControls.ExercisesUCs
             else isSolved = false;
             if (DBHelpFunctional.IsExerciseInFavourite(out string problem,
                 login, exerciseData["id"]))
-                favouriteButton.Style = Resources["FavouriteButton"] as Style;
-            else favouriteButton.Style = Resources["UnFavouriteButton"] as Style;
+            {
+                StarButtonForeground = (Brush)converter.ConvertFromString("#F2CD5C");
+                isInFavourite = true;
+            }
+            else
+            {
+                StarButtonForeground = (Brush)converter.ConvertFromString("#282b4f");
+                isInFavourite = false;
+            }
+            DataContext = this;
             ShowExerciseDesc();
         }
 
@@ -62,7 +74,6 @@ namespace FormProject.View.UserControls.ExercisesUCs
             scrollViewer.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             exerciseDesc.Content = scrollViewer;
         }
-
 
         private void CheckIfCorrect(object sender, EventArgs e)
         {
@@ -101,18 +112,20 @@ namespace FormProject.View.UserControls.ExercisesUCs
                 result.Visibility = Visibility.Visible;
             }
         }
+
         private void FavoriteProcessing(object sender, RoutedEventArgs e)
         {
-            if (favouriteButton.Style == Resources["FavouriteButton"] as Style)
+            if (isInFavourite)
             {
-                favouriteButton.Style = Resources["UnFavouriteButton"] as Style;
                 DBHelpFunctional.HelpDeleteFromFavourite(int.Parse(exerciseData["id"]), login);
+                VisualStateManager.GoToState(favouriteButton, "DeleteFromFavourite", false);
             }
             else
             {
-                favouriteButton.Style = Resources["FavouriteButton"] as Style;
                 DBHelpFunctional.HelpAddToFavourite(int.Parse(exerciseData["id"]), login);
+                VisualStateManager.GoToState(favouriteButton, "AddToFavourite", false);
             }
+            isInFavourite = !isInFavourite;
         }
     }
 }

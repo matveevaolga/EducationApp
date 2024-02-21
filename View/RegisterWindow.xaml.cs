@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using FormProject.Controller;
+using FormProject.View;
 
 namespace FormProject
 {
@@ -33,9 +35,34 @@ namespace FormProject
             login.Text = "";
             password.Text = "";
         }
-
+        string currentButton;
+        public void ChangeWindow(object sender, EventArgs e)
+        {
+            if (currentButton == "success")
+            {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "AuthorizatoinWindow") return;
+                AuthorizatoinWindow authWindow = 
+                    new AuthorizatoinWindow("Вы успешно зарегистрировались");
+                authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                authWindow.Show();
+                this.Close();
+            }
+            else if (currentButton == "backToAuth")
+            {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "AuthorizatoinWindow") return;
+                AuthorizatoinWindow authWindow = new AuthorizatoinWindow();
+                authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                authWindow.Show();
+                this.Close();
+            }
+        }
         private void SendForm(object sender, EventArgs e)
         {
+            currentButton = "pupu...";
+            VisualStateManager.GoToState((Button)sender, "NormalState", true);
+            VisualStateManager.GoToState((Button)sender, "ClickedState", true);
             login.Text = login.Text.Trim();
             password.Text = password.Text.Trim();
             string problem;
@@ -44,21 +71,19 @@ namespace FormProject
             {
                 if (DBHelpFunctional.HelpRegister(login.Text, password.Text, out problem))
                 {
-                    AuthorizatoinWindow authWindow = new AuthorizatoinWindow("Вы успешно зарегестрировались");
-                    authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-                    authWindow.Show();
-                    this.Close();
+                    currentButton = "success";
+                    VisualStateManager.GoToState((Button)sender, "NormalState", true);
+                    VisualStateManager.GoToState((Button)sender, "ClickedState", true);
                 }
             }
             EndRegistration(problem);
         }
 
-        private void GoBack(object sender, EventArgs e)
+        private void ToAuthorization(object sender, EventArgs e)
         {
-            AuthorizatoinWindow authWindow = new AuthorizatoinWindow();
-            authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            authWindow.Show();
-            this.Close();
+            currentButton = "backToAuth";
+            VisualStateManager.GoToState((Button)sender, "NormalState", true);
+            VisualStateManager.GoToState((Button)sender, "ClickedState", true);
         }
     }
 }

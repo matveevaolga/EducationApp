@@ -80,7 +80,8 @@
             <ContentControl x:Name="chooseExerciseType" />
             <DockPanel Margin="0 0 0 30">
                 <Button Content="Завершить" HorizontalAlignment="Left" Name="finishButton" 
-                    Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish" DockPanel.Dock="Left"/>
+                    Style="{StaticResource ButtonStyle}" Margin="0, 10, 0, 0" Click="Finish" DockPanel.Dock="Left"
+                        Template="{StaticResource ButtonTemplate}"/>
                 <TextBlock x:Name="errorTextBlock" Style="{StaticResource TextBlockStyle}" 
                        Foreground="Red" Background="#FF535572"
                        Visibility="{Binding Problem, UpdateSourceTrigger=PropertyChanged,
