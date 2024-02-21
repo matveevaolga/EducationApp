@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:FormProject"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="MainWindow" Height="1000" Width="1500">
+        Title="RegisterWindow" Height="1000" Width="1500">
     <Window.Resources>
         <ResourceDictionary>
             <ControlTemplate TargetType="Button" x:Key="TemplateForButtonOpeninigWindow">

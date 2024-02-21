@@ -40,6 +40,8 @@ namespace FormProject
         {
             if (currentButton == "success")
             {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "AuthorizatoinWindow") return;
                 AuthorizatoinWindow authWindow = 
                     new AuthorizatoinWindow("Вы успешно зарегистрировались");
                 authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -48,6 +50,8 @@ namespace FormProject
             }
             else if (currentButton == "backToAuth")
             {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "AuthorizatoinWindow") return;
                 AuthorizatoinWindow authWindow = new AuthorizatoinWindow();
                 authWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 authWindow.Show();

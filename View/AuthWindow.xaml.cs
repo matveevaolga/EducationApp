@@ -90,6 +90,8 @@ namespace FormProject
         {
             if (currentButton == "signUpButton")
             {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "RegisterWindow") return;
                 RegisterWindow regWindow = new RegisterWindow();
                 regWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 regWindow.Show();
@@ -98,6 +100,8 @@ namespace FormProject
             }
             else if (currentButton == "logInButton")
             {
+                foreach (Window window in Application.Current.Windows)
+                    if (window.Title == "MainWindow") return;
                 MainWindow mainWindow = new MainWindow(login.Text);
                 mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                 mainWindow.Topmost = false;
