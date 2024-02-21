@@ -65,7 +65,6 @@
                 <Setter Property="Background" Value="#282b4f"/>
                 <Setter Property="BorderBrush" Value="#282b4f"/>
                 <Setter Property="Foreground" Value="#dedee8"/>
-                <Setter Property="Template" Value="{StaticResource ButtonTemplate}"/>
             </Style>
             <Style TargetType="Button" x:Key="ButtonMenuStyle"
                    BasedOn="{StaticResource MaterialDesignFlatAccentBgButton}">

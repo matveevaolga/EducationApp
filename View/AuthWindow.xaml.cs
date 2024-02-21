@@ -2,6 +2,9 @@
 using System;
 using System.Windows;
 using FormProject.Controller;
+using System.Windows.Controls;
+using System.Threading;
+using System.Windows.Media.Animation;
 
 namespace FormProject
 {
@@ -19,7 +22,7 @@ namespace FormProject
         {
             InitializeComponent();
             success.Content = message;
-
+            this.Topmost = true;
         }
 
         private bool LengthCheck()
@@ -76,25 +79,44 @@ namespace FormProject
             }
             return true;
         }
-
+        string currentButton;
         private void SignUp(object sender, EventArgs e)
         {
-            RegisterWindow regWindow = new RegisterWindow();
-            regWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            regWindow.Show();
-            this.Close();
+            currentButton = "signUpButton";
+            VisualStateManager.GoToState(signUpButton, "NormalState", true);
+            VisualStateManager.GoToState(signUpButton, "ClickedState", true);
         }
-
-        private void LogIn(object sender, EventArgs e)
+        public void ChangeWindow(object sender, EventArgs e)
         {
-            login.Text = login.Text.Trim();
-            password.Text = password.Text.Trim();
-            if (LengthCheck() && CheckLog() && CheckPass() )
+            if (currentButton == "signUpButton")
+            {
+                RegisterWindow regWindow = new RegisterWindow();
+                regWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                regWindow.Show();
+                regWindow.Topmost = false;
+                this.Close();
+            }
+            else if (currentButton == "logInButton")
             {
                 MainWindow mainWindow = new MainWindow(login.Text);
                 mainWindow.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                mainWindow.Topmost = false;
                 mainWindow.Show();
                 this.Close();
+            }
+        }
+        private void LogIn(object sender, EventArgs e)
+        {
+            currentButton = "pupu...";
+            VisualStateManager.GoToState((Button)sender, "NormalState", true);
+            VisualStateManager.GoToState((Button)sender, "ClickedState", true);
+            login.Text = login.Text.Trim();
+            password.Text = password.Text.Trim();
+            if (LengthCheck() && CheckLog() && CheckPass())
+            {
+                currentButton = "logInButton";
+                VisualStateManager.GoToState((Button)sender, "NormalState", true);
+                VisualStateManager.GoToState((Button)sender, "ClickedState", true);
             }
         }
     }

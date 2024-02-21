@@ -7,6 +7,64 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         Title="AuthorizatoinWindow" Height="1000" Width="1500" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ControlTemplate TargetType="Button" x:Key="TemplateForButtonOpeninigWindow">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="ButtonStates">
+                            <VisualState x:Name="NormalState">
+                                <Storyboard>
+                                    <ColorAnimation Storyboard.TargetName="coloredEllipse"
+                                    Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)"
+                                    To="#282b4f"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualState x:Name="ClickedState">
+                                <Storyboard Duration="0:0:0.5">
+                                    <ColorAnimation Storyboard.TargetName="coloredEllipse"
+                                    Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)"
+                                    To="#282b4f" Duration="0:0:0.5"/>
+                                </Storyboard>
+                            </VisualState>
+                            <VisualStateGroup.Transitions>
+                                <VisualTransition To="ClickedState" GeneratedDuration="0:0:0.5">
+                                    <Storyboard Duration="0:0:0.5">
+                                        <ColorAnimation Storyboard.TargetName="coloredEllipse"
+                                    Storyboard.TargetProperty="(Ellipse.Stroke).(SolidColorBrush.Color)"
+                                    From="#dedee8" To="#282b4f" Duration="0:0:0.5" Completed="ChangeWindow"/>
+                                    </Storyboard>
+                                </VisualTransition>
+                            </VisualStateGroup.Transitions>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <Ellipse Fill="{TemplateBinding Background}" 
+                             Stroke="#282b4f" Height="{TemplateBinding Height}"
+                             Width="{TemplateBinding Width}" Name="coloredEllipse"
+                             StrokeThickness="2"
+                             MinWidth="300"/>
+                    <Ellipse Height="{Binding ElementName=coloredEllipse, Path=Height}"
+                             Width="{Binding ElementName=coloredEllipse, Path=Width}"
+                             Stroke="Black" StrokeThickness="2">
+                        <Ellipse.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-11"
+                                    CenterX="{Binding ElementName=coloredEllipse, Path=ActualWidth,
+                                    Converter={StaticResource Math}, ConverterParameter=x/2}"
+                                    CenterY="{Binding ElementName=coloredEllipse, Path=ActualHeight,
+                                    Converter={StaticResource Math}, ConverterParameter=x/2}"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Ellipse.RenderTransform>
+                    </Ellipse>
+                    <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center"
+                                      VerticalAlignment="Center" Margin="40"/>
+                </Grid>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
         <Grid Background="#252634">
             <Border Background="#3c3e54" Margin="172,53,172,53" CornerRadius="20"
                     Padding="100" MaxHeight="800" MaxWidth="1020">
@@ -27,10 +85,12 @@
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <Button Content="Войти" Margin="0 0 5 0" Grid.Column="0"
-                                Click="LogIn" Style="{StaticResource ButtonStyle}"/>
-                        <Button Content="Зарегистрироваться" Margin="5 0 0 0"
-                            Click="SignUp" Style="{StaticResource ButtonStyle}" Grid.Column="1"/>
+                        <Button Content="Войти" Margin="0 0 5 0" Grid.Column="0" x:Name="logInButton"
+                                Click="LogIn" Style="{StaticResource ButtonStyle}"
+                                Template="{StaticResource TemplateForButtonOpeninigWindow}"/>
+                    <Button Content="Зарегистрироваться" Margin="5 0 0 0" x:Name="signUpButton"
+                            Click="SignUp" Style="{StaticResource ButtonStyle}" Grid.Column="1"
+                            Template="{StaticResource TemplateForButtonOpeninigWindow}"/>
                     </Grid>
                 </StackPanel>
             </Border>

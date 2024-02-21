@@ -129,11 +129,10 @@ namespace FormProject.View.UserControls.ExercisesUCs
             Button toTheExercise = new Button();
             toTheExercise.Name = $"toTheExercisey{exerciseNum}";
             toTheExercise.Click += ToExercise;
-            toTheExercise.Style = Application.Current.FindResource("ButtonStyle") as Style;
+            toTheExercise.Style = Application.Current.FindResource("ButtonMenuStyle") as Style;
             toTheExercise.Content = $"К упражнению {exerciseData["id"]}";
             toTheExercise.HorizontalAlignment = HorizontalAlignment.Left;
             toTheExercise.HorizontalContentAlignment = HorizontalAlignment.Left;
-            toTheExercise.Margin = new Thickness(20);
 
             TextBlock answer = new TextBlock();
             answer.Name = $"answery{exerciseNum}";

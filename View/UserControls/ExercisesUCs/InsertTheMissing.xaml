@@ -27,7 +27,8 @@
                     Margin="0 0 10 0" Foreground="{Binding StarButtonForeground}"
                     Click="FavoriteProcessing" x:Name="favouriteButton"/>
             <Button Content="Завершить" Style="{StaticResource ButtonStyle}"
-            Click="CheckIfCorrect" x:Name="endButton" Grid.Column="1"/>
+            Click="CheckIfCorrect" x:Name="endButton" Grid.Column="1" 
+                    Template="{StaticResource ButtonTemplate}"/>
         </Grid>
         <Label x:Name="result" Content="Верно!" Style="{StaticResource LabelStyle}" Background="#FF535572"
                DockPanel.Dock="Bottom" HorizontalAlignment="Center" Visibility="Collapsed"/>

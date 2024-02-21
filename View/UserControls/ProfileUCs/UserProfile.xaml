@@ -50,9 +50,10 @@
                            Margin="10">
                     <Button x:Name="stats" Click="ShowStats"
                         Content="Статистика" Style="{StaticResource ButtonStyle}"
-                            DockPanel.Dock="Top"/>
+                        DockPanel.Dock="Top" Template="{StaticResource ButtonTemplate}"/>
                     <Button x:Name="edit" Click="ShowEdit"
-                        Content="Настройки" Style="{StaticResource ButtonStyle}"/>
+                        Content="Настройки" Style="{StaticResource ButtonStyle}"
+                        Template="{StaticResource ButtonTemplate}"/>
                 </DockPanel>
                 <Border Grid.Column="0" Grid.RowSpan="3" CornerRadius="20" Margin="10"
                         Background="{Binding uImage}"/>
