@@ -17,23 +17,39 @@
 
 **Пользовательский интерфейс:**
 1) Авторизация
+   
    <img width="677" height="365" alt="image" src="https://github.com/user-attachments/assets/7af9629e-c212-455f-aa48-5c1bd00cf420" />
+
 3) Профиль (статистика)
+   
    <img width="851" height="502" alt="image" src="https://github.com/user-attachments/assets/0da9f542-594e-42ec-8379-68d6b2c8936d" />
+   
 5) Упражнения
+   
    <img width="889" height="440" alt="image" src="https://github.com/user-attachments/assets/a5b2355e-751b-4ad9-bdb3-696519c9d0a6" />
+   
 7) Избранное
+   
    <img width="889" height="452" alt="image" src="https://github.com/user-attachments/assets/8af61217-f061-423c-8ec9-f8ab855bb13d" />
+   
 9) Создание упражнения
+    
     <img width="877" height="440" alt="image" src="https://github.com/user-attachments/assets/ceea515f-ff93-4997-900d-05301f6713a1" />
+    
 11) Профиль (настройки)
+    
     <img width="877" height="439" alt="image" src="https://github.com/user-attachments/assets/1dbc2042-bb8f-4b0a-9866-b1d064e40347" />
+    
 13) Решение упражнения
+    
     <img width="852" height="427" alt="image" src="https://github.com/user-attachments/assets/83dc8da4-1d91-474d-83bf-fc997d0256a2" />
+    
 15) Регистрация
+    
     <img width="852" height="464" alt="image" src="https://github.com/user-attachments/assets/40750238-9f0f-4865-a9c6-aa4622064d2c" />
 
 **Особенности реализации бизнес-логики:**
 1) Модульная архитектура с разделением ответственности (так, DBFunctions инкапсулирует всю работу с базой данных).
 2) Поддержка пользовательских взаимодействий. Начисление опыта за решение упражнений, учет решенных и добавленных в избранное задач в статистике.
+   
 <img width="552" height="914" alt="image" src="https://github.com/user-attachments/assets/15e323ae-9eea-491c-b16f-ee7922a26837" />
